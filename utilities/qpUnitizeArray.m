@@ -1,4 +1,4 @@
-function uniformArray = qpUnitizeArray(inputArray)
+function uniformArray = qpUnitizeArray(inputArray,varargin)
 %qpUnitizeArray  Scale the passed array so that the sum of its entries is 1.
 %
 % Usage:
@@ -15,8 +15,15 @@ function uniformArray = qpUnitizeArray(inputArray)
 %
 % Output:
 %     uniformArray   The normalized array.
+%
+% Optional key/value pairs
+%     None
 
-% 6/22/17  dhb  Wrote it.
+% 6/23/17  dhb  Wrote it.
+
+%% Parse input
+p = inputParser;
+p.parse(varargin{:});
 
 %% Get summed values
 sumOfValues = sum(inputArray(:));

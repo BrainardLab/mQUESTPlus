@@ -1,4 +1,4 @@
-function maxIndex = qpListMinArg(theArray)
+function maxIndex = qpListMinArg(theArray,varargin)
 %qpListMinArg  Return the index of the smallest element in a matrix.
 %
 % Usage:
@@ -18,8 +18,15 @@ function maxIndex = qpListMinArg(theArray)
 %
 % Output:
 %     maxIndex       Index to maximum value.
+%
+% Optional key/value pairs
+%     None
 
 % 6/23/17  dhb  Wrote it.
+
+%% Parse input
+p = inputParser;
+p.parse(varargin{:});
 
 %% Get the index
 [maxVal,maxIndex] = max(theArray(:));

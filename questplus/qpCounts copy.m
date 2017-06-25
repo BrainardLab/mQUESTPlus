@@ -1,5 +1,5 @@
 function arrayEntropy = qpArrayEntropy(probArray,varargin)
-%qpArrayEntropy  Compute the zero order entropy of an array of probabilities
+%qpCounts  Convert output of qpData to lost of outcome numbersfor each stim value
 %
 % Usage:
 %     arrayEntropy = qpArrayEntropy(probArray,varargin)
@@ -16,9 +16,6 @@ function arrayEntropy = qpArrayEntropy(probArray,varargin)
 %                    like a good idea and is enforced here.  Override by passing
 %                    tolerance key/value pair.
 %
-% Output:
-%     arrayEntropy   The computed entropy of the array.
-%
 % Optional key/value pairs
 %     'base'         value (default 2) - Base with which 
 %     'tolerance'    value (default 1e-7) - Array values should sum to
@@ -29,9 +26,6 @@ function arrayEntropy = qpArrayEntropy(probArray,varargin)
 
 %% Parse input
 p = inputParser;
-p.addRequired('probArray',@isnumeric);
-p.addParameter('base',2,@isscalar);
-p.addParameter('tolerance',1e-7,@isscalar);
 p.parse(probArray,varargin{:});
 
 %% Check that probabilities sum to something close to 1

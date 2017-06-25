@@ -1,4 +1,4 @@
-function minIndex = qpListMinArg(theArray)
+function minIndex = qpListMinArg(theArray,varargin)
 %qpListMinArg  Return the index of the smallest element in a matrix.
 %
 % Usage:
@@ -18,8 +18,15 @@ function minIndex = qpListMinArg(theArray)
 %
 % Output:
 %     minIndex       Index to minimum value.
+%
+% Optional key/value pairs
+%     None
 
 % 6/23/17  dhb  Wrote it.
+
+%% Parse input
+p = inputParser;
+p.parse(varargin{:});
 
 %% Get the index
 [minVal,minIndex] = min(theArray(:));

@@ -1,4 +1,4 @@
-function uniformArray = qpUniformArray(sz)
+function uniformArray = qpUniformArray(sz,varargin)
 %qpUniformArray - Create an array of passed size whose values sum to 1
 %
 % Usage:
@@ -12,8 +12,15 @@ function uniformArray = qpUniformArray(sz)
 %
 % Output:
 %     uniformArray   The desired array.
+%
+% Optional key/value pairs
+%     None
 
-% 6/22/17  dhb  Wrote it.
+% 6/23/17  dhb  Wrote it.
+
+%% Parse input
+p = inputParser;
+p.parse(varargin{:});
 
 uniformArray = ones(sz);
 uniformArray = qpUnitizeArray(uniformArray);
