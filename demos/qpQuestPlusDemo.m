@@ -1,4 +1,4 @@
-function qpUtilityDemo
+function qpQuestPlusDemo
 %qpQuestPlusDemo  Demonstrate and basic QuestPlus routines
 %
 % Description:
@@ -12,7 +12,20 @@ function qpUtilityDemo
 
 %% Get example results
 fprintf('*** qpExampleData:\n');
-exampleResult = qpExampleData
+exampleResult = qpExampleData;
+qpPrintParams(exampleResult.paramEstimates);
+qpPrintTrialData(exampleResult.trialData);
 
-fprintf('*** qpData:\n');
-stimulusDataArray = qpData([exampleResult.trialData(:)])
+fprintf('\n*** qpData:\n');
+stimData = qpData([exampleResult.trialData(:)]);
+qpPrintStimData(stimData);
+
+%% An example with multiple stimulus parameters
+fprintf('\n*** qpExampleData (multiple stim params):\n');
+exampleResult = qpExampleData('multipleStimParams',true);
+qpPrintParams(exampleResult.paramEstimates);
+qpPrintTrialData(exampleResult.trialData);
+
+fprintf('\n*** qpData (multiple stim params):\n');
+stimData = qpData([exampleResult.trialData(:)]);
+qpPrintStimData(stimData);

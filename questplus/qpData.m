@@ -1,8 +1,8 @@
-function stimulusDataArray = qpData(trialDataArray,varargin)
+function stimData = qpData(trialData,varargin)
 %qpData  Convert trial data array to stimulus data array.
 %
 % Usage:
-%     stimulusDataArray = qpData(trialDataArray)
+%     stimData = qpData(trialData)
 
 % Description:
 %     Take an trial data array describing what happened on each trial and
@@ -10,14 +10,18 @@ function stimulusDataArray = qpData(trialDataArray,varargin)
 %     unique stimulus.
 %
 % Input:
-%     trialDataArray A struct array with each entry containing information
-%                    for a single trial.
-%
+%     trialData      A trial data struct array:
+%                      trialData(i).stim - Row vector of stimulus parameters.
+%                      trialData(i).outcome - Outcome of the trial.
 %
 % Output:
-%     stimulusDataArray A struct array with each stimulus value presented
+%     stimData       A struct array with each stimulus value presented
 %                    in sorted order, and a vector of outcomes that happened
-%                    on trials for that stimulus value.
+%                    on trials for that stimulus value:
+%                      stimData(i).stim - Row vector of stimulus parameters
+%                      stimData(i).outcomes - Row vector of outcomes on
+%                        each trial where the corresponding stimulus was
+%                        presented.
 %
 % Optional key/value pairs
 %     None
@@ -26,16 +30,12 @@ function stimulusDataArray = qpData(trialDataArray,varargin)
 
 %% Parse input
 p = inputParser;
-p.addRequired('trialDataArray',@isstruct);
-p.parse(trialDataArray,varargin{:});
+p.addRequired('trialData',@isstruct);
+p.parse(trialData,varargin{:});
 
 %% Get the unique stimulus vectors
-%
-% Have to special case when there is just one stimulus parameter.
-if (length(trialDataArray(1).stim) == 1)
-    stimulusVectors = [trialDataArray(:).stim]';
-else
-    stimulusVectors = [trialDataArray(:).stim];
+for jj = 1:size(trialData,1)
+    stimulusVectors(jj,:) = trialData(jj).stim;
 end
 
 % We'll accept however unique sorts these vectors as sorted.
@@ -43,11 +43,11 @@ uniqueStimulusVectors = unique(stimulusVectors,'rows');
 
 %% Go through and build the stimulus data array
 for ii = 1:size(uniqueStimulusVectors,1)
-    stimulusDataArray(ii).stim = uniqueStimulusVectors(ii,:);
-    stimulusDataArray(ii).outcomes = [];
+    stimData(ii).stim = uniqueStimulusVectors(ii,:);
+    stimData(ii).outcomes = [];
     for jj = 1:size(stimulusVectors,1)
         if all(stimulusVectors(jj,:) == uniqueStimulusVectors(ii,:))
-            stimulusDataArray(ii).outcomes = [stimulusDataArray(ii).outcomes trialDataArray(jj).outcome];
+            stimData(ii).outcomes = [stimData(ii).outcomes trialData(jj).outcome];
         end
     end
 end
