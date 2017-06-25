@@ -8,9 +8,9 @@ function exampleResult = qpExampleData(varargin)
 %     To exercise the functions, it is useful to have a set of example data, as would be returned by qpQuestPlus.
 %     We define the example data here.
 %
-%     exampleResult.paramEstaimtes - Vector of parameter estimates.
+%     exampleResult.paramEstimates - Vector of parameter estimates.
 %     exampleResult.trialData - Struct array, with each entry
-%       trialData(i).stim - Vector of presented stimulus parameters.
+%       trialData(i).stim - Row ector of presented stimulus parameters.
 %       trialData(i).outcome - Outcome of the trial.
 %
 % Input:

@@ -1,38 +1,53 @@
-function arrayEntropy = qpArrayEntropy(probArray,varargin)
-%qpCounts  Convert output of qpData to lost of outcome numbersfor each stim value
+function stimulusDataArray = qpData(trialDataArray,varargin)
+%qpData  Convert trial data array to stimulus data array.
 %
 % Usage:
-%     arrayEntropy = qpArrayEntropy(probArray,varargin)
-%
+%     stimulusDataArray = qpData(trialDataArray)
+
 % Description:
-%     Compute the entropy of the probability values in the passed array,
-%     with repsect to the specified base.  The default base is 2; change by
-%     passing base key/value pair.
+%     Take an trial data array describing what happened on each trial and
+%     convert to a stimulus data array describing what happened for each
+%     unique stimulus.
 %
 % Input:
-%     probArray      An array of probabilities for the possible outcomes.
-%                    Although the Mathematica routine does not enforce that
-%                    these are probabilities and sum to 1, that check seems
-%                    like a good idea and is enforced here.  Override by passing
-%                    tolerance key/value pair.
+%     trialDataArray A struct array with each entry containing information
+%                    for a single trial.
+%
+%
+% Output:
+%     stimulusDataArray A struct array with each stimulus value presented
+%                    in sorted order, and a vector of outcomes that happened
+%                    on trials for that stimulus value.
 %
 % Optional key/value pairs
-%     'base'         value (default 2) - Base with which 
-%     'tolerance'    value (default 1e-7) - Array values should sum to
-%                    within this of 1.  Set to Inf if you don't want a
-%                    tolerance.
+%     None
 
 % 6/23/17  dhb  Wrote it.
 
 %% Parse input
 p = inputParser;
-p.parse(probArray,varargin{:});
+p.addRequired('trialDataArray',@isstruct);
+p.parse(trialDataArray,varargin{:});
 
-%% Check that probabilities sum to something close to 1
-assert(abs(sum(probArray(:))-1) < p.Results.tolerance);
+%% Get the unique stimulus vectors
+%
+% Have to special case when there is just one stimulus parameter.
+if (length(trialDataArray(1).stim) == 1)
+    stimulusVectors = [trialDataArray(:).stim]';
+else
+    stimulusVectors = [trialDataArray(:).stim];
+end
 
-%% Compute the log probs
-logProbs = log2(probArray(:))/log2(p.Results.base);
+% We'll accept however unique sorts these vectors as sorted.
+uniqueStimulusVectors = unique(stimulusVectors,'rows');
 
-%% Compute the entropy
-arrayEntropy = -sum(probArray(:) .* logProbs(:));
+%% Go through and build the stimulus data array
+for ii = 1:size(uniqueStimulusVectors,1)
+    stimulusDataArray(ii).stim = uniqueStimulusVectors(ii,:);
+    stimulusDataArray(ii).outcomes = [];
+    for jj = 1:size(stimulusVectors,1)
+        if all(stimulusVectors(jj,:) == uniqueStimulusVectors(ii,:))
+            stimulusDataArray(ii).outcomes = [stimulusDataArray(ii).outcomes trialDataArray(jj).outcome];
+        end
+    end
+end
