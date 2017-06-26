@@ -9,6 +9,7 @@ function exampleResult = qpExampleData(varargin)
 %     We define the example data here.
 %
 %     exampleResult.paramEstimates - Vector of parameter estimates.
+%     exampleResult.nOutcomes - Number of possible outcomes.
 %     exampleResult.trialData - Struct array, with each entry:
 %       trialData(i).stim - Row vector of stimulus parameters.
 %       trialData(i).outcome - Outcome of the trial.
@@ -29,19 +30,22 @@ p = inputParser;
 p.addParameter('multipleStimParams',false,@islogical);
 p.parse(varargin{:});
 
-% Data in list format
+% Data in list format, and provide nOutcomes field.
 if (p.Results.multipleStimParams)
     % This is just made up for now
     exampleResultFromMathematica = {[-20, 3.5, 0.5, 0.02], {{{-18 4 2}, 2}, {{-22 4 1}, 1}, {{-12 4 1}, 2}, ...
         {{-13 5 1}, 2}, {{-15 4 2},2}, ...
         {{-18 4 1}, 2}, {{-18 4 2}, 2}, {{-18 4 2}, 2}, {{-19 5 2}, 2}, {{-19 5 1}, 2}, {{-19 5 2}, 1}, ...
-        {{-19 5 2}, 2}, {{-19 5 1}, 2}}};
+        {{-19 5 2}, 2}, {{-19 5 1}, 4}}};
+    exampleResult.nOutcomes = 4;
 else
-    % Here is the example result from Mathematica, pulled over from the notebook and tweaked just a little
+    % Here is the example result from Mathematica, pulled over from the
+    % notebook and tweaked just a little.
     exampleResultFromMathematica = {[-20, 3.5, 0.5, 0.02], {{{-18}, 2}, {{-22}, 1}, {{-12}, 2}, {{-13}, 2}, {{-15},2}, ...
         {{-16}, 2}, {{-17}, 2}, {{-18}, 2}, {{-19}, 2}, {{-20}, 2}, {{-22}, 2}, {{-25}, 1}, {{-19}, 1}, {{-16}, 2}, ...
         {{-17}, 2}, {{-18}, 2}, {{-18}, 2}, {{-18}, 1}, {{-16}, 2}, {{-17}, 2}, {{-17}, 2}, {{-17}, 2}, {{-18}, 2}, {{-18}, 2}, ...
         {{-18}, 2}, {{-18}, 2}, {{-18}, 2}, {{-19}, 2}, {{-19}, 2}, {{-19}, 2}, {{-19}, 2}, {{-19}, 2}}};
+    exampleResult.nOutcomes = 4;
 end
 
 % Parameter estimates
