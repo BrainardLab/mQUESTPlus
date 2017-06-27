@@ -28,6 +28,10 @@ fprintf('\n*** qpProportions:\n');
 stimProortions = qpProportions(stimCounts,exampleResult.nOutcomes);
 qpPrintStimProportions(stimProortions);
 
+fprintf('\n*** qpLogLikelihood:\n');
+logLikelihood = qpLogLikelihood(stimCounts,@qpPFWeibull,[-20, 3, 0.5, 0.02])
+
+
 %% An example with multiple stimulus parameters
 fprintf('\n*** qpExampleData (multiple stim params):\n');
 exampleResult = qpExampleData('multipleStimParams',true);

@@ -3,7 +3,7 @@ function stimData = qpData(trialData,varargin)
 %
 % Usage:
 %     stimData = qpData(trialData)
-
+%
 % Description:
 %     Take an trial data array describing what happened on each trial and
 %     convert to a stimulus data array describing what happened for each

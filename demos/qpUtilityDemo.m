@@ -57,3 +57,9 @@ minIndex = qpListMinArg(theArray)
 assert(theArray(minIndex) == min(theArray(:)),'qpListMinArg: Indexing into array with return value does not retrieve minimum');
 maxIndex = qpListMaxArg(theArray)
 assert(theArray(maxIndex) == max(theArray(:)),'qpListMaxArg: Indexing into array with return value does not retrieve maximum');
+
+%% qpNLogP
+fprintf('*** qpNLogP\n');
+nLogP = qpNLogP(.1,0)
+assert(nLogP == -1*realmax,'qpNLogP: Value for input (.1,0) not as expected.');
+
