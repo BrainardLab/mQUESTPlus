@@ -21,3 +21,4 @@ xlabel('Stimulus Value');
 ylabel('Proportion');
 xlim([-10 10]); ylim([0 1]);
 title('qpPFWeibull');
+legend({'Outcome 1','Outcome 2'},'Location','NorthWest');

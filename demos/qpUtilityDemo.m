@@ -60,6 +60,6 @@ assert(theArray(maxIndex) == max(theArray(:)),'qpListMaxArg: Indexing into array
 
 %% qpNLogP
 fprintf('*** qpNLogP\n');
-nLogP = qpNLogP(.1,0)
-assert(nLogP == -1*realmax,'qpNLogP: Value for input (.1,0) not as expected.');
-
+nLogP = qpNLogP([.1 0 2],[0 0 .1])
+assert(nLogP(1) == -1*realmax,'qpNLogP: Value for input (.1,0) not as expected.');
+assert(nLogP(2) == 0,'qpNLogP: Value for input (0,0) not as expected.');

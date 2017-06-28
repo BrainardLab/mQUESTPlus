@@ -29,8 +29,9 @@ stimProortions = qpProportions(stimCounts,exampleResult.nOutcomes);
 qpPrintStimProportions(stimProortions);
 
 fprintf('\n*** qpLogLikelihood:\n');
-logLikelihood = qpLogLikelihood(stimCounts,@qpPFWeibull,[-20, 3, 0.5, 0.02])
-
+logLikelihood = qpLogLikelihood(stimCounts,@qpPFWeibull,[-20, 3, 0.5, 0.02]);
+logLikelihood = round(logLikelihood*100000)/100000
+assert(logLikelihood == -9.15883,'qpLogLikelihood: Did not get expected log likelihood');
 
 %% An example with multiple stimulus parameters
 fprintf('\n*** qpExampleData (multiple stim params):\n');

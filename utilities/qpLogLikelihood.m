@@ -26,7 +26,8 @@ function logLikelihood = qpLogLikelihood(stimCounts,qpPF,paramsVec,varargin)
 %     logLikelihood  Log likelihood of the data.
 %
 % Optional key/value pairs
-%     None
+%     check  boolean (true) - Run some checks on the data upacking. Slows
+%                             things down.
 
 % 6/27/17  dhb  Wrote it.
 
@@ -35,6 +36,7 @@ p = inputParser;
 p.addRequired('stimCounts',@isstruct);
 p.addRequired('qpPF',@(x) isa(x,'function_handle'));
 p.addRequired('paramsVec',@isnumeric);
+p.addParameter('check',true,@islogical);
 p.parse(stimCounts,qpPF,paramsVec,varargin{:});
 
 %% Get stimulus matrix with parameters along each column.
@@ -48,12 +50,31 @@ end
 
 %% Get predicted proportions for each stimulus
 predictedProportions = qpPF(stimMat,paramsVec);
+nOutcomes = size(predictedProportions,2);
 
-%% Sum up the log likelihood
+%% Get the outcomes
+%
+% The reshape here might require a little tweaking.  It is slick but
+% tricky.
+nStim = length(stimCounts);
+outcomeCounts = reshape([stimCounts(:).outcomeCounts],nOutcomes,nStim)';
 
-logLikelihood = 0;
-nStim = length(stim
-for ii = 1:nStim
+% Here is a slower way to do it, but that seems likely to be correct
+if (p.Results.check)
+    outcomeCounts1 = zeros(nStim,nOutcomes);
+    for ii = 1:nStim
+        outcomeCounts1(ii,:) = stimCounts(ii).outcomeCounts;
+    end
+    if (any(outcomeCounts ~= outcomeCounts1))
+        error('Two ways of unpacking outcome counts do not match.');
+    end
+end
+
+% Compute the log likilihood
+nLogP = qpNLogP(outcomeCounts,predictedProportions);
+logLikelihood = sum(nLogP(:));
+
+
 
 
 % QpLogLikelihood::usage = 

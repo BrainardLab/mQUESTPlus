@@ -25,8 +25,8 @@ function predictedProportions = qpPFWeibull(stimMat,paramsVec,varargin)
 % Output:
 %     predictedProportions  Matrix, where each row is a vector of predicted proportions
 %                           for each outcome.
-%                             First entry of each row is for yes/correct (outcome == 1)
-%                             Second entry of each row is for no/incorrect (outcome == 2)
+%                             First entry of each row is for no/incorrect (outcome == 1)
+%                             Second entry of each row is for yes/correct (outcome == 2)
 %
 % Optional key/value pairs
 %     None
@@ -58,6 +58,6 @@ slope = paramsVec(2);
 guess = paramsVec(3);
 lapse = paramsVec(4);
 for ii = 1:length(stimMat)
-    p2 = lapse - (guess + lapse - 1)*exp(-10^(slope*(stimMat(ii) - threshold)/20));
-    predictedProportions(ii,:) = [1-p2 p2];
+    p1 = lapse - (guess + lapse - 1)*exp(-10^(slope*(stimMat(ii) - threshold)/20));
+    predictedProportions(ii,:) = [p1 1-p1];
 end
