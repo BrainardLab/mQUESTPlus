@@ -17,7 +17,7 @@ function logLikelihood = qpLogLikelihood(stimCounts,qpPF,paramsVec,varargin)
 %                        nOutcomes with the number of times each outcome
 %                        happend for the given stimulus.
 %
-%     psiPF          Handle to a qpPF routine (e.g. qpPFWeibull).   
+%     qpPF           Handle to a qpPF routine (e.g. qpPFWeibull).   
 %
 %     paramsVec      Row vector of parameters for the passed psychometric
 %                    function.
