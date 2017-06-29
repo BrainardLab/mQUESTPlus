@@ -1,3 +1,34 @@
+function paramEstimates = qpFit(trialData,qpPF,varargin)
+%qpFit  Fit a psychometric function to a set of data 
+%
+% Usage:
+%     paramEstimates = qpFit(tria.lData,qpPF,varargin)
+%
+% Description:
+%     Maximum likelihood fit of parameters to the data.  This is performed
+%     using numerical optimization, with Matlab's fmincon.
+%
+% Input:
+%     trialData      A trial data struct array:
+%                      trialData(i).stim - Row vector of stimulus parameters.
+%                      trialData(i).outcome - Outcome of the trial.
+%
+%     qpPF           Handle to a qpPF routine (e.g. qpPFWeibull).   
+%
+% Output:
+%     paramEstimates Row vector of parameter estimates.
+%
+% Optional key/value pairs
+%     None
+
+% 6/27/17  dhb  Wrote it.
+
+%% Parse input
+p = inputParser;
+p.addRequired('trialData',@isstruct);
+p.addRequired('qpPF',@(x) isa(x,'function_handle'));
+p.parse(trialData,qpPF,varargin{:});
+
 % QpFit::usage = 
 %   "QpFit[result_,options___Rule]\n Fits a psychometric function to a \
 % set of data. The input is the structure returned by QuestPlus. It \
