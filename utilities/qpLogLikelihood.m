@@ -1,8 +1,8 @@
-function logLikelihood = qpLogLikelihood(stimCounts,qpPF,paramsVec,varargin)
+function logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams,varargin)
 %qpLogLikelihood  Compute log likelihood of listed outcomes 
 %
 % Usage:
-%     logLikelihood = qpLogLikelihood(stimCounts,psiFunction,paramsVec)
+%     logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams)
 %
 % Description:
 %     Compute log likelihood of the data in stimCounts, with respect to the
@@ -19,7 +19,7 @@ function logLikelihood = qpLogLikelihood(stimCounts,qpPF,paramsVec,varargin)
 %
 %     qpPF           Handle to a qpPF routine (e.g. qpPFWeibull).   
 %
-%     paramsVec      Row vector of parameters for the passed psychometric
+%     psiParams      Row vector of parameters for the passed psychometric
 %                    function.
 %
 % Output:
@@ -35,9 +35,9 @@ function logLikelihood = qpLogLikelihood(stimCounts,qpPF,paramsVec,varargin)
 p = inputParser;
 p.addRequired('stimCounts',@isstruct);
 p.addRequired('qpPF',@(x) isa(x,'function_handle'));
-p.addRequired('paramsVec',@isnumeric);
+p.addRequired('psiParams',@isnumeric);
 p.addParameter('check',true,@islogical);
-p.parse(stimCounts,qpPF,paramsVec,varargin{:});
+p.parse(stimCounts,qpPF,psiParams,varargin{:});
 
 %% Get stimulus matrix with parameters along each column.
 %
@@ -49,7 +49,7 @@ else
 end
 
 %% Get predicted proportions for each stimulus
-predictedProportions = qpPF(stimMat,paramsVec);
+predictedProportions = qpPF(stimMat,psiParams);
 nOutcomes = size(predictedProportions,2);
 
 %% Get the outcomes
@@ -74,9 +74,8 @@ end
 nLogP = qpNLogP(outcomeCounts,predictedProportions);
 logLikelihood = sum(nLogP(:));
 
-
-
-
+% Mathematica original
+%
 % QpLogLikelihood::usage = 
 %   "QpLogLikelihood[data_,psi_,parameters_List]\nCompute the log \
 % likelihood of a set of data, given a psychometric function and a set \
