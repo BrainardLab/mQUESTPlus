@@ -49,3 +49,4 @@ for ii = 1:nStimuli
         stimCounts(ii).outcomeCounts(jj) = length(find(stimData(ii).outcomes == jj));
     end
 end
+stimCounts = stimCounts';

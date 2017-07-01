@@ -51,3 +51,4 @@ for ii = 1:size(uniqueStimulusVectors,1)
         end
     end
 end
+stimData = stimData';

@@ -48,3 +48,4 @@ for ii = 1:nStimuli
     stimProportions(ii).stim = stimCounts(ii).stim;
     stimProportions(ii).outcomeProportions = stimCounts(ii).outcomeCounts/sum(stimCounts(ii).outcomeCounts);
 end
+stimProportions = stimProportions';
