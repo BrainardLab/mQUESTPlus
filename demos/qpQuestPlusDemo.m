@@ -46,6 +46,7 @@ plot(stimFine,fitProportions(:,2),'-b','LineWidth',2);
 xlabel('Stimulus Value');
 ylabel('Proportion Correct');
 xlim([-40 00]); ylim([0 1]);
+drawnow;
 
 %% qpRun estimating three parameters of a Weibull
 %

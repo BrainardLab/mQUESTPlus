@@ -39,6 +39,8 @@ assert(abs(sum(probArray(:))-1) < p.Results.tolerance);
 
 %% Compute the log probs
 logProbs = log2(probArray(:))/log2(p.Results.base);
+index = (probArray == 0);
+logProbs(index) = -1*realmax;
 
 %% Compute the entropy
 arrayEntropy = -sum(probArray(:) .* logProbs(:));
