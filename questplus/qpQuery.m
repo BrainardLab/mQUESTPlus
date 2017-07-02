@@ -1,3 +1,5 @@
+
+
 % QpQuery::usage = 
 %   "QpQuery[structure_]\nQuery the QUEST+ data structure. The function \
 % updates the elements posteriors, nextindex, and xnext. The last is \

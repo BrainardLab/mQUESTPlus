@@ -24,9 +24,19 @@ function qpResults = qpQuestPlus(nTrials,varargin)
 questParams = qpParams(varargin{:});
 
 %% Initialize
+questData = qpInitialize(questParams);
 
 %% Loop over trials doing smart things each time
 for tt = 1:nTrials
+    % Get stimulus for this trial
+    [stimIndex,stim] = qpQuery(questData);
+    
+    % Get outcome
+    outcome = questData.qpOutcomeF(stim);
+    
+    % Update quest data structure
+    questData = qpUpdate(questData,stimIndex,outcome);
+
     
 end
 

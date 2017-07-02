@@ -16,36 +16,31 @@ function questParams = qpParams(varargin)
 %   qpParams         Structure with fields for each of the keys below.
 %
 % Optional key/value pairs.
-%   qpPF             Handle to psychometric function 
-%   nOutcomes        Number of response outcomes.
-%   stimParamsDomain Cell array of row vectors, specifing the domain of each
-%                    stimulus parameter.  This is converted to a matrix in
-%                    the returned structure, where each row of the matrix
-%                    is the parameters for one of the possible stimuli in
-%                    the domain.
-%   psiParamsDomain  Cell array of row vectors, specifying the domain of each
-%                    parameter of the psychometric function.  This is
-%                    converted to a matrix in the returned structure, where
-%                    each row of the matrix is the parameters for one of
-%                    the possibilities in the domain.
-%   priorType        String specifiying type of prior to use.
-%                      'constant' - Equal values over all parameter combinations
-%   stopRule         String specifying rule for stopping the run
-%                      'nTrials' - After specified number of trials.
+%   qpPF                  Handle to psychometric function.
+%   qpOutcomeF            Handle to function for performaing a trial and reporting outcome.
+%   nOutcomes             Number of possible response outcomes for qpPF and
+%                         qpOutcomeF, which should be the same as each other.
+%   stimParamsDomainList  Cell array of row vectors, specifing the domain of each
+%                         stimulus parameter.  
+%   psiParamsDomainList   Cell array of row vectors, specifying the domain of each
+%                         parameter of the psychometric function.
+%   priorType             String specifiying type of prior to use.
+%                           'constant' - Equal values over all parameter combinations
+%   stopRule              String specifying rule for stopping the run
+%                           'nTrials' - After specified number of trials.
 
 % 6/30/17  dhb  Started on this.
 
 %% Parse inputs and set defaults
 p = inputParser;
 p.addParameter('qpPF',@qpPFWeibull,@(x) isa(x,'function_handle'));
+p.addParameter('qpOutcomeF',@(x) qpSimulate(x,@qpPFWeibull,[0, 3, 0, .01]),@(x) isa(x,'function_handle'));
 p.addParameter('nOutcomes',2,@isscalar);
-p.addParameter('stimParamsDomain',{[-40:1:0]},@iscell);
-p.addParameter('psiParamsDomain',{[-40:1:0], [3.5], [.5], [0.02]},@iscell);
+p.addParameter('stimParamsDomainList',{[-40:1:0]},@iscell);
+p.addParameter('psiParamsDomainList',{[-40:1:0], [3.5], [.5], [0.02]},@iscell);
 p.addParameter('priorType','constant',@ischar);
 p.addParameter('stopRule','nTrials',@ischar);
 p.parse;
 
 %% Return structure
 questParams = p.Results;
-questParams.stimParamsDomain = combvec(questParams.stimParamsDomain{:})';
-questParams.psiParamsDomain = combvec(questParams.psiParamsDomain{:})';
