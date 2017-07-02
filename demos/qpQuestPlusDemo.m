@@ -42,10 +42,11 @@ for cc = 1:length(stimCounts)
     h = scatter(stim(cc),pCorrect(cc),100,'o','MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[0 0 1],...
         'MarkerFaceAlpha',nTrials(cc)/max(nTrials),'MarkerEdgeAlpha',nTrials(cc)/max(nTrials));
 end
-plot(stimFine,fitProportions(:,2),'-b','LineWidth',2);
+plot(stimFine,fitProportions(:,2),'-','Color',[1 0.2 0.0],'LineWidth',3);
 xlabel('Stimulus Value');
 ylabel('Proportion Correct');
 xlim([-40 00]); ylim([0 1]);
+title({'Estimate Weibull threshold', ''});
 drawnow;
 
 %% qpRun estimating three parameters of a Weibull
@@ -54,7 +55,7 @@ drawnow;
 % and lapse using TAFC trials.
 fprintf('\n*** qpRun, Weibull estimate threshold, slope & lapse:\n');
 rng(2004);
-questData = qpRun(128, ...
+questData = qpRun(64, ...
     'psiParamsDomainList',{-40:0, 2:5, 0.5, 0:0.01:0.04}, ...
     'qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFWeibull,[-20, 3, .5, .02]), ...
     'verbose',false);
@@ -77,10 +78,11 @@ for cc = 1:length(stimCounts)
     h = scatter(stim(cc),pCorrect(cc),100,'o','MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[0 0 1],...
         'MarkerFaceAlpha',nTrials(cc)/max(nTrials),'MarkerEdgeAlpha',nTrials(cc)/max(nTrials));
 end
-plot(stimFine,fitProportions(:,2),'-b','LineWidth',2);
+plot(stimFine,fitProportions(:,2),'-','Color',[1 0.2 0.0],'LineWidth',3);
 xlabel('Stimulus Value');
 ylabel('Proportion Correct');
 xlim([-40 00]); ylim([0 1]);
-
+title({'Estimate Weibull threshold, slope, and max parameters', ''});
+drawnow;
 
 
