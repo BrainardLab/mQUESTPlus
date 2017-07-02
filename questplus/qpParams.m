@@ -40,7 +40,7 @@ p.addParameter('stimParamsDomainList',{[-40:1:0]},@iscell);
 p.addParameter('psiParamsDomainList',{[-40:1:0], [3.5], [.5], [0.02]},@iscell);
 p.addParameter('priorType','constant',@ischar);
 p.addParameter('stopRule','nTrials',@ischar);
-p.parse;
+p.parse(varargin{:});
 
 %% Return structure
 questParams = p.Results;
