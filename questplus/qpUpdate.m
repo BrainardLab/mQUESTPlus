@@ -30,9 +30,10 @@ stim = questData.stimParamsDomain(stimIndex);
 % Create first element of the array if necessary.
 if (isfield(questData,'trialData'))
     nTrials = length(questData.trialData);
-    questData.trialData(nTrials+1).stim = stim;
-    questData.trialData(nTrials+1).outcome = outcome;
+    questData.trialData(nTrials+1,1).stim = stim;
+    questData.trialData(nTrials+1,1).outcome = outcome;
 else
+    nTrials = 0;
     questData.trialData.stim = stim;
     questData.trialData.outcome = outcome;
 end
@@ -45,6 +46,7 @@ end
 % psychometric parameters, multiply by the previous posterior (which we
 % take as our prior here, and then normalize to get new posterior.)
 questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
+questData.entropyAfterTrial(nTrials+1) = qpArrayEntropy(questData.posterior);
 
 %% Update table of expected entropies
 questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);

@@ -28,6 +28,7 @@ function questParams = qpParams(varargin)
 %                           'constant' - Equal values over all parameter combinations
 %   stopRule              String specifying rule for stopping the run
 %                           'nTrials' - After specified number of trials.
+%   verbose               Boolean, true for more printout (default false).
 
 % 6/30/17  dhb  Started on this.
 
@@ -40,6 +41,7 @@ p.addParameter('stimParamsDomainList',{[-40:1:0]},@iscell);
 p.addParameter('psiParamsDomainList',{[-40:1:0], [3.5], [.5], [0.02]},@iscell);
 p.addParameter('priorType','constant',@ischar);
 p.addParameter('stopRule','nTrials',@ischar);
+p.addParameter('verbose',false,@islogical);
 p.parse(varargin{:});
 
 %% Return structure
