@@ -33,7 +33,6 @@ for tt = 1:nTrials
     
     % Get outcome
     outcome = questData.qpOutcomeF(stim);
-    fprintf('Ran trial %d, stimIndex %d, stimVal %d, outcome %d\n',tt,stimIndex,stim,outcome);
     
     % Update quest data structure
     questData = qpUpdate(questData,stimIndex,outcome); 

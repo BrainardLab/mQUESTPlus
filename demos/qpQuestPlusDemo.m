@@ -12,7 +12,12 @@ questData = qpInitialize
 
 %% qpQuestPlus
 fprintf('*** qpQuestPlus:\n');
-questData = qpQuestPlus(30)
+rng(2002);
+questData = qpQuestPlus(32);
+psiParamsIndex = qpListMaxArg(questData.posterior);
+psiParams = questData.psiParamsDomain(psiParamsIndex,:);
+fprintf('Max posterior parameters: %0.1f, %0.1f, %0.1f %0.2f\n', ...
+    psiParams(1),psiParams(2),psiParams(3),psiParams(4));
 
-fprintf('\n');
+
 
