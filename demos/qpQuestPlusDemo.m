@@ -6,7 +6,13 @@ function qpQuestPlusDemo
 
 % 07/01/17  dhb  Created.
 
-%% Weibull PF
+%% qpInitialize
 fprintf('*** qpInitialize:\n');
 questData = qpInitialize
+
+%% qpQuestPlus
+fprintf('*** qpQuestPlus:\n');
+questData = qpQuestPlus(30)
+
+fprintf('\n');
 

@@ -34,7 +34,7 @@ function questParams = qpParams(varargin)
 %% Parse inputs and set defaults
 p = inputParser;
 p.addParameter('qpPF',@qpPFWeibull,@(x) isa(x,'function_handle'));
-p.addParameter('qpOutcomeF',@(x) qpSimulate(x,@qpPFWeibull,[0, 3, 0, .01]),@(x) isa(x,'function_handle'));
+p.addParameter('qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFWeibull,[-20, 3.5, .5, .02]),@(x) isa(x,'function_handle'));
 p.addParameter('nOutcomes',2,@isscalar);
 p.addParameter('stimParamsDomainList',{[-40:1:0]},@iscell);
 p.addParameter('psiParamsDomainList',{[-40:1:0], [3.5], [.5], [0.02]},@iscell);

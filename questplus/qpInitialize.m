@@ -64,8 +64,11 @@ for ii = 1:questData.nStimParamsDomain
             questData.qpPF(questData.stimParamsDomain(ii,:),questData.psiParamsDomain(jj,:));
     end
 end
- 
-% Get 
+
+%% Initialize table of expected entropies
+questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);
+
+end
 
 % {QpOutcome -> (SimulatedObserver[#1, 
 %      QpPFWeibull, {-20, 3.5, 0.5, 0.02}] &), 

@@ -1,4 +1,4 @@
-function qpResults = qpQuestPlus(nTrials,varargin)
+function questData = qpQuestPlus(nTrials,varargin)
 %qpQuestPlus  High level function that runs a QUEST+ experiment
 %
 % Usage:
@@ -13,7 +13,7 @@ function qpResults = qpQuestPlus(nTrials,varargin)
 %                 depending on stopRule parameter.
 %
 % Outputs:
-%   qpResults     Structure containing results of the run.ß
+%   qpData        Structure containing results of the run.
 %
 % Optional key/value pairs
 %   See qpParams for list of key/value pairs that may be specified.
@@ -33,15 +33,15 @@ for tt = 1:nTrials
     
     % Get outcome
     outcome = questData.qpOutcomeF(stim);
+    fprintf('Ran trial %d, stimIndex %d, stimVal %d, outcome %d\n',tt,stimIndex,stim,outcome);
     
     % Update quest data structure
-    questData = qpUpdate(questData,stimIndex,outcome);
-
-    
+    questData = qpUpdate(questData,stimIndex,outcome); 
 end
 
 %% Pack up data for return
 
+end
 
 % QuestPlus::usage = 
 %   "QuestPlus[ntrials_,options___Rule]\nRun an experiment of \!\(\*

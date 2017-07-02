@@ -1,4 +1,25 @@
+function [stimIndex,stim] = qpQuery(questData)
+% qpQuery  Use questData structure to get next recommended stimulus index and stimulus.
+%
+% Usage:
+%     [stimIndex,stim] = qpQuery(questData)
+%
+% Description:
+%     Use questData structure to get next recommended stimulus index and stimulus.
+%     The data structure is assumed to be up to date, as after a call to
+%     qpUpdate.
+%
+% Inputs:
+%
+% Outputs:
+%
+% Optional key/value pairs
 
+%% Find minimum entropy stimulus entry and get stimulus from index
+stimIndex = qpListMinArg(questData.expectedNextEntropiesByStim);
+stim = questData.stimParamsDomain(stimIndex);
+
+end
 
 % QpQuery::usage = 
 %   "QpQuery[structure_]\nQuery the QUEST+ data structure. The function \

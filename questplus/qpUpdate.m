@@ -1,8 +1,8 @@
-function questData = qpUpdate(questData,stim,outcome,varargin)
+function questData = qpUpdate(questData,stimIndex,outcome,varargin)
 % qpUpdate  Update the quest data structure for the trial stimulus and outcome.
 %
 % Usage: 
-%     questData = qpUpdate(questData,stim,outcome
+%     questData = qpUpdate(questData,stim,outcome)
 %
 % Description:
 %     Update the questData strucgure given the stimulus and outcome of
@@ -22,12 +22,16 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 
 % 07/01/17  dhb  Started writing.
 
+%% Get actual stimulus
+stim = questData.stimParamsDomain(stimIndex);
+
 %% Add trial data to list
 %
 % Create first element of the array if necessary.
 if (isfield(questData,'trialData'))
-    questData.trialData(end+1).stim = stim;
-    questData.trialData(end+1).outcome = outcome;
+    nTrials = length(questData.trialData);
+    questData.trialData(nTrials+1).stim = stim;
+    questData.trialData(nTrials+1).outcome = outcome;
 else
     questData.trialData.stim = stim;
     questData.trialData.outcome = outcome;
@@ -40,7 +44,14 @@ end
 % and outcome, we just look up the likelihood of the outcome for every set of
 % psychometric parameters, multiply by the previous posterior (which we
 % take as our prior here, and then normalize to get new posterior.)
-questData.posterior = qpUnitizeArray(questData.posterior .* questData.precomputedOutcomeProportions(stimIndex,:,outcome));
+questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
+
+%% Update table of expected entropies
+questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);
+
+end
+
+
 
 % QpUpdate::usage = 
 %   "QpUpdate[structure_,outcome_]\nUsing the outcome from the previous \
