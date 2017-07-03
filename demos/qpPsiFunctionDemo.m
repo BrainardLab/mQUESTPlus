@@ -1,4 +1,4 @@
-function qpDataProcDemo
+function qpPsiFunctionDemo
 %qpPsiFunctionDemo  Demonstrate the psychometric function routines
 %
 % Description:
@@ -11,7 +11,7 @@ function qpDataProcDemo
 % 6/27/17  dhb  Created.
 
 %% Weibull PF
-fprintf('*** qpWeibull:\n');
+fprintf('*** qpPFWeibull:\n');
 stimParams = linspace(-9,9,100)';
 outcomeProportions = qpPFWeibull(stimParams,[0 3 0.5 0.01]);
 figure; clf; hold on
@@ -21,6 +21,19 @@ xlabel('Stimulus Value');
 ylabel('Proportion');
 xlim([-10 10]); ylim([0 1]);
 title({'qpPFWeibull' ; ''});
+legend({'Outcome 1','Outcome 2'},'Location','NorthWest');
+
+%% Normal PF
+fprintf('*** qpPFNormal:\n');
+stimParams = linspace(-9,9,100)';
+outcomeProportions = qpPFNormal(stimParams,[0 3 0.01]);
+figure; clf; hold on
+plot(stimParams,outcomeProportions(:,1),'-','Color',[0.8 0.6 0.0],'LineWidth',3);
+plot(stimParams,outcomeProportions(:,2),'-','Color',[0.0 0.0 0.8],'LineWidth',3);
+xlabel('Stimulus Value');
+ylabel('Proportion');
+xlim([-10 10]); ylim([0 1]);
+title({'qpPFNormal' ; ''});
 legend({'Outcome 1','Outcome 2'},'Location','NorthWest');
 
 %% Simulate Weibull PF

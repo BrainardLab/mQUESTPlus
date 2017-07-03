@@ -36,14 +36,7 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams,varargin)
 p = inputParser;
 p.addRequired('stimParams',@isnumeric);
 p.addRequired('psiParams',@isnumeric);
-p.parse(stimParams,psiParams,varargin{:});
-
-%% Here is the original Mathematica code.
-%
-% QpPFWeibull[{x_}, {threshold_, slope_, guess_, lapse_}] := 
-%  {#, 1 - #} &@(lapse - (guess + lapse - 1) Exp[- 
-%        10^(slope (x - threshold)/20) ])
-% Compute it.  
+p.parse(stimParams,psiParams,varargin{:}); 
 
 %% Here is the Matlab version
 if (length(psiParams) ~= 4)
@@ -56,6 +49,7 @@ threshold = psiParams(1);
 slope = psiParams(2);
 guess = psiParams(3);
 lapse = psiParams(4);
+predictedProportions = zeros(length(stimParams),2);
 for ii = 1:length(stimParams)
     p1 = lapse - (guess + lapse - 1)*exp(-10^(slope*(stimParams(ii) - threshold)/20));
     predictedProportions(ii,:) = [p1 1-p1];
