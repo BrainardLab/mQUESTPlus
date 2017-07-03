@@ -31,8 +31,11 @@ psiParamsIndex = qpListMaxArg(questData.posterior);
 psiParams = questData.psiParamsDomain(psiParamsIndex,:);
 fprintf('Max posterior parameters: %0.1f, %0.1f, %0.2f\n', ...
     psiParams(1),psiParams(2),psiParams(3));
-
-% Plot with fit from quest
+ 
+% Plot trial locations together with fit from quest.
+% Point transparancy visualizes number of trials (more opaque -> more
+% trials), while point color visualizes percent correct (more blue -> more
+% correct).
 figure; clf; hold on
 stimCounts = qpCounts(qpData(questData.trialData),questData.nOutcomes);
 stim = zeros(length(stimCounts),questData.nStimParams);
