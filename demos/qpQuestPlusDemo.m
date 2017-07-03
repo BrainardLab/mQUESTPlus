@@ -25,7 +25,7 @@ questData = qpRun(32, ...
     'verbose',false);
 psiParamsIndex = qpListMaxArg(questData.posterior);
 psiParams = questData.psiParamsDomain(psiParamsIndex,:);
-fprintf('Max posterior parameters: %0.1f, %0.1f, %0.1f %0.2f\n', ...
+fprintf('Max posterior parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
     psiParams(1),psiParams(2),psiParams(3),psiParams(4));
 
 % Plot with fit from quest
@@ -61,7 +61,7 @@ questData = qpRun(64, ...
     'verbose',false);
 psiParamsIndex = qpListMaxArg(questData.posterior);
 psiParams = questData.psiParamsDomain(psiParamsIndex,:);
-fprintf('Max posterior parameters: %0.1f, %0.1f, %0.1f %0.2f\n', ...
+fprintf('Max posterior parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
     psiParams(1),psiParams(2),psiParams(3),psiParams(4));
 
 % Plot with fit from quest
@@ -84,5 +84,45 @@ ylabel('Proportion Correct');
 xlim([-40 00]); ylim([0 1]);
 title({'Estimate Weibull threshold, slope, and max parameters', ''});
 drawnow;
+
+%% qpRun estimating normal mean and standard deviation
+%
+% This runs a test of estimating a Weibull threshold using
+% y/n trials.
+fprintf('*** qpRun, Normal estimate threshold, slope and lapse:\n');
+rng(2008);
+questData = qpRun(128, ...
+    'stimParamsDomainList',{-10:10}, ...
+    'psiParamsDomainList',{-5:5, 1:10, 0.00:0.01:0.04}, ...
+    'qpPF',@qpPFNormal, ...
+    'qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFNormal,[1, 3, .02]), ...
+    'nOutcomes', 2, ...
+    'verbose',false);
+psiParamsIndex = qpListMaxArg(questData.posterior);
+psiParams = questData.psiParamsDomain(psiParamsIndex,:);
+fprintf('Max posterior parameters: %0.1f, %0.1f, %0.2f\n', ...
+    psiParams(1),psiParams(2),psiParams(3));
+
+% Plot with fit from quest
+figure; clf; hold on
+stimCounts = qpCounts(qpData(questData.trialData),questData.nOutcomes);
+stim = [stimCounts.stim];
+stimFine = linspace(-10,10,100)';
+fitProportions = qpPFNormal(stimFine,psiParams);
+for cc = 1:length(stimCounts)
+    nTrials(cc) = sum(stimCounts(cc).outcomeCounts);
+    pCorrect(cc) = stimCounts(cc).outcomeCounts(2)/nTrials(cc);
+end
+for cc = 1:length(stimCounts)
+    h = scatter(stim(cc),pCorrect(cc),100,'o','MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[0 0 1],...
+        'MarkerFaceAlpha',nTrials(cc)/max(nTrials),'MarkerEdgeAlpha',nTrials(cc)/max(nTrials));
+end
+plot(stimFine,fitProportions(:,2),'-','Color',[1 0.2 0.0],'LineWidth',3);
+xlabel('Stimulus Value');
+ylabel('Proportion Correct');
+xlim([-10 10]); ylim([0 1]);
+title({'Estimate Normal mean, slope and lapse', ''});
+drawnow;
+
 
 

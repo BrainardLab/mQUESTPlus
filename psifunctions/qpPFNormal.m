@@ -48,6 +48,6 @@ sd = psiParams(2);
 lapse = psiParams(3);
 predictedProportions = zeros(length(stimParams),2);
 for ii = 1:length(stimParams)
-    p1 = lapse + (1-2*lapse)*normcdf(stimParams(ii),mean,sd);
-    predictedProportions(ii,:) = [p1 1-p1];
+    p2 = lapse + (1-2*lapse)*normcdf(stimParams(ii),mean,sd);
+    predictedProportions(ii,:) = [1-p2 p2];
 end
