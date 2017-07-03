@@ -11,15 +11,15 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams,varargin)
 % Input:
 %     stimParams     Matrix, with each row being a vector of stimulus parameters.
 %                    Here the row vector is just a single number giving
-%                    the stimulus level.  Units are those of the 
-%                    Mathematica code from the paper.
+%                    the stimulus contrast level in dB.
 %
 %     psiParams      Row vector of parameters
-%                      threshold  Threshold
+%                      threshold  Threshold in dB
 %                      slope      Slope
 %                      guess      Guess rate
 %                      lapse      Lapse rate
-%                    Parameterization matches the Mathematica code from the paper.
+%                    Parameterization matches the Mathematica code from the Watson
+%                    QUEST+ paper.
 %
 % Output:
 %     predictedProportions  Matrix, where each row is a vector of predicted proportions

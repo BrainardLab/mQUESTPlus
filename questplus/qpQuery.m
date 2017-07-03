@@ -17,7 +17,7 @@ function [stimIndex,stim] = qpQuery(questData)
 
 %% Find minimum entropy stimulus entry and get stimulus from index
 stimIndex = qpListMinArg(questData.expectedNextEntropiesByStim);
-stim = questData.stimParamsDomain(stimIndex);
+stim = questData.stimParamsDomain(stimIndex,:);
 
 end
 

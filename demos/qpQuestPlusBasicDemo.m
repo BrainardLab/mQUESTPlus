@@ -1,10 +1,18 @@
-function qpQuestPlusDemo
-%qpQuestPlusDemo  Demonstrate QUEST+ and closely related.
+function qpQuestPlusBasicDemo
+%qpQuestPlusBasicDemo  Demonstrate QUEST+ and closely related.
 %
 % Description:
-%    This script shows the usage for QUEST+.
+%    This script shows the usage for QUEST+ for some basic applications.
+%   
+%    In particular, it shows the default output of qpInitialize, which can
+%    be useful for understanding the questData structure in this
+%    implementation.
+%
+%    It then uses qpRun to produce figures that recaptitulate Figures 2, 3
+%    and 4 of the Watson (2017) QUEST+ paper.
 
 % 07/01/17  dhb  Created.
+% 07/02/17  dhb  Added additional examples.
 
 %% Close out stray figures
 close all;

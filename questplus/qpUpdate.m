@@ -23,7 +23,7 @@ function questData = qpUpdate(questData,stimIndex,outcome,varargin)
 % 07/01/17  dhb  Started writing.
 
 %% Get actual stimulus
-stim = questData.stimParamsDomain(stimIndex);
+stim = questData.stimParamsDomain(stimIndex,:);
 
 %% Add trial data to list
 %

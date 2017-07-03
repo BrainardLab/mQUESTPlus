@@ -21,26 +21,32 @@ function questData = qpRun(nTrials,varargin)
 
 % 6/30/17  dhb  Started on this. Don't quite have design clear yet.
 
-%% Initialize
+
+%% Parse parameters
 questData = qpParams(varargin{:});
-if (questData.verbose) fprintf('Initializing ...'); end
+
+%% Say hello if in verbose mode
+if (questData.verbose) fprintf('qpRun:\n'); end
+
+%% Initialize
+if (questData.verbose); fprintf('\tInitializing ...'); end
 questData = qpInitialize(questData);
-if (questData.verbose) fprintf('done\n'); end
+if (questData.verbose); fprintf('done\n'); end
 
 %% Loop over trials doing smart things each time
 for tt = 1:nTrials
     % Get stimulus for this trial
-    if (questData.verbose) fprintf('Trial %d, query ...',tt); end
+    if (questData.verbose & rem(tt,10) == 0) fprintf('\tTrial %d, query ...',tt); end
     [stimIndex,stim] = qpQuery(questData);
     
     % Get outcome
-    if (questData.verbose) fprintf('simulate ...'); end
+    if (questData.verbose & rem(tt,10) == 0); fprintf('simulate ...'); end
     outcome = questData.qpOutcomeF(stim);
     
     % Update quest data structure
-    if (questData.verbose) fprintf('update ...'); end
+    if (questData.verbose & rem(tt,10) == 0); fprintf('update ...'); end
     questData = qpUpdate(questData,stimIndex,outcome); 
-    if (questData.verbose) fprintf('done\n'); end
+    if (questData.verbose & rem(tt,10) == 0); fprintf('done\n'); end
 
 end
 
