@@ -1,4 +1,4 @@
-function uniformArray = qpUnitizeArray(inputArray,varargin)
+function uniformArray = qpUnitizeArray(inputArray)
 %qpUnitizeArray  Scale the passed array so that the sum of its entries is 1.
 %
 % Usage:
@@ -22,8 +22,13 @@ function uniformArray = qpUnitizeArray(inputArray,varargin)
 % 6/23/17  dhb  Wrote it.
 
 %% Parse input
-p = inputParser;
-p.parse(varargin{:});
+%
+% This routine gets called many many times and should be as fast as
+% possible.  The input parser is slow.  So we forego arg checking and
+% optional key/value pairs.  The code below shows how they would look.
+%
+% p = inputParser;
+% p.parse(varargin{:});
 
 %% Get summed values
 sumOfValues = sum(inputArray(:));

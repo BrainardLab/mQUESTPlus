@@ -1,4 +1,4 @@
-function predictedProportions = qpPFWeibull(stimParams,psiParams,varargin)
+function predictedProportions = qpPFWeibull(stimParams,psiParams)
 %qpPFWeibull  Compute outcome proportions for Weibull psychometric function 
 %
 % Usage:
@@ -33,10 +33,15 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams,varargin)
 % 6/27/17  dhb  Wrote it.
 
 %% Parse input
-p = inputParser;
-p.addRequired('stimParams',@isnumeric);
-p.addRequired('psiParams',@isnumeric);
-p.parse(stimParams,psiParams,varargin{:}); 
+%
+% This routine gets called many many times and should be as fast as
+% possible.  The input parser is slow.  So we forego arg checking and
+% optional key/value pairs.  The code below shows how they would look.
+%
+% p = inputParser;
+% p.addRequired('stimParams',@isnumeric);
+% p.addRequired('psiParams',@isnumeric);
+% p.parse(stimParams,psiParams,varargin{:}); 
 
 %% Here is the Matlab version
 if (length(psiParams) ~= 4)

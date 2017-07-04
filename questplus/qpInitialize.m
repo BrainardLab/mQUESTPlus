@@ -29,6 +29,8 @@ function questData = qpInitialize(varargin)
 %
 % See also: qpParams.
 
+% 07/04/17  dhb  Sped up using profiler.
+
 %% Start with the parameters
 % Pass any key/value pairs through qpParams.
 questData = qpParams(varargin{:});
@@ -58,12 +60,11 @@ end
 %% Precompute table with expected proportions for each outcome given each stimulus
 questData.precomputedOutcomeProportions = ...
     zeros(questData.nStimParamsDomain,questData.nPsiParamsDomain,questData.nOutcomes);
-for ii = 1:questData.nStimParamsDomain
-    for jj = 1:questData.nPsiParamsDomain
-        questData.precomputedOutcomeProportions(ii,jj,:) = ....
-            questData.qpPF(questData.stimParamsDomain(ii,:),questData.psiParamsDomain(jj,:));
-    end
+for jj = 1:questData.nPsiParamsDomain
+    questData.precomputedOutcomeProportions(:,jj,:) = ....
+        questData.qpPF(questData.stimParamsDomain,questData.psiParamsDomain(jj,:));
 end
+
 
 %% Initialize table of expected entropies
 questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);

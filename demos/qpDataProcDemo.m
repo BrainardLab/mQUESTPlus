@@ -1,12 +1,20 @@
 function qpDataProcDemo
-%qpDataProcDemo  Demonstrate and basic QuestPlus routines
+% qpDataProcDemo  Demonstrate and basic QuestPlus routines
 %
 % Description:
 %    This script shows the usage for the qp data processing routines, and checks
-%    some basic assertions about what they should do.
+%    some basic assertions about what they should do.  Key routines
+%    demonstrated and tested are:
+%      qpData
+%      qpCounts
+%      qpProportions
 %
-%    These do their best to follow the examples in the QuestPlus.nb
-%    Mathematica notebook.
+%    These make use of qpExampleData, which returns example datasets.
+%
+%    These demos/tests do their best to follow the examples in the QuestPlus.nb
+%    Mathematica notebook that accompanies the Watson (2017) paper.  But, I
+%    got a more recent version than that published with the paper, so there
+%    will be some minor differences.
 
 % 6/24/17  dhb  Created.
 

@@ -16,16 +16,15 @@ function expectedNextEntropiesByStim = qpUpdateExpectedNextEnropiesByStim(questD
 %
 % Optional key/value pairs
 %   None
-%% Set some internal parameters
-unityTolerance = 1e-10;
+
+% 07/04/17  dhb  Try to make this faster using profile.
 
 %% Compute the expected outcomes for each stimulus by averaging over the posterior.
 expectedOutcomesByStim = zeros(questData.nStimParamsDomain,questData.nOutcomes);
 for ss = 1:questData.nStimParamsDomain
-    for pp = 1:questData.nPsiParamsDomain
-        expectedOutcomesByStim(ss,:) = expectedOutcomesByStim(ss,:) + questData.posterior(pp)*squeeze(questData.precomputedOutcomeProportions(ss,pp,:))';
+    for oo = 1:questData.nOutcomes
+        expectedOutcomesByStim(ss,oo) = sum(questData.posterior(:) .* squeeze(questData.precomputedOutcomeProportions(ss,:,oo))');
     end
-    assert(abs(sum(expectedOutcomesByStim(ss,:))-1) < unityTolerance,'Computed expected outcomes do not sum to one');
 end
 
 %% Compute the entropy for each outcome

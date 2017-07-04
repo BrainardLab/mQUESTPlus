@@ -8,8 +8,10 @@ function qpQuestPlusBasicDemo
 %    be useful for understanding the questData structure in this
 %    implementation.
 %
-%    It then uses qpRun to produce figures that recaptitulate Figures 2, 3
-%    and 4 of the Watson (2017) QUEST+ paper.
+%    It then uses qpRun to produce figures that reprises Figures 2, 3
+%    and 4 of the Watson (2017) QUEST+ paper.  Note that qpRun itself
+%    has the primary purpose of demonstrating how to integrate QUEST+ into
+%    an experimental program.  It is very short.
 
 % 07/01/17  dhb  Created.
 % 07/02/17  dhb  Added additional examples.
@@ -61,9 +63,9 @@ drawnow;
 %
 % This runs a test of estimating a Weibull threshold, slope
 % and lapse using TAFC trials.
-fprintf('\n*** qpRun, Weibull estimate threshold, slope & lapse:\n');
-rng(2004);
-questData = qpRun(64, ...
+fprintf('\n*** qpRun, Weibull estimate threshold, slope and lapse:\n');
+rng(2006);
+questData = qpRun(128, ...
     'psiParamsDomainList',{-40:0, 2:5, 0.5, 0:0.01:0.04}, ...
     'qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFWeibull,[-20, 3, .5, .02]), ...
     'verbose',false);
@@ -90,14 +92,14 @@ plot(stimFine,fitProportions(:,2),'-','Color',[1 0.2 0.0],'LineWidth',3);
 xlabel('Stimulus Value');
 ylabel('Proportion Correct');
 xlim([-40 00]); ylim([0 1]);
-title({'Estimate Weibull threshold, slope, and max parameters', ''});
+title({'Estimate Weibull threshold, slope, and lapse', ''});
 drawnow;
 
 %% qpRun estimating normal mean and standard deviation
 %
 % This runs a test of estimating a Weibull threshold using
 % y/n trials.
-fprintf('*** qpRun, Normal estimate threshold, slope and lapse:\n');
+fprintf('\n*** qpRun, Normal estimate mean, sd and lapse:\n');
 rng(2008);
 questData = qpRun(128, ...
     'stimParamsDomainList',{-10:10}, ...
@@ -129,7 +131,7 @@ plot(stimFine,fitProportions(:,2),'-','Color',[1 0.2 0.0],'LineWidth',3);
 xlabel('Stimulus Value');
 ylabel('Proportion Correct');
 xlim([-10 10]); ylim([0 1]);
-title({'Estimate Normal mean, slope and lapse', ''});
+title({'Estimate Normal mean, sd and lapse', ''});
 drawnow;
 
 

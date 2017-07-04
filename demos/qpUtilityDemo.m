@@ -25,30 +25,15 @@ assert(sum(testArray(:)) == 1,'qpUniformArray: Created uniform array input does 
 
 %% qpArrayEntropy
 %
-% This first call is like the Mathematic notebook example and does not
-% require that the values sum to 1.  It gives a similar number.  Round
+% This first call is like the Mathematic notebook example.  It gives a similar number.  Round
 % to three places so we can check that the code still does the same thing
 % later in life.  Note setting of rng seed so this is replicable.
 fprintf('*** qpArrayEntropy:\n');
 rng(1);
 theArray = rand(10,10);
-theEntropy = qpArrayEntropy(theArray,'tolerance',Inf);
+theEntropy = qpArrayEntropy(theArray);
 theEntropy = round(theEntropy*1000)/1000
 assert(theEntropy == 35.513,'qpArrayEntropy: Computed entropy of unnormalized array is no longer what it used to be');
-
-% A version that enforces that the probailities sum to 1.
-unitizedArray = qpUnitizeArray(theArray);
-theEntropy = qpArrayEntropy(unitizedArray);
-theEntropy = round(theEntropy*10000)/10000
-assert(theEntropy == 6.3334,'qpArrayEntropy: Computed entropy is no longer what it used to be');
-
-% Change base
-theEntropy = qpArrayEntropy(unitizedArray,'base',10);
-theEntropy10 = round(theEntropy*10000)/10000
-assert(theEntropy10 == 1.9066,'qpArrayEntropy: Computed entropy base 10 is no longer what it used to be');
-handCheck10 = -sum(unitizedArray(:) .* log10(unitizedArray(:)));
-handCheck10 = round(handCheck10*10000)/10000;
-assert(handCheck10 == theEntropy10,'qpArrayEntropy: Hand computation of log base 10 version does not match qpArrayEntropy');
 
 %% qpListMinArg/qpListMaxArg
 fprintf('*** qpListMinArg/qpListMaxArg:\n');
