@@ -21,7 +21,7 @@ function exampleResult = qpExampleData(varargin)
 %     exampleResult    The example result.
 %
 % Optional key/value pairs
-%     'multipleStimParams'  boolean (default false) - Example with multiple stimulus param
+%     'multipleStimParams'  boolean (default false) - Example with multiple stimulus params
 
 % 6/23/17  dhb  Wrote it.
 
