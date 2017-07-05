@@ -26,7 +26,7 @@ function logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams,varargin)
 %     logLikelihood  Log likelihood of the data.
 %
 % Optional key/value pairs
-%     check  boolean (true) - Run some checks on the data upacking. Slows
+%     check  boolean (false) - Run some checks on the data upacking. Slows
 %                             things down.
 
 % 6/27/17  dhb  Wrote it.
@@ -36,7 +36,7 @@ p = inputParser;
 p.addRequired('stimCounts',@isstruct);
 p.addRequired('qpPF',@(x) isa(x,'function_handle'));
 p.addRequired('psiParams',@isnumeric);
-p.addParameter('check',true,@islogical);
+p.addParameter('check',false,@islogical);
 p.parse(stimCounts,qpPF,psiParams,varargin{:});
 
 %% Get stimulus matrix with parameters along each column.

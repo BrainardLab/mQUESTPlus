@@ -35,10 +35,15 @@ function questData = qpInitialize(varargin)
 % Pass any key/value pairs through qpParams.
 questData = qpParams(varargin{:});
 
-%% Convert list specifying stimlus parameters domain list
+%% Convert list specifying stimlus parameters domain ...
 % to a matrix, where each row of the matrix
 % is the parameters for one of the possible stimuli in
 % the domain.
+%
+% The idea of using combdavec to convert the domain list to this particular
+% matrix format, here and just below, originated with a separate and
+% earlier (2016) Matlab implementation% of QUEST+ written by P R Jones
+% <petejonze@gmail.com>.
 questData.stimParamsDomain = combvec(questData.stimParamsDomainList{:})';
 [questData.nStimParamsDomain,questData.nStimParams] = size(questData.stimParamsDomain);
 
