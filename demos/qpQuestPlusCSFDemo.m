@@ -3,8 +3,9 @@ function qpQuestPlusCSFDemo
 %
 % Description:
 %    This script shows QUEST+ employed to estimate parametric spatial and
-%    temporal CSFs.  Follows the examples in the Watson (2017) QUEST+
-%    paper.
+%    temporal CSFs.
+%
+%    Reprises Figure 6 of the paper.
 
 % 07/03/17  dhb  Created.
 
@@ -19,20 +20,31 @@ close all;
 % This reprises Figure 6 of the 2017 QUEST+ paper.
 fprintf('*** qpRun, Estimate parametric spatial CSF:\n');
 rng(3008);
-simulatedCSFParams = [-35, -50, 1.2 0];
+simulatedPsiParams = [-35, -50, 1.2 0];
 questData = qpRun(128, ...
     'stimParamsDomainList',{0:2:40, 0, -50:2:0}, ...
-    'psiParamsDomainList',{-30:-2:-50, -40:-2:-60, 0.8:0.2:1.6 0}, ...
+    'psiParamsDomainList',{-50:2:-30, -60:2:-40, 0.8:0.2:1.6 0}, ...
     'qpPF',@qpPFSTCSF, ...
-    'qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFSTCSF,simulatedCSFParams), ...
+    'qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFSTCSF,simulatedPsiParams), ...
     'nOutcomes', 2, ...
     'verbose',true);
 psiParamsIndex = qpListMaxArg(questData.posterior);
-psiParams = questData.psiParamsDomain(psiParamsIndex,:);
-fprintf('Max posterior parameters: %0.1f, %0.1f, %0.2f\n', ...
-    psiParams(1),psiParams(2),psiParams(3));
+psiParamsQuest = questData.psiParamsDomain(psiParamsIndex,:);
+fprintf('Simulated parameters: %0.1f, %0.1f, %0.1f, %0.1f\n', ...
+    simulatedPsiParams(1),simulatedPsiParams(2),simulatedPsiParams(3),simulatedPsiParams(4));
+fprintf('Max posterior QUEST+ parameters: %0.1f, %0.1f, %0.1f, %0.1f\n', ...
+    psiParamsQuest(1),psiParamsQuest(2),psiParamsQuest(3),psiParamsQuest(4));
+
+% Maximum likelihood fit.  Use psiParams from QUEST+ as the starting
+% parameter for the search, and impose as parameter bounds the range
+% provided to QUEST+.
+psiParamsFit = qpFit(questData.trialData,questData.qpPF,psiParamsQuest,questData.nOutcomes,...
+    'lowerBounds', [-50 -60 0.8 0],'upperBounds',[-30 -40 1.6 0]);
+fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.1f, %0.1f\n', ...
+    psiParamsFit(1),psiParamsFit(2),psiParamsFit(3),psiParamsFit(4));
  
-% Plot trial locations together with fit from quest.
+% Plot trial locations together with maximum likelihood fit.
+%
 % Point transparancy visualizes number of trials (more opaque -> more
 % trials), while point color visualizes percent correct (more blue -> more
 % correct).
@@ -51,7 +63,7 @@ end
 plotSfs = (0:2:40)';
 [~,plotFitThresholds] = qpPFSTCSF(...
     [plotSfs zeros(size(plotSfs)) zeros(size(plotSfs))], ...
-    psiParams);
+    psiParamsFit);
 plot(plotSfs,plotFitThresholds,'-','Color',[1 0.2 0.0],'LineWidth',3);
 xlabel('Spatial Frequency (c/deg)');
 ylabel('Contrast (dB)');

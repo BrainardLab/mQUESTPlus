@@ -9,10 +9,15 @@ function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
 %     data.  This is performed using numerical optimization, with Matlab's
 %     fmincon.
 %
-%     It is highly recommended that you pass with key/value pairs 
-%     sensible lower and upper and lower bounds on the parameters.  These
-%     can be the range over which QUEST+ did its work.  Without sensible
-%     bounds, strange and unfortunate things can happen in the search.
+%     It is highly recommended that you pass with key/value pairs sensible
+%     lower and upper and lower bounds on the parameters.  These can be the
+%     range over which QUEST+ did its work.  Without sensible bounds,
+%     strange and unfortunate things can happen in the search. This is
+%     particularly true when one or more of the underlying parameters
+%     should be locked to a particular specified value, which is
+%     accomplished here when the lower and upper bounds for a parameter are
+%     equal to each other and to the passed starting value for the
+%     parameter.
 %
 %     This routine requires that you have the Matlab optimization toolbox
 %     installed.
@@ -35,6 +40,12 @@ function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
 % Optional key/value pairs
 %     'lowerBounds'      Lower bounds for parameters (default []).
 %     'upperBounds'      Upper bounds for parameters (default []).
+%     'diagnostics'      Setting for fmincon Diagnostics option (default 'off').
+%                          Set to 'on' for more verbose fmincon output. Useful
+%                          for debugging.
+%     'display'          Setting for fmincon Display option (default 'off')
+%                          Set to 'iter' for more verbose fmincon output.
+%                          Useful for debugging.
 
 % 07/04/17  dhb  Wrote it.
 
@@ -46,6 +57,8 @@ p.addRequired('startingParams',@isnumeric);
 p.addRequired('nOutcomes',@isscalar)
 p.addOptional('upperBounds',[],@isnumeric);
 p.addOptional('lowerBounds',[],@isnumeric);
+p.addOptional('diagnostics','off',@ischar);
+p.addOptional('display','off',@ischar);
 p.parse(trialData,qpPF,startingParams,nOutcomes,varargin{:});
 
 %% Get stimulus counts
@@ -53,7 +66,7 @@ stimCounts = qpCounts(qpData(trialData),nOutcomes);
 
 %% Set up fmincon
 options = optimset('fmincon');
-options = optimset(options,'Diagnostics','off','Display','off','LargeScale','off','Algorithm','active-set');
+options = optimset(options,'Diagnostics',p.Results.diagnostics,'Display',p.Results.display,'LargeScale','off','Algorithm','active-set');
 
 %% Run fmincon
 psiParams = fmincon(@(x)qpFitError(x,stimCounts,qpPF),startingParams,[],[],[],[],p.Results.lowerBounds,p.Results.upperBounds,[],options);

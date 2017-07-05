@@ -39,18 +39,21 @@ p.addRequired('psiParams',@isnumeric);
 p.addParameter('check',false,@islogical);
 p.parse(stimCounts,qpPF,psiParams,varargin{:});
 
+%% Get number of stimuli, stimulus parameter dimension and number of outcomes
+nStim = size(stimCounts,1);
+stimDim = size(stimCounts(1).stim,2);
+nOutcomes = length(stimCounts(1).outcomeCounts);
+
 %% Get stimulus matrix with parameters along each column.
 %
-stimDim = size(stimCounts(1).stim,2);
 if (stimDim == 1)
     stimMat = [stimCounts.stim]';
 else
-    stimMat = [stimCounts.stim];
+    stimMat = reshape([stimCounts.stim],stimDim,nStim)';
 end
 
 %% Get predicted proportions for each stimulus
 predictedProportions = qpPF(stimMat,psiParams);
-nOutcomes = size(predictedProportions,2);
 
 %% Get the outcomes
 %
