@@ -51,6 +51,9 @@ psiParamsFit = qpFit(questData.trialData,questData.qpPF,psiParamsQuest,questData
     'lowerBounds', [-40 3.5 0.5 0.02],'upperBounds',[0 3.5 0.5 0.02]);
 fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
     psiParamsFit(1),psiParamsFit(2),psiParamsFit(3),psiParamsFit(4));
+psiParamsCheck = [-188163  35000 5000 200];
+assert(all(psiParamsCheck == round(10000*psiParamsFit)),'No longer get same ML estimate for this case');
+    
 
 % Plot with maximum likelhood fit
 figure; clf; hold on
@@ -98,6 +101,8 @@ psiParamsFit = qpFit(questData.trialData,questData.qpPF,psiParamsQuest,questData
     'lowerBounds', [-40 2 0.5 0],'upperBounds',[0 5 0.5 0.04]);
 fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
     psiParamsFit(1),psiParamsFit(2),psiParamsFit(3),psiParamsFit(4));
+psiParamsCheck = [-197856 20000 5000 0];
+assert(all(psiParamsCheck == round(10000*psiParamsFit)),'No longer get same ML estimate for this case');
 
 % Plot with maximum likelihood fit
 figure; clf; hold on
@@ -148,6 +153,8 @@ psiParamsFit = qpFit(questData.trialData,questData.qpPF,psiParamsQuest,questData
     'lowerBounds', [-5 1 0],'upperBounds',[5 10 0.04]);
 fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.2f\n', ...
     psiParamsFit(1),psiParamsFit(2),psiParamsFit(3));
+psiParamsCheck = [13318 27742 0];
+assert(all(psiParamsCheck == round(10000*psiParamsFit)),'No longer get same ML estimate for this case');
 
 % Plot with maximum likelihood fit
 figure; clf; hold on

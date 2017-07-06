@@ -34,6 +34,8 @@ fprintf('Simulated parameters: %0.1f, %0.1f, %0.1f, %0.1f\n', ...
     simulatedPsiParams(1),simulatedPsiParams(2),simulatedPsiParams(3),simulatedPsiParams(4));
 fprintf('Max posterior QUEST+ parameters: %0.1f, %0.1f, %0.1f, %0.1f\n', ...
     psiParamsQuest(1),psiParamsQuest(2),psiParamsQuest(3),psiParamsQuest(4));
+psiParamsCheck = [-360000 -500000 12000 0];
+assert(all(psiParamsCheck == round(10000*psiParamsQuest)),'No longer get same QUEST+ estimate for this case');
 
 % Maximum likelihood fit.  Use psiParams from QUEST+ as the starting
 % parameter for the search, and impose as parameter bounds the range
@@ -42,6 +44,8 @@ psiParamsFit = qpFit(questData.trialData,questData.qpPF,psiParamsQuest,questData
     'lowerBounds', [-50 -60 0.8 0],'upperBounds',[-30 -40 1.6 0]);
 fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.1f, %0.1f\n', ...
     psiParamsFit(1),psiParamsFit(2),psiParamsFit(3),psiParamsFit(4));
+psiParamsCheck = [-359123 -485262 11325 0];
+assert(all(psiParamsCheck == round(10000*psiParamsFit)),'No longer get same ML estimate for this case');
  
 % Plot trial locations together with maximum likelihood fit.
 %
