@@ -1,11 +1,11 @@
 function qpPrintStimCounts(stimCounts,varargin)
-%qpPrintStimCounts  Print out stim count array
+%qpPrintStimCounts  Print out stimulus count data array
 %
 % Usage:
 %     qpPrintStimCounts(stimCounts,varargin)
 
 % Description:
-%     Print out stim count array.
+%     Print out stim count data array.
 %
 % Input:
 %     stimCounts     A struct array with each stimulus value presented

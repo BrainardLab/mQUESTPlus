@@ -10,14 +10,19 @@ function predictedProportions = qpPFNormal(stimParams,psiParams)
 %
 % Inputs:
 %     stimParams     Matrix, with each row being a vector of stimulus parameters.
-%                    Here the row vector is just a single number giving
+%                    Here that "row vector" is just a single number giving
 %                    the stimulus level. 
 %
-%     psiParams      Row vector of parameters
+%     psiParams      Row vector or matrix of parameters.  Each row has.
 %                      mean       Mean of normal
 %                      sd         Standard deviation of normal
 %                      lapse      Lapse rate
 %                    Parameterization matches the Mathematica code from the paper.
+%                    If this is passed as a matrix, must have same number
+%                    of rows as stimParams and the parameters are used from
+%                    corresponding rows. If it is passed as a row vector, that
+%                    vector is taken as the parameters for each stimulus
+%                    row.
 %
 % Output:
 %     predictedProportions  Matrix, where each row is a vector of predicted proportions
@@ -42,17 +47,40 @@ function predictedProportions = qpPFNormal(stimParams,psiParams)
 % p.parse(stimParams,psiParams,varargin{:}); 
 
 %% Here is the Matlab version
-if (length(psiParams) ~= 3)
+if (size(psiParams,2) ~= 3)
     error('Parameters vector has wrong length for qpPFWeibull');
 end
 if (size(stimParams,2) ~= 1)
     error('Each row of stimParams should have only one entry');
 end
-mean = psiParams(1);
-sd = psiParams(2);
-lapse = psiParams(3);
-predictedProportions = zeros(length(stimParams),2);
-for ii = 1:length(stimParams)
-    p2 = lapse + (1-2*lapse)*normcdf(stimParams(ii),mean,sd);
-    predictedProportions(ii,:) = [1-p2 p2];
+
+%% Grab params
+mean = psiParams(:,1);
+sd = psiParams(:,2);
+lapse = psiParams(:,3);
+nStim = size(stimParams,1);
+predictedProportions = zeros(nStim,2);
+
+%% Compute, handling the two calling cases.
+%
+% The use of erf is faster than normcdf, and gets a step towards not
+% needing the stats toolbox.
+if (length(mean) > 1)
+    if (length(mean) ~= nStim )
+        error('Number of parameter vectors passed is not one and does not match number of stimuli passed');
+    end
+    
+    for ii = 1:length(stimParams)
+        adjustedSd = sd(ii)*sqrt(2);
+        p2 = lapse(ii) + (1-2*lapse(ii))*0.5*(1+erf((stimParams(ii)-mean(ii))/adjustedSd));
+        predictedProportions(ii,:) = [1-p2 p2];
+    end 
+else
+    adjustedSd = sd*sqrt(2);
+    for ii = 1:length(stimParams)
+        p2 = lapse + (1-2*lapse)*0.5*(1+erf((stimParams(ii)-mean)/adjustedSd));
+        predictedProportions(ii,:) = [1-p2 p2];
+    end 
 end
+
+

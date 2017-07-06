@@ -1,5 +1,5 @@
 function qpDataProcDemo
-% qpDataProcDemo  Demonstrate and basic QuestPlus routines
+% qpDataProcDemo  Demonstrate/test the data processsing routines.
 %
 % Description:
 %    This script shows the usage for the qp data processing routines, and checks

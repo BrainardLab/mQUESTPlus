@@ -1,5 +1,5 @@
 function outcome = qpSimulatedObserver(stimParams,qpPF,psiParams,varargin)
-%qpSimulatedObserver  Simulate a trial of an experiment 
+%qpSimulatedObserver  Simulate a trial of an experiment for a passed psychometric funtion 
 %
 % Usage:
 %     outcome = qpSimulatedObserver(stimParams,qpPF,psiParams
@@ -19,6 +19,7 @@ function outcome = qpSimulatedObserver(stimParams,qpPF,psiParams,varargin)
 %     logLikelihood  Log likelihood of the data.
 %
 % Optional key/value pairs
+%     None.
 
 % 6/27/17  dhb  Wrote it.
 

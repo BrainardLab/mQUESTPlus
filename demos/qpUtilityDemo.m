@@ -1,5 +1,5 @@
 function qpUtilityDemo
-%qpUtilityDemo  Demonstrate and test the qp utility routines.
+%qpUtilityDemo  Demonstrate/test the qp utility routines
 %
 % Description:
 %    This script shows the usage for the qp utility routines, and checks

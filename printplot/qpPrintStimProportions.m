@@ -1,5 +1,5 @@
 function qpPrintStimProportions(stimProportions,varargin)
-%qpPrintStimProportions  Print out stim proportion array
+%qpPrintStimProportions  Print out stimulus proportions data array
 %
 % Usage:
 %     qpPrintStimProportions(stimCounts,varargin)

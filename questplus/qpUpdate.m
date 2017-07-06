@@ -1,5 +1,5 @@
 function questData = qpUpdate(questData,stimIndex,outcome,varargin)
-% qpUpdate  Update the quest data structure for the trial stimulus and outcome.
+% qpUpdate  Update the questData structure for the trial stimulus and outcome
 %
 % Usage: 
 %     questData = qpUpdate(questData,stim,outcome)
@@ -9,13 +9,23 @@ function questData = qpUpdate(questData,stimIndex,outcome,varargin)
 %     a trial.  Computes the new likelihood of the whole data stream given
 %     the stimulus/outcomes so far, updates the posterior, ...
 %
-% Inputs:
-%     questData       Quest data structure before trial.
-%     stimIndex       Index into questData.stimParamsDomain for stimulus parameters of the trial
+% Input:
+%     questData       questData structure before the trial.
+%
+%     stimIndex       Index into questData.stimParamsDomain for stimulus parameters of the trial.
+%
 %     outcome         What happened on the trial.
 %
-% Outputs:
-%     questData       Updated quest data structure.
+% Output%:
+%     questData       Updated questData structure.  This adds and/or keeps up to date the following
+%                     fields of the questData structure.
+%                       trialData - Trial data array, a struct array containing stimulus and outcome for each trial.
+%                         Initialized on the first call and updated thereafter.
+%                       logLikelihood - Updated for trial outcome.
+%                       posterior - Update for trial outcome.
+%                       entropyAfterTrial - The entropy of the posterior after the trail. Initialized on the first
+%                         call and updated thereafter.
+%                       expectedNextEntropiesByStim - Updated for trial outcome.
 %
 % Optional key/value pairs
 %   None
@@ -46,7 +56,7 @@ end
 % psychometric parameters, multiply by the previous posterior (which we
 % take as our prior here, and then normalize to get new posterior.)
 questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
-questData.entropyAfterTrial(nTrials+1) = qpArrayEntropy(questData.posterior);
+questData.entropyAfterTrial(nTrials+1,1) = qpArrayEntropy(questData.posterior);
 
 %% Update table of expected entropies
 questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);

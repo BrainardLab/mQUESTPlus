@@ -1,5 +1,5 @@
 function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
-%qpFit  Fit a psychometric function to a set of data
+%qpFit  Maximum likelihood fit of a psychometric function to a trial data array
 %
 % Usage:
 %     psiParams = qpFit(tria.lData,qpPF,varargin)

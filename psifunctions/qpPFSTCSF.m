@@ -1,5 +1,5 @@
 function [predictedProportions,predictedContrastThreshold] = qpPFSTCSF(stimParams,psiParams,varargin)
-% qpPFSTCSF   Psychometric function for spatial/temporal csf
+% qpPFSTCSF   Psychometric function for parametric spatial/temporal CSF
 %
 % Usage:
 %     [predictedProportions,predictedContrastThreshold] = qpPFWeibull(stimParams,psiParams);

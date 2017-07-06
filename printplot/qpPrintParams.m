@@ -1,5 +1,5 @@
 function qpPrintParams(params,varargin)
-%qpPrintParams  Print out parameters vector
+%qpPrintParams  Print out a parameters vector
 %
 % Usage:
 %     qpPrintParams(params,varargin)

@@ -1,4 +1,4 @@
-% qpRunAllDemos
+% qpRunAllDemos  Run through all of the QUEST+ demos
 %
 % Description:
 %     Script to run all of the demos.  Useful as a test that everthing

@@ -1,5 +1,5 @@
 function uniformArray = qpUniformArray(sz,varargin)
-%qpUniformArray - Create an array of passed size whose values sum to 1
+%qpUniformArray  Create an array of passed size whose values sum to 1
 %
 % Usage:
 %     uniformArray = qpUniformArray(sz)

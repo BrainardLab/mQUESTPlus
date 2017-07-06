@@ -1,5 +1,5 @@
 function qpPsiFunctionDemo
-%qpPsiFunctionDemo  Demonstrate the psychometric function routines
+%qpPsiFunctionDemo  Demonstrate/test the psychometric function routines
 %
 % Description:
 %    This script shows the usage for the qp psychometric function routines, and checks
@@ -75,3 +75,12 @@ xlabel('Stimulus Value');
 ylabel('Proportion Correct');
 xlim([-10 10]); ylim([0 1]);
 title({'qpPFWeibull' ; ''});
+
+%% Weibull with multiple parameter rows
+fprintf('*** qpPFWeibull and qpPFNormal with multiple parameter rows:\n');
+stimParams = linspace(-9,9,2)';
+outcomeProportions = qpPFWeibull(stimParams,[-9 3 0.5 0.01 ; 9 3 0.5 0.01]);
+assert(outcomeProportions(1,1) == outcomeProportions(2,1),'Problem with multiple parameter rows in qpPFWeibull');
+outcomeProportions = qpPFNormal(stimParams,[-9 3 0.01 ; 9 3 0.01]);
+assert(outcomeProportions(1,1) == outcomeProportions(2,1),'Problem with multiple parameter rows in qpPFNormal');
+

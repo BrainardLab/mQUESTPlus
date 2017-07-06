@@ -1,5 +1,5 @@
 function nLogP = qpNLogP(n,p,varargin)
-%qpNLogP  Compute n*log(p) and handle cases where one or both args are zero.
+%qpNLogP  Compute n*log(p) and handle cases where one or both args are zero
 %
 % Usage:
 %     stimData = qpNLogP(trialData)
@@ -48,8 +48,3 @@ index = p == 0 & n > 0;
 nLogP(index) = -1*realmax;
 index = p == 0 & n == 0;
 nLogP(index) = 0;
-
-%% Mathematica original code
-%
-% QpNLogP[n_, p_] :=
-%  If[p > 0, n Log[p], If[n > 0, -$MaxMachineNumber, 0]]

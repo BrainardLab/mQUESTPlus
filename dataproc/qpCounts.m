@@ -1,5 +1,5 @@
 function stimCounts = qpCounts(stimData,nOutcomes,varargin)
-%qpCounts  Convert stim data array to count data array.
+%qpCounts  Convert stimulus data array to count data array.
 %
 % Usage:
 %     stimCounts = qpCounts(stimData)

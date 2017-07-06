@@ -1,19 +1,26 @@
-function questParams = qpParams(varargin)
-%qpParams  Set parameters for a QUEST+ run
+function questData = qpParams(varargin)
+%qpParams  Set user defined parameters for a QUEST+ run.  Called by qpInitialize.
 %
 % Usage:
+%     questData = qpParams(varargin)
 %
 % Description:
-%   Set the parameters needed for a run of QUEST+.
-%   These are specified by key/value pairs.  The
-%   defaults are for a simple Weibull threshold estimation
-%   example.
+%     Set the user defined parameters needed for a run of QUEST+. These are specified by
+%     key/value pairs.  The defaults are for a simple Weibull threshold
+%     estimation example.
+%
+%     This works by allowing the user to pass a set of key value pairs for each possible
+%     user defined parameter.
+%
+%     This routine is not intended to be called directly.  Rather, it is invoked by qpInitialize,
+%     which accepts the same set of key/value pairs and passes them through.
 %
 % Inputs:
-%   None required.  See key/value pairs below.
-%
+%     None required.     See key/value pairs below for what can be set
+%  
 % Outputs:
-%   qpParams         Structure with fields for each of the keys below.
+%     questData          Structure with one field each corresponding to the keys below.
+%                        Each filed has the same name as the key.
 %
 % Optional key/value pairs.
 %   qpPF                  Handle to psychometric function.
@@ -29,6 +36,9 @@ function questParams = qpParams(varargin)
 %   stopRule              String specifying rule for stopping the run
 %                           'nTrials' - After specified number of trials.
 %   verbose               Boolean, true for more printout (default false).
+%
+% % See also: qpInitialize, qpUpdate, qpRun.
+
 
 % 6/30/17  dhb  Started on this.
 
@@ -45,4 +55,4 @@ p.addParameter('verbose',false,@islogical);
 p.parse(varargin{:});
 
 %% Return structure
-questParams = p.Results;
+questData = p.Results;

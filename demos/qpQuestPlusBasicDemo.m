@@ -1,5 +1,5 @@
 function qpQuestPlusBasicDemo
-%qpQuestPlusBasicDemo  Demonstrate QUEST+ and closely related.
+%qpQuestPlusBasicDemo  Demonstrate/test QUEST+ on some simple example problems
 %
 % Description:
 %    This script shows the usage for QUEST+ for some basic applications.

@@ -1,5 +1,5 @@
 function maxIndex = qpListMinArg(theArray,varargin)
-%qpListMinArg  Return the index of the smallest element in a matrix.
+%qpListMinArg  Return the index of the smallest element in a vector/matrix
 %
 % Usage:
 %     maxIndex = qpListMinArg(theArray)

@@ -1,5 +1,5 @@
 function uniformArray = qpUnitizeArray(inputArray)
-%qpUnitizeArray  Scale the passed array so that the sum of its entries is 1.
+%qpUnitizeArray  Scale the passed vector/matrix so that the sum of its entries is 1
 %
 % Usage:
 %     uniformArray = qpUnitizeArray(inputArray)

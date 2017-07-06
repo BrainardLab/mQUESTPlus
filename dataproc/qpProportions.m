@@ -1,5 +1,5 @@
 function stimProportions = qpProportions(stimCounts,nOutcomes,varargin)
-%qpProportions  Convert stim count array to stim proportion array.
+%qpProportions  Convert stim count data array to stim proportion data array.
 %
 % Usage:
 %     stimProportions = qpProportions(stimCounts)

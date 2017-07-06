@@ -1,5 +1,5 @@
 function qpQuestPlusCSFDemo
-%qpQuestPlusCSFDemo  Demonstrate QUEST+ at work on parametric CSF estimation.
+%qpQuestPlusCSFDemo  Demonstrate/test QUEST+ at work on parametric CSF estimation
 %
 % Description:
 %    This script shows QUEST+ employed to estimate parametric spatial and

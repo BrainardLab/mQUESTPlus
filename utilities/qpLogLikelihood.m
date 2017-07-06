@@ -1,5 +1,5 @@
 function logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams,varargin)
-%qpLogLikelihood  Compute log likelihood of listed outcomes 
+%qpLogLikelihood  Compute log likelihood of a stimulus count array 
 %
 % Usage:
 %     logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams)
@@ -26,8 +26,7 @@ function logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams,varargin)
 %     logLikelihood  Log likelihood of the data.
 %
 % Optional key/value pairs
-%     check  boolean (false) - Run some checks on the data upacking. Slows
-%                             things down.
+%     check  boolean (false) - Run some checks on the data upacking. Slows things down.
 
 % 6/27/17  dhb  Wrote it.
 
@@ -45,7 +44,6 @@ stimDim = size(stimCounts(1).stim,2);
 nOutcomes = length(stimCounts(1).outcomeCounts);
 
 %% Get stimulus matrix with parameters along each column.
-%
 if (stimDim == 1)
     stimMat = [stimCounts.stim]';
 else
@@ -57,12 +55,13 @@ predictedProportions = qpPF(stimMat,psiParams);
 
 %% Get the outcomes
 %
-% The reshape here might require a little tweaking.  It is slick but
+% The reshape here is a little tricky, but seems to be correct.
 % tricky.
 nStim = length(stimCounts);
 outcomeCounts = reshape([stimCounts(:).outcomeCounts],nOutcomes,nStim)';
 
-% Here is a slower way to do it, but that seems likely to be correct
+% Here is a slower way to do it the reshape, but that seems very likely to be correct
+% This check passed on 07/06/17 when it seemed like things were generally working.
 if (p.Results.check)
     outcomeCounts1 = zeros(nStim,nOutcomes);
     for ii = 1:nStim
@@ -76,15 +75,3 @@ end
 % Compute the log likilihood
 nLogP = qpNLogP(outcomeCounts,predictedProportions);
 logLikelihood = sum(nLogP(:));
-
-% Mathematica original
-%
-% QpLogLikelihood::usage = 
-%   "QpLogLikelihood[data_,psi_,parameters_List]\nCompute the log \
-% likelihood of a set of data, given a psychometric function and a set \
-% of parameters. Data is a list of the form returned by QpCounts.";
-% 
-% QpLogLikelihood[counts_, psi_, parameters_List] := Block[{p},
-%   p =  N[psi[#, parameters]] & /@ counts[[All, 1]];
-%   Total[MapThread[QpNLogP, {counts[[All, 2]], p}, 2], Infinity]]
-

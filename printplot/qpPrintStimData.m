@@ -1,5 +1,5 @@
 function qpPrintStimData(stimData,varargin)
-%qpPrintStimData  Print out stim data array
+%qpPrintStimData  Print out stimulus data array
 %
 % Usage:
 %     qpPrintStimData(stimData,varargin)
