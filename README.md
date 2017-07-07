@@ -35,9 +35,8 @@ from Matlab Central:
 
 ## Installation
 
-If you use the ToolboxToolbox (highly recommended, https://github.com/toolboxhub/ToolboxToolbox), simply type
-  tbUse('mQuestPlus') 
-to obtain mQuestPlus as well as CircStat2012a and put them onto your Matlab path.
+If you use our ToolboxToolbox (highly recommended, https://github.com/toolboxhub/ToolboxToolbox), simply type
+"tbUse('mQuestPlus')" at the Matlab prompt to obtain mQuestPlus as well as CircStat2012a and put them onto your Matlab path.
 
 Alternately, you can obtain mQuestPlus from https://github.com/brainardlab/mQuestPlus, either by cloning the
 repository or by downloading and unpacking a zip file.  Then add it to your Matlab path.  If you want to run
