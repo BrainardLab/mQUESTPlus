@@ -46,7 +46,9 @@ provided above.
 ## Known issues and bugs
 
 See issues section of this (https://github.com/brainardlab/mQuestPlus) gitHub site for a list known issues,
-limitations and possible future enhancements.
+limitations and possible future enhancements.  Please post an issue if you encounter a bug or wish to make
+a suggestion.  We are happy to review and incorporate improvements and enhancements, either via gitHub pull
+requests or if you just let us know via the issues or email (brainard@psych.upenn.edu).
 
 ## License 
 
