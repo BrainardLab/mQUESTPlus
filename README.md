@@ -28,20 +28,13 @@ This implementation depends on the following Matlab toolboxes:
   stats -- used for computing things related to probability distributions.
 The dependence on the stats toolbox could probably be worked around fairly easily.
 
-For the circular distribution example, this toolbox depends on a toolbox that is free
-from Matlab Central: 
-  CircStat2012a -- used for von Mises distribution routines.  This is free from
-    https://www.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox--directional-statistics-
-
 ## Installation
 
 If you use our ToolboxToolbox (highly recommended, https://github.com/toolboxhub/ToolboxToolbox), simply type
-"tbUse('mQuestPlus')" at the Matlab prompt to obtain mQuestPlus as well as CircStat2012a and put them onto your Matlab path.
+"tbUse('mQuestPlus')" at the Matlab prompt to obtain mQuestPlus and put it onto your Matlab path.
 
 Alternately, you can obtain mQuestPlus from https://github.com/brainardlab/mQuestPlus, either by cloning the
-repository or by downloading and unpacking a zip file.  Then add it to your Matlab path.  If you want to run
-the circular distribution example, obtain and add to your path CircStat2012a from Matlab Central at the URL
-provided above.
+repository or by downloading and unpacking a zip file.  Then add it to your Matlab path.
 
 ## Known issues and bugs
 
