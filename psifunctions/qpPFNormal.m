@@ -48,7 +48,7 @@ function predictedProportions = qpPFNormal(stimParams,psiParams)
 
 %% Here is the Matlab version
 if (size(psiParams,2) ~= 3)
-    error('Parameters vector has wrong length for qpPFWeibull');
+    error('Parameters vector has wrong length for qpPFNormal');
 end
 if (size(stimParams,2) ~= 1)
     error('Each row of stimParams should have only one entry');
@@ -70,14 +70,14 @@ if (length(mean) > 1)
         error('Number of parameter vectors passed is not one and does not match number of stimuli passed');
     end
     
-    for ii = 1:length(stimParams)
+    for ii = 1:nStim 
         adjustedSd = sd(ii)*sqrt(2);
         p2 = lapse(ii) + (1-2*lapse(ii))*0.5*(1+erf((stimParams(ii)-mean(ii))/adjustedSd));
         predictedProportions(ii,:) = [1-p2 p2];
     end 
 else
     adjustedSd = sd*sqrt(2);
-    for ii = 1:length(stimParams)
+    for ii = 1:nStim 
         p2 = lapse + (1-2*lapse)*0.5*(1+erf((stimParams(ii)-mean)/adjustedSd));
         predictedProportions(ii,:) = [1-p2 p2];
     end 

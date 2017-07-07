@@ -13,3 +13,5 @@ qpPsiFunctionDemo;
 qpQuestPlusBasicDemo;
 qpQuestPlusCSFDemo;
 
+%% Close up
+close all;

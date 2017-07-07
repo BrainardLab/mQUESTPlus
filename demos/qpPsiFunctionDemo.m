@@ -84,3 +84,26 @@ assert(outcomeProportions(1,1) == outcomeProportions(2,1),'Problem with multiple
 outcomeProportions = qpPFNormal(stimParams,[-9 3 0.01 ; 9 3 0.01]);
 assert(outcomeProportions(1,1) == outcomeProportions(2,1),'Problem with multiple parameter rows in qpPFNormal');
 
+%% Circular PF with categories
+fprintf('*** qpPFCircular:\n');
+psiParams = [4 pi/4 pi/2 pi 3*pi/2];
+stimParams = linspace(0,2*pi,100)';
+outcomeProportions = qpPFCircular(stimParams,psiParams);
+figure; clf; hold on
+for jj = 2:length(psiParams)
+    plot([psiParams(jj) psiParams(jj)],[0 1],'k:');
+end
+plot(stimParams,outcomeProportions(:,1),'r','LineWidth',3);
+plot(stimParams,outcomeProportions(:,2),'g','LineWidth',3);
+plot(stimParams,outcomeProportions(:,3),'b','LineWidth',3);
+plot(stimParams,outcomeProportions(:,4),'k','LineWidth',3);
+xlim([0 2*pi]);
+ylim([0 1]);
+xlabel('Angle (rad)');
+ylabel('Proportion');
+title({'Categories on a Circle',''});
+
+
+
+
+

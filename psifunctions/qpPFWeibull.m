@@ -68,12 +68,12 @@ if (length(threshold) > 1)
         error('Number of parameter vectors passed is not one and does not match number of stimuli passed');
     end
     
-    for ii = 1:length(stimParams)
+    for ii = 1:nStim 
         p1 = lapse(ii) - (guess(ii) + lapse(ii) - 1)*exp(-10^(slope(ii)*(stimParams(ii) - threshold(ii))/20));
         predictedProportions(ii,:) = [p1 1-p1];
     end 
 else
-    for ii = 1:length(stimParams)
+    for ii = 1:nStim
         p1 = lapse - (guess + lapse - 1)*exp(-10^(slope*(stimParams(ii) - threshold)/20));
         predictedProportions(ii,:) = [p1 1-p1];
     end 
