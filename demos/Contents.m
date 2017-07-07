@@ -6,5 +6,6 @@
 % qpPsiFunctionDemo             - Demonstrate/test the psychometric function routines.
 % qpQuestPlusBasicDemo          - Demonstrate/test QUEST+ on some simple example problems.
 % qpQuestPlusCSFDemo            - Demonstrate/test QUEST+ at work on parametric CSF estimation.
+% qpQuestPlusCircularCatDemo    - Demonstrate/test QUEST+ at work on categorization of a circular variable.
 % qpRunAllDemos                 - Run through all of the QUEST+ demos.
 % qpUtilityDemo                 - Demonstrate/test the qp utility routines.
