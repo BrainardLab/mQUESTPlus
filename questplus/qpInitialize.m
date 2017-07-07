@@ -12,6 +12,13 @@ function questData = qpInitialize(varargin)
 %
 %     See qpParams for a description of the user defined parameters.
 %
+%     In some applications, it may be difficult to arrange a stimulus parameterization
+%     where all the values on the grid are valid and/or represent unique states of the
+%     observer.  If the psychometric function returns a vector of NaNs for these cases,
+%     the initialization removes from the psychometric function parameter domain those
+%     parameter sets that lead to a NaN return vector.  This convention differs from
+%     the Mathematica implementation.
+%
 % Inputs:
 %     questParams     Optional parameter structure, typically generated with
 %                     function qpParams.  The fields need to be keys
@@ -75,7 +82,19 @@ questData.stimParamsDomain = allcomb(questData.stimParamsDomainList{:});
 %% Convert psi params domain list to a matrix, where
 % each row of the matrix is the parameters for one of
 % the possibilities in the domain.
-questData.psiParamsDomain = allcomb(questData.psiParamsDomainList{:});
+%
+% This runs a check as to whether all the parameters return non-NaN
+% proportions.  If one does not, the particular parameters are treated
+% as invalid and removed from the domain.
+psiParamsDomainRaw = allcomb(questData.psiParamsDomainList{:});
+psiParamsDomainIndex = 1;
+for jj = 1:size(psiParamsDomainRaw,1)
+    checkParams = questData.qpPF(questData.stimParamsDomain(1,:),psiParamsDomainRaw(jj,:));
+    if (~any(isnan(checkParams)))
+        questData.psiParamsDomain(psiParamsDomainIndex,:) = psiParamsDomainRaw(jj,:);
+        psiParamsDomainIndex = psiParamsDomainIndex + 1;
+    end
+end
 [questData.nPsiParamsDomain,questData.nPsiParams] = size(questData.psiParamsDomain);
 
 %% Initilize logLikeihood and posterior

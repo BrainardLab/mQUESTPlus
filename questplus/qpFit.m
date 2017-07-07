@@ -19,6 +19,13 @@ function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
 %     equal to each other and to the passed starting value for the
 %     parameter.
 %
+%     Sometimes just lower and upper bounds are not sufficient to appropriately
+%     restrict the parameter domain.  This routine interpets a vector of NaNs
+%     returned by the psychometric function to indicate invalid parameters, and
+%     sets the log likelihood to -1*realmax in these cases.  That tends to steer
+%     the search away from such values.   This convention differs from
+%     the Mathematica implementation.
+%
 %     This routine requires that you have the Matlab optimization toolbox
 %     installed.
 %
@@ -77,6 +84,14 @@ end
 function f = qpFitError(psiParams,stimCounts,qpPF)
 
 logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams);
-f = -logLikelihood;
+
+%% Handle case where search has wandered into an invalid portion of the parameter spact
+%
+% qpPF can return NaN to signal this, and that is propagated back through the logLikelihood.
+if (isnan(logLikelihood))
+    f = realmax;
+else
+    f = -logLikelihood;
+end
 
 end

@@ -23,7 +23,9 @@ function logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams,varargin)
 %                    function.
 %
 % Output:
-%     logLikelihood  Log likelihood of the data.
+%     logLikelihood  Log likelihood of the data.  If the psychometric function
+%                    returns NaN for any of its inputs, the logLikelihood is returned
+%                    as NaN.
 %
 % Optional key/value pairs
 %     check  boolean (false) - Run some checks on the data upacking. Slows things down.
@@ -72,6 +74,10 @@ if (p.Results.check)
     end
 end
 
-% Compute the log likilihood
-nLogP = qpNLogP(outcomeCounts,predictedProportions);
-logLikelihood = sum(nLogP(:));
+%% Compute the log likilihood
+if (any(isnan(predictedProportions)))
+    logLikelihood = NaN;
+else
+    nLogP = qpNLogP(outcomeCounts,predictedProportions);
+    logLikelihood = sum(nLogP(:));
+end

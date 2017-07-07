@@ -12,6 +12,7 @@ qpDataProcDemo;
 qpPsiFunctionDemo;
 qpQuestPlusBasicDemo;
 qpQuestPlusCSFDemo;
+qpQuestPlusCircularCatDemo;
 
 %% Close up
 close all;

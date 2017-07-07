@@ -24,6 +24,8 @@ function predictedProportions = qpPFCircular(stimParams,psiParams)
 %                      boundaries          N-1 angles giving category boundaries in radians.
 %                                          Reponse 1 corresponds to boundary1 <= stim < boundary2.
 %                                          Response N corresponds to boundaryN-1 <= stim < boundary1,
+%                                          Boundaries must be in increasing order.  Otherwise this
+%                                          routine returns a vector of NaN.
 %
 % Output:
 %     predictedProportions  Matrix, where each row is a vector of predicted proportions
@@ -61,12 +63,23 @@ end
 
 %% Grab params
 concentration = psiParams(:,1);
-boundaries = sort(psiParams(:,2:end));
-if (any(boundaries < 0-1000*eps | boundaries > 2*pi+1000*eps))
+nStim = size(stimParams,1);
+
+%% Filter out redundant parameters from grid
+%
+% This is signaled by returning NaN when the boundaries are
+% not in increasing order.
+[boundaries,sortIndex] = sort(psiParams(:,2:end),'ascend');
+nOutcomes = length(boundaries);
+if (any(sortIndex ~= 1:nOutcomes))
+    predictedProportions = NaN*ones(nStim,nOutcomes);
+    return;
+end
+
+%% Check that boundaries are within the circle, within tolerance.
+if (any(boundaries < 0-1e-7 | boundaries > 2*pi+1e-7))
     error('Passed boundaries must be greater than or equal to zero and less than 2*pi');
 end
-nStim = size(stimParams,1);
-nOutcomes = length(boundaries);
 
 % Convert to -pi origin for boundaries and stimuli for our internal calculations
 stimParams = stimParams - pi;
