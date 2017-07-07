@@ -2,7 +2,7 @@ function questData = qpRun(nTrials,varargin)
 %qpRun  High level function that runs a QUEST+ experiment
 %
 % Usage:
-%   qpResults = qpQuestPlus(nTrials)
+%   questData = qpQuestPlus(nTrials)
 %
 % Description:
 %   Run an experiment using QUEST+.  This demonstrates the use of QUEST+
@@ -14,10 +14,12 @@ function questData = qpRun(nTrials,varargin)
 %   nTrials       Number of trials to run.
 %
 % Outputs:
-%   qpData        Structure containing results of the run.
+%   questData        Structure containing results of the run.
 %
 % Optional key/value pairs
-%   See qpParams for list of key/value pairs that may be specified.
+%     See qpParams for list of key/value pairs that may be specified.
+%
+% See also: qpParams, qpInitialize, qpUpdate, qpQuery.
 
 % 6/30/17  dhb  Started on this. Don't quite have design clear yet.
 

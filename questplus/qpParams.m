@@ -13,7 +13,8 @@ function questData = qpParams(varargin)
 %     user defined parameter.
 %
 %     This routine is not intended to be called directly.  Rather, it is invoked by qpInitialize,
-%     which accepts the same set of key/value pairs and passes them through.
+%     which accepts the same set of key/value pairs and passes them through.  In addition, qpRun
+%     takes the same set of parameters and passes them through to qpInitialize.
 %
 % Inputs:
 %     None required.     See key/value pairs below for what can be set
@@ -37,7 +38,7 @@ function questData = qpParams(varargin)
 %                           'nTrials' - After specified number of trials.
 %   verbose               Boolean, true for more printout (default false).
 %
-% % See also: qpInitialize, qpUpdate, qpRun.
+% See also: qpInitialize, qpUpdate, qpQuery, qpRun.
 
 
 % 6/30/17  dhb  Started on this.

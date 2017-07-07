@@ -16,7 +16,7 @@ function questData = qpUpdate(questData,stimIndex,outcome,varargin)
 %
 %     outcome         What happened on the trial.
 %
-% Output%:
+% Output:
 %     questData       Updated questData structure.  This adds and/or keeps up to date the following
 %                     fields of the questData structure.
 %                       trialData - Trial data array, a struct array containing stimulus and outcome for each trial.
@@ -29,6 +29,8 @@ function questData = qpUpdate(questData,stimIndex,outcome,varargin)
 %
 % Optional key/value pairs
 %   None
+%
+% See also: qpParams, qpInitialize, qpQuery, qpRun.
 
 % 07/01/17  dhb  Started writing.
 

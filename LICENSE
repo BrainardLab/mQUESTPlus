@@ -1,6 +1,10 @@
 MIT License
 
-Copyright (c) 2017 Brainard Lab
+Copyright (c) 2017 David Brainard.
+
+If you make use of the software in support of a publication, please cite it
+(in addition to the Watson paper) as: Brainard, D. H. (2017) "mQuestPlus: A
+Matlab implementation of QUEST+", https://github.com/brainardlab/mQuestPlus.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

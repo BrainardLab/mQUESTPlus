@@ -18,7 +18,10 @@ function [stimIndex,stimParams] = qpQuery(questData)
 % 
 %     stimParams             The corresponding row vector stimulus parameters.
 %
-% Optional key/value pairs
+% Optional key/value pairs:
+%   None.
+%
+% See also: qpParams, qpInitialize, qpUpdate, qpRun.
 
 %% Find minimum entropy stimulus entry and get stimulus from index
 stimIndex = qpListMinArg(questData.expectedNextEntropiesByStim);

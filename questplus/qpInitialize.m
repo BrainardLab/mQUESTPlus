@@ -47,9 +47,9 @@ function questData = qpInitialize(varargin)
 %                          with the initial prior.
 %
 % Optional key/value pairs
-%     Accepts those accepted by qpParams
+%     See qpParams for list of key/value pairs that may be specified.
 %
-% See also: qpParams, qpUpdate, qpRun.
+% See also: qpParams, qpUpdate, qpQuery, qpRun.
 
 % 07/04/17  dhb  Sped up using profiler.
 
