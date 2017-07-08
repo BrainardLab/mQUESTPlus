@@ -65,10 +65,10 @@ Sources include the paper above, the Mathematica notebook provide as supplementa
 (an updated version of which was provided to me by Watson).
 
 There is separate earlier Matlab implementation of QUEST+ written by P. R. Jones (petejonze@gmail.com)
-from Joshua Soloman's laboratory.  The Jones implementation is organized differently from this one. Studying
-it was useful, however, for thinking about ways to translate Mathematic data structures into Matlab.
-The one place in the code where there was fairly direct carryover in data structure format is noted
-specifically by comments in the code.
+from Joshua Solomon's laboratory (http://www.city.ac.uk/people/academics/joshua-solomon). The Jones implementation
+is organized differently from this one. Studying it was useful, however, for thinking about ways to translate Mathematica
+data structures into Matlab. The one place where there was fairly direct carryover in data structure
+format is noted specifically by a comment in the code.
 
 mQUESTPlus includes allcomb.m by Jos van der Geest, obtained from Matlab Central, along with its license.
   https://www.mathworks.com/matlabcentral/fileexchange/10064-allcomb-varargin-
