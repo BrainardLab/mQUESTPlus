@@ -24,7 +24,7 @@ function questData = qpRun(nTrials,varargin)
 % 06/30/17  dhb  Started on this. Don't quite have design clear yet.
 % 07/07/17  dhb  Tidy up.
 
-%% Parse parameters
+%% Parse questData parameters
 questData = qpParams(varargin{:});
 
 %% Say hello if in verbose mode
@@ -43,11 +43,31 @@ if (questData.verbose); fprintf('done\n'); end
 for tt = 1:nTrials
     % Get stimulus for this trial
     if (questData.verbose & rem(tt,10) == 0) fprintf('\tTrial %d, query ...',tt); end
-    [stimIndex,stim] = qpQuery(questData);
+    switch (questData.chooseRule)
+        case 'best'
+            [stimIndex,stim] = qpQuery(questData);
+        case 'randomFromBestN'
+            [~,~,sortedNextEntropies,sortedStimIndices] = qpQuery(questData);
+            if (size(questData.stimParamsDomain,1) < questData.chooseRuleN)
+                error('Chosen chooseRuleN is larger than number of available stimuli');
+            end
+            stimIndex = sortedStimIndices(randi(questData.chooseRuleN));
+            stim = questData.stimParamsDomain(stimIndex,:);
+            if (questData.verbose & rem(tt,10) == 0)
+                fprintf('\n\t\tChoosing stimulus with expected next entropy %0.1f, best would be %0.1f, worst would be %0.1f\n\t\t...', ...
+                    sortedNextEntropies(stimIndex),sortedNextEntropies(1),sortedNextEntropies(end));
+            end
+
+        otherwise
+            error('Unknown choose rule specified');
+    end
     
     % Get outcome
     if (questData.verbose & rem(tt,10) == 0); fprintf('simulate ...'); end
     outcome = questData.qpOutcomeF(stim);
+    if (length(outcome) > 1)
+        error('Hunter Thompson level weirdness');
+    end
     
     % Update quest data structure
     if (questData.verbose & rem(tt,10) == 0); fprintf('update ...'); end

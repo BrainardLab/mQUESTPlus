@@ -36,6 +36,13 @@ function questData = qpParams(varargin)
 %                           'constant' - Equal values over all parameter combinations
 %   stopRule              String specifying rule for stopping the run
 %                           'nTrials' - After specified number of trials.
+%   chooseRule            String specifying how to choose next stimulus (default 'best').
+%                           'best' - Take stimulus that maximally reduces expected entropy.
+%                           'randomFromBestN' - Take stimulus at random from the top N
+%                              with respect to expected next entropy.  N is determined by
+%                              chooseRuleN field.
+%   choseRuleN            Integer given the N to choose from, if chooseRule is 'randomFromBestN'
+%                            (default 1).
 %   verbose               Boolean, true for more printout (default false).
 %
 % See also: qpInitialize, qpUpdate, qpQuery, qpRun.
@@ -52,6 +59,8 @@ p.addParameter('stimParamsDomainList',{[-40:1:0]},@iscell);
 p.addParameter('psiParamsDomainList',{[-40:1:0], [3.5], [.5], [0.02]},@iscell);
 p.addParameter('priorType','constant',@ischar);
 p.addParameter('stopRule','nTrials',@ischar);
+p.addParameter('chooseRule','best',@ischar);
+p.addParameter('chooseRuleN',1,@isnumeric);
 p.addParameter('verbose',false,@islogical);
 p.parse(varargin{:});
 
