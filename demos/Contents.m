@@ -1,4 +1,4 @@
-% mQuestPlus - demos
+% mQUESTPlus - demos
 %
 % Demonstration/test programs
 %

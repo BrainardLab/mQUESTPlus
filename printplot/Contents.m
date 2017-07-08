@@ -1,4 +1,4 @@
-% mQuestPlus - printplot
+% mQUESTPlus - printplot
 %
 % Support for printing and plotting.  Well, no plotting yet.
 %

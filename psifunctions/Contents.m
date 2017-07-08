@@ -1,4 +1,4 @@
-% mQuestPlus - psifunctions
+% mQUESTPlus - psifunctions
 %
 % Psychometric functions.
 %

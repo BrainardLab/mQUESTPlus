@@ -1,4 +1,4 @@
-% mQuestPlus - questplus
+% mQUESTPlus - questplus
 %
 % The core QUEST+ routines.
 %

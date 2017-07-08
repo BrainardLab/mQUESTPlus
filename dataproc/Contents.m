@@ -1,6 +1,6 @@
-% mQuestPlus - dataproc
+% mQUESTPlus - dataproc
 %
-% Data processing utilities for mQuestPlus
+% Data processing utilities for mQUESTPlus
 %
 % qpCounts                      - Convert stimulus data array to stimulus count data array.
 % qpData                        - Convert trial data array to stimulus data array.

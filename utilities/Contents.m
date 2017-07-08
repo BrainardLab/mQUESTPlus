@@ -1,4 +1,4 @@
-% mQuestPlus - utilities
+% mQUESTPlus - utilities
 %
 % Support utilities.
 %
