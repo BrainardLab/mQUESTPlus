@@ -24,7 +24,6 @@ function questData = qpRun(nTrials,varargin)
 % 06/30/17  dhb  Started on this. Don't quite have design clear yet.
 % 07/07/17  dhb  Tidy up.
 
-
 %% Parse parameters
 questData = qpParams(varargin{:});
 
@@ -54,12 +53,7 @@ for tt = 1:nTrials
     if (questData.verbose & rem(tt,10) == 0); fprintf('update ...'); end
     questData = qpUpdate(questData,stimIndex,outcome); 
     if (questData.verbose & rem(tt,10) == 0); fprintf('done\n'); end
-
 end
-
-%% Pack up data for return
-%
-% Could do any necessary finish up here.
 
 end
 
