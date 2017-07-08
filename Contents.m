@@ -10,7 +10,7 @@
 %
 % dataproc                      - Functions for data manipulation
 % demos                         - Demonstration/test programs.
-% mathworkscentral              - Dependencies obtained from mathworks central.
+% mathworkscentral              - Dependencies obtained from mathworks central and other internet sources.
 % printplot                     - Support for printing and plotting.
 % psifunctions                  - Psychometric functions.
 % questplus                     - The core QUEST+ routines.

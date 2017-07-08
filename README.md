@@ -59,7 +59,7 @@ Matlab implementation of QUEST+", https://github.com/brainardlab/mQUESTPlus.
 
 ## Acknowledgments
 
-This implementation is due to David Brainard.
+This implementation is due to David Brainard, (c) 2017 David Brainard.
 
 Sources include the paper above, the Mathematica notebook provide as supplemental material for the paper
 (an updated version of which was provided to me by Watson).
@@ -70,8 +70,12 @@ it was useful, however, for thinking about ways to translate Mathematic data str
 The one place in the code where there was fairly direct carryover in data structure format is noted
 specifically by comments in the code.
 
-mQUESTPlus includes allcomb.m, obtained from Matlab Central, along with its license.
+mQUESTPlus includes allcomb.m by Jos van der Geest, obtained from Matlab Central, along with its license.
   https://www.mathworks.com/matlabcentral/fileexchange/10064-allcomb-varargin-
+
+mQUESTPlus includes von_mises_cdf by Geoffrey Hill, MATLAB translation by John Burkardt.
+This is released under the the GNU LGPL license, according to its header comments.
+  https://people.sc.fsu.edu/~jburkardt/m_src/prob/von_mises_cdf.m
 
 
 
