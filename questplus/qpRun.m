@@ -54,8 +54,8 @@ for tt = 1:nTrials
             stimIndex = sortedStimIndices(randi(questData.chooseRuleN));
             stim = questData.stimParamsDomain(stimIndex,:);
             if (questData.verbose & rem(tt,10) == 0)
-                fprintf('\n\t\tChoosing stimulus with expected next entropy %0.1f, best would be %0.1f, worst would be %0.1f\n\t\t...', ...
-                    sortedNextEntropies(stimIndex),sortedNextEntropies(1),sortedNextEntropies(end));
+                fprintf('\n\t\tChoosing stimulus with expected next entropy %0.1f, best would be %0.1f, seconed best %0.1f, worst %0.1f\n\t\t...', ...
+                    sortedNextEntropies(stimIndex),sortedNextEntropies(1),sortedNextEntropies(2),sortedNextEntropies(end));
             end
 
         otherwise
