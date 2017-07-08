@@ -13,6 +13,12 @@ and illustrated in the Mathematica notebook.  The place to start is probably the
 progams in the demos directory.  These reprise a number of figures in the Watson paper as well as
 calculations illustrated by the Mathematica notebook that accompanies the paper.
 
+The paper describes two high level functions to access the core routines, QuestPlus and QpRun.  The latter
+provides an illustration of how to customize the use of the core routines.  Here there is no qpQuestPlus function,
+just a qpRun.  The qpRun function, however, behaves the way the qpQuestPlus function would, so it serves both
+purposes.  Use of the qpRun function is illustrated in demos qpQuestPlusBasicDemo, qpQuestPlusCSFDemo, and
+qpQuestPlusCircularCatDemo.
+
 Use "help mQUESTPlus" at the Matlab prompt to access the contents of the package, and
 then from you can click through to the routines in each subdirectory.
 
