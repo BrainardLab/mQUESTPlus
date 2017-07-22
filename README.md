@@ -81,6 +81,8 @@ is organized differently from this one. Studying it was useful, however, for thi
 data structures into Matlab. The one place where there was fairly direct carryover in data structure
 format is noted specifically by a comment in the code.
 
+Denis Pelli provided useful feedback on the implementation and documentation.
+
 mQUESTPlus includes allcomb.m by Jos van der Geest, obtained from Matlab Central, along with its license.
   https://www.mathworks.com/matlabcentral/fileexchange/10064-allcomb-varargin-
 
