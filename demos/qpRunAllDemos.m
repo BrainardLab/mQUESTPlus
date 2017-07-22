@@ -10,7 +10,8 @@
 qpUtilityDemo;
 qpDataProcDemo;
 qpPsiFunctionDemo;
-qpQuestPlusBasicDemo;
+qpQuestPlusCoreFunctionDemo;
+qpQuestPlusPaperSimpleExamplesDemo
 qpQuestPlusCSFDemo;
 qpQuestPlusCircularCatDemo;
 

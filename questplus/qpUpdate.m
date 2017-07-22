@@ -21,7 +21,10 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 %     questData       Updated questData structure.  This adds and/or keeps up to date the following
 %                     fields of the questData structure.
 %                       trialData - Trial data array, a struct array containing stimulus and outcome for each trial.
-%                         Initialized on the first call and updated thereafter.
+%                         Initialized on the first call and updated thereafter. This has subfields for both stimulus
+%                         and outcome.
+%                       stimIndices - Index into stimulus domain for stimulus used on each trial.  This can be useful
+%                         for looking at how much and which parts of the stimulus domain were used in a run.
 %                       logLikelihood - Updated for trial outcome.
 %                       posterior - Update for trial outcome.
 %                       entropyAfterTrial - The entropy of the posterior after the trail. Initialized on the first
@@ -48,6 +51,7 @@ if (isfield(questData,'trialData'))
     nTrials = length(questData.trialData);
     questData.trialData(nTrials+1,1).stim = stim;
     questData.trialData(nTrials+1,1).outcome = outcome;
+    questData.stimIndices(nTrials+1,1) = stimIndex;
 else
     nTrials = 0;
     questData.trialData.stim = stim;

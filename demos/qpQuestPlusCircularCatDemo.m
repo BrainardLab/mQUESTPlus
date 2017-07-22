@@ -41,7 +41,7 @@ close all;
 %
 % This reprises Figure 16 of the 2017 QUEST+ paper.
 fprintf('*** qpRun, Estimate circular categorization parameters:\n');
-rng(3010);
+rng('default'); rng(3010,'twister');
 simulatedPsiParams = [4, 2*pi/3 4*pi/3-0.5 2*pi-pi/8];
 questData = qpRun(200, ...
     'stimParamsDomainList',{0:pi/9:2*pi}, ...

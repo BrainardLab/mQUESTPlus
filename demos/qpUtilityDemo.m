@@ -29,7 +29,7 @@ assert(sum(testArray(:)) == 1,'qpUniformArray: Created uniform array input does 
 % to three places so we can check that the code still does the same thing
 % later in life.  Note setting of rng seed so this is replicable.
 fprintf('*** qpArrayEntropy:\n');
-rng(1);
+rng('default'); rng(1,'twister');
 theArray = rand(10,10);
 theEntropy = qpArrayEntropy(theArray);
 theEntropy = round(theEntropy*1000)/1000

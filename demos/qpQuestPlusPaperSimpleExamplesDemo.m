@@ -1,10 +1,10 @@
-function qpQuestPlusBasicDemo
-%qpQuestPlusBasicDemo  Demonstrate/test QUEST+ on some simple example problems
+function qpQuestPaperSimpleExamplesDemo
+%qpQuestPlusPaperSimpleExamplesDemo  Demonstrate/test QUEST+ on some simple example problems
 %
 % Description:
 %    This script shows the usage for QUEST+ for some basic applications.
 %   
-%    In particular, it shows the default output of qpInitialize, which can
+%    It also shows the default output of qpInitialize, which can
 %    be useful for understanding the questData structure in this
 %    implementation.
 %
@@ -29,7 +29,7 @@ questData = qpInitialize
 % This runs a test of estimating a Weibull threshold using
 % TAFC trials.
 fprintf('*** qpRun, Weibull estimate threshold:\n');
-rng(2002);
+rng('default'); rng(2002,'twister');
 simulatedPsiParams = [-20, 3.5, .5, .02];
 questData = qpRun(32, ...
     'psiParamsDomainList',{-40:0, 3.5, 0.5, 0.02}, ...
@@ -54,7 +54,6 @@ fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
 psiParamsCheck = [-188163  35000 5000 200];
 assert(all(psiParamsCheck == round(10000*psiParamsFit)),'No longer get same ML estimate for this case');
     
-
 % Plot with maximum likelhood fit
 figure; clf; hold on
 stimCounts = qpCounts(qpData(questData.trialData),questData.nOutcomes);
@@ -81,7 +80,7 @@ drawnow;
 % This runs a test of estimating a Weibull threshold, slope
 % and lapse using TAFC trials.
 fprintf('\n*** qpRun, Weibull estimate threshold, slope and lapse:\n');
-rng(2004);
+rng('default'); rng(2004,'twister');
 simulatedPsiParams = [-20, 3, .5, .02];
 questData = qpRun(64, ...
     'psiParamsDomainList',{-40:0, 2:5, 0.5, 0:0.01:0.04}, ...
@@ -130,7 +129,7 @@ drawnow;
 % This runs a test of estimating a Weibull threshold using
 % y/n trials.
 fprintf('\n*** qpRun, Normal estimate mean, sd and lapse:\n');
-rng(2008);
+rng('default'); rng(2008,'twister');
 simulatedPsiParams = [1, 3, .02];
 questData = qpRun(128, ...
     'stimParamsDomainList',{-10:10}, ...

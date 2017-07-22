@@ -19,7 +19,7 @@ close all;
 %
 % This reprises Figure 6 of the 2017 QUEST+ paper.
 fprintf('*** qpRun, Estimate parametric spatial CSF:\n');
-rng(3008);
+rng('default'); rng(3008,'twister');
 simulatedPsiParams = [-35, -50, 1.2 0];
 questData = qpRun(128, ...
     'stimParamsDomainList',{0:2:40, 0, -50:2:0}, ...
