@@ -1,4 +1,4 @@
-function predictedProportions = qpPFCircular(stimParams,psiParams)
+function predictedProportions = qpPFCircular(stimParams,psiParams,varargin)
 % qpPFCircular  Psychometric function for categorization of a circular variable
 %
 % Usage:
@@ -33,9 +33,6 @@ function predictedProportions = qpPFCircular(stimParams,psiParams)
 %                             First entry of each row is for first category (outcome == 1)
 %                             Second entry of each row is second category (outcome == 2)
 %                             Nth entry is for nth category (outcome -- n)
-%
-% Optional key/value pairs
-%     None
 
 % 07/07/17  dhb  Wrote it.
 
@@ -51,6 +48,9 @@ function predictedProportions = qpPFCircular(stimParams,psiParams)
 % p.parse(stimParams,psiParams,varargin{:});
 
 %% Here is the Matlab version
+if (size(psiParams,1) ~= 1)
+    error('Expected a row vector of parameters');
+end
 if (size(psiParams,2) < 2)
     error('Parameters vector has wrong length for qpPFCircular');
 end
@@ -62,19 +62,20 @@ if (any(stimParams < 0 | stimParams > 2*pi))
 end
 
 %% Grab params
-concentration = psiParams(:,1);
+concentration = psiParams(1);
 nStim = size(stimParams,1);
+nOutcomes = length(psiParams)-1;
 
-%% Filter out redundant parameters from grid
-%
-% This is signaled by returning NaN when the boundaries are
-% not in increasing order.
-[boundaries,sortIndex] = sort(psiParams(:,2:end),'ascend');
-nOutcomes = length(boundaries);
-if (any(sortIndex ~= 1:nOutcomes))
+% Check that parameters are OK. 
+paramsOK = qpPFCircularParamsCheck(psiParams);
+if (~paramsOK)
     predictedProportions = NaN*ones(nStim,nOutcomes);
     return;
 end
+
+% Get boundaries are guananteed to be increasing order because the
+% check above passed.
+boundaries = psiParams(2:end);
 
 %% Check that boundaries are within the circle, within tolerance.
 if (any(boundaries < 0-1e-7 | boundaries > 2*pi+1e-7))

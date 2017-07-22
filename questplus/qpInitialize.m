@@ -59,6 +59,7 @@ function questData = qpInitialize(varargin)
 % See also: qpParams, qpUpdate, qpQuery, qpRun.
 
 % 07/04/17  dhb  Sped up using profiler.
+% 07/22/17  dhb  More flexible stimulus and parameter filtering.
 
 %% Start with the parameters
 %
@@ -76,25 +77,48 @@ questData = qpParams(varargin{:});
 % <petejonze@gmail.com>.  I subsequently switched to the allcomb function
 % from Matlab Central, to avoid making people own the nnet toolbox just to
 % have combvec.
-questData.stimParamsDomain = allcomb(questData.stimParamsDomainList{:});
+stimParamsDomainRaw = allcomb(questData.stimParamsDomainList{:});
+
+% Filter stim params domain list, if desired. This may be used, for example, to 
+% eliminate stimuli that are out of display gamut.
+if (~isempty(questData.filterStimParamsDomainFun))
+    stimParamsDomainIndex = 1;
+    for jj = 1:size(stimParamsDomainRaw,1)
+        stimOK = questData.filterStimParamsDomainFun(stimParamsDomainRaw(jj,:));
+        if (stimOK)
+            questData.stimParamsDomain(stimParamsDomainIndex,:) = stimParamsDomainRaw(jj,:);
+            stimParamsDomainIndex = stimParamsDomainIndex + 1;
+        end
+    end
+else
+    questData.stimParamsDomain = stimParamsDomainRaw;
+end
+
+% Set stim params domain parameters
 [questData.nStimParamsDomain,questData.nStimParams] = size(questData.stimParamsDomain);
 
-%% Convert psi params domain list to a matrix, where
-% each row of the matrix is the parameters for one of
+%% Convert psi params domain list to a matrix,...
+% where each row of the matrix is the parameters for one of
 % the possibilities in the domain.
-%
-% This runs a check as to whether all the parameters return non-NaN
-% proportions.  If one does not, the particular parameters are treated
-% as invalid and removed from the domain.
 psiParamsDomainRaw = allcomb(questData.psiParamsDomainList{:});
-psiParamsDomainIndex = 1;
-for jj = 1:size(psiParamsDomainRaw,1)
-    checkParams = questData.qpPF(questData.stimParamsDomain(1,:),psiParamsDomainRaw(jj,:));
-    if (~any(isnan(checkParams)))
-        questData.psiParamsDomain(psiParamsDomainIndex,:) = psiParamsDomainRaw(jj,:);
-        psiParamsDomainIndex = psiParamsDomainIndex + 1;
+
+% Filter psi params domain list, if desired.  This may be used, for example,
+% to eliminate parameters that don't make sense but yet show up in the
+% parameter hypercube.
+if (~isempty(questData.filterPsiParamsDomainFun))
+    psiParamsDomainIndex = 1;
+    for jj = 1:size(psiParamsDomainRaw,1)
+        paramsOK = questData.filterPsiParamsDomainFun(psiParamsDomainRaw(jj,:));
+        if (paramsOK)
+            questData.psiParamsDomain(psiParamsDomainIndex,:) = psiParamsDomainRaw(jj,:);
+            psiParamsDomainIndex = psiParamsDomainIndex + 1;
+        end
     end
+else
+    questData.psiParamsDomain = psiParamsDomainRaw;
 end
+
+% Set psi params domain parameters
 [questData.nPsiParamsDomain,questData.nPsiParams] = size(questData.psiParamsDomain);
 
 %% Initilize logLikeihood and posterior
