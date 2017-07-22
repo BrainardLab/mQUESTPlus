@@ -13,6 +13,17 @@ and illustrated in the Mathematica notebook.  The place to start is probably the
 progams in the demos directory.  These reprise a number of figures in the Watson paper as well as
 calculations illustrated by the Mathematica notebook that accompanies the paper.
 
+The demo program qpQuestPlusSimpleExampleDemos uses high-level function qpRun to reprise a number of
+figures in the QUEST+ paper. This would be a good thing to try just to make sure your installation
+is working properly and to convince yourself that this implementation reproduces basic properties
+of QUEST+.
+
+The demo program qpQuestPlusCoreFunctionDemo is a good place to look if you want to see how QUEST+'s 
+core functions (qpParams, qpInitialize, qpQuery, qpUpdate, qpFit) might be used in a custom psychophysical
+experimental program, if you did not want to simply let qpRun orchestrate things for you.  This demo is
+very short and will give a sense of how simple it is to use QUEST+.  More lines of code are devoted
+to printing output and plotting than to the actual interface with QUEST+.
+
 The paper describes two high level functions to access the core routines, QuestPlus and QpRun.  The latter
 provides an illustration of how to customize the use of the core routines.  Here there is no qpQuestPlus function,
 just a qpRun.  The qpRun function, however, behaves the way the qpQuestPlus function would, so it serves both
