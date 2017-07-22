@@ -42,17 +42,18 @@ if (questData.verbose); fprintf('done\n'); end
 %% Loop over trials doing smart things each time
 for tt = 1:nTrials
     % Get stimulus for this trial
-    if (questData.verbose & rem(tt,10) == 0) fprintf('\tTrial %d, query ...',tt); end
+    if (questData.verbose & rem(tt,10) == 0), fprintf('\tTrial %d, query ...',tt); end
     switch (questData.chooseRule)
         case 'best'
-            [stimIndex,stim] = qpQuery(questData);
+            stim = qpQuery(questData);
+            
         case 'randomFromBestN'
             [~,~,sortedNextEntropies,sortedStimIndices] = qpQuery(questData);
             if (size(questData.stimParamsDomain,1) < questData.chooseRuleN)
                 error('Chosen chooseRuleN is larger than number of available stimuli');
             end
             stimIndex = sortedStimIndices(randi(questData.chooseRuleN));
-            stim = questData.stimParamsDomain(stimIndex,:);
+            stim = qpStimIndexToStim(stimIndex,questData.stimParamsDomain);
             if (questData.verbose & rem(tt,10) == 0)
                 fprintf('\n\t\tChoosing stimulus with expected next entropy %0.1f, best would be %0.1f, second best %0.1f, worst %0.1f\n\t\t...', ...
                     sortedNextEntropies(stimIndex),sortedNextEntropies(1),sortedNextEntropies(2),sortedNextEntropies(end));
@@ -63,16 +64,16 @@ for tt = 1:nTrials
     end
     
     % Get outcome
-    if (questData.verbose & rem(tt,10) == 0); fprintf('simulate ...'); end
+    if (questData.verbose & rem(tt,10) == 0), fprintf('simulate ...'); end
     outcome = questData.qpOutcomeF(stim);
     if (length(outcome) > 1)
-        error('Hunter Thompson level weirdness');
+        error('More than one outcome returned for a single trial');
     end
     
     % Update quest data structure
-    if (questData.verbose & rem(tt,10) == 0); fprintf('update ...'); end
-    questData = qpUpdate(questData,stimIndex,outcome); 
-    if (questData.verbose & rem(tt,10) == 0); fprintf('done\n'); end
+    if (questData.verbose & rem(tt,10) == 0), fprintf('update ...'); end
+    questData = qpUpdate(questData,stim,outcome); 
+    if (questData.verbose & rem(tt,10) == 0), fprintf('done\n'); end
 end
 
 end

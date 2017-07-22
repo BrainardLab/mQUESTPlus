@@ -1,4 +1,4 @@
-function [stimIndex,stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(questData)
+function [stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(questData)
 % qpQuery  Use questData structure to get next recommended stimulus index and stimulus
 %
 % Usage:
@@ -6,7 +6,7 @@ function [stimIndex,stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(
 %     [stimIndex,stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(questData)
 %
 % Description:
-%     Use questData structure to get next recommended stimulus index and stimulus.
+%     Use questData structure to get next recommended stimulus.
 %     The data structure is assumed to be up to date, as after a call to
 %     qpUpdate.
 %
@@ -14,9 +14,7 @@ function [stimIndex,stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(
 %     questData              The questData structure.  See qpParams, qpInitialize and qpUpdate for
 %                            description of what is in this structure.
 %
-% Outputs:
-%     stimIndex              Row index into questData.stimParamsDomain field for next recommended stimulus.
-% 
+% Outputs: 
 %     stimParams             The corresponding row vector stimulus parameters.
 %
 %     sortedNextEntropies    The expected entropies after the next trial, sorted in 
@@ -32,9 +30,11 @@ function [stimIndex,stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(
 %
 % See also: qpParams, qpInitialize, qpUpdate, qpRun.
 
+% 07/22/17  dhb  Change to work directly with stim, rather than using stimIndex as a middleman.
+
 %% Find minimum entropy stimulus entry and get stimulus from index
 stimIndex = qpListMinArg(questData.expectedNextEntropiesByStim);
-stimParams = questData.stimParamsDomain(stimIndex,:);
+stimParams = qpStimIndexToStim(stimIndex,questData.stimParamsDomain);
 
 [sortedNextEntropies,sortedStimIndices] = sort(questData.expectedNextEntropiesByStim,'ascend');
 

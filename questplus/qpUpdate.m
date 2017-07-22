@@ -1,4 +1,4 @@
-function questData = qpUpdate(questData,stimIndex,outcome,varargin)
+function questData = qpUpdate(questData,stim,outcome,varargin)
 % qpUpdate  Update the questData structure for the trial stimulus and outcome
 %
 % Usage: 
@@ -12,7 +12,8 @@ function questData = qpUpdate(questData,stimIndex,outcome,varargin)
 % Input:
 %     questData       questData structure before the trial.
 %
-%     stimIndex       Index into questData.stimParamsDomain for stimulus parameters of the trial.
+%     stim            Stimulus parameters on trial (row vector).  Must be contained in
+%                     questData.stimParamsDomain, otherwise an error is thrown.
 %
 %     outcome         What happened on the trial.
 %
@@ -34,8 +35,11 @@ function questData = qpUpdate(questData,stimIndex,outcome,varargin)
 
 % 07/01/17  dhb  Started writing.
 
-%% Get actual stimulus
-stim = questData.stimParamsDomain(stimIndex,:);
+%% Get stimulus index from stimulus
+stimIndex = qpStimToStimIndex(stim,questData.stimParamsDomain);
+if (stimIndex == 0)
+    error('Trying to update with a stimulus outside the domain');
+end
 
 %% Add trial data to list
 %
