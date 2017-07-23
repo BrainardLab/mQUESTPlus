@@ -28,6 +28,11 @@ close all;
 %
 % Here we set the range for the stimulus (contrast in dB) and the
 % psychometric function parameters (see qpPFWeibull).
+%
+% Note that the space on which the stimulus is gridded affects the
+% prior used by QUEST+.  QUEST+ assigns equal probability to each 
+% listed stimulus, so that the prior implied if you grid contrast in
+% dB is different from that if you grid contrast on a linear scale.
 questData = qpParams('stimParamsDomainList',{[-40:1:0]}, ...
     'psiParamsDomainList',{-40:0, 2:5, 0.5, 0:0.01:0.04});
 

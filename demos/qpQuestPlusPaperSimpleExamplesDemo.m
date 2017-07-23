@@ -16,6 +16,7 @@ function qpQuestPaperSimpleExamplesDemo
 % 07/01/17  dhb  Created.
 % 07/02/17  dhb  Added additional examples.
 % 07/04/17  dhb  Add qpFit.
+% 07/23/17  dhb  Name change, note about effect of stimulus grid on impliicit prior.
 
 %% Close out stray figures
 close all;
@@ -27,7 +28,12 @@ questData = qpInitialize
 %% qpRun with its defaults
 %
 % This runs a test of estimating a Weibull threshold using
-% TAFC trials.
+% TAFC trials.  THe default in qpParams sets up a stimulus
+% grid appropriate for this case.
+%
+% See last example in this file for how to pass a stimulus grid,
+% as well as a note about the possible effect of what space
+% you choose to grid the stimuli on.
 fprintf('*** qpRun, Weibull estimate threshold:\n');
 rng('default'); rng(2002,'twister');
 simulatedPsiParams = [-20, 3.5, .5, .02];
@@ -127,7 +133,14 @@ drawnow;
 %% qpRun estimating normal mean and standard deviation
 %
 % This runs a test of estimating a Weibull threshold using
-% y/n trials.
+% y/n trials.  Note that here we explicitly pass a stimulus
+% grid, because we don't want qpParams' default for this example.
+%
+% Also note that each stimulus on this list is assigned equal prior
+% probability in the standard QUEST+ algorithm.  Thus the space in which
+% you grid the stimuli (e.g. linear versus log) implicitly affects the
+% prior, and it is worth a little thought about what space you choose to
+% grid the stimuli on.
 fprintf('\n*** qpRun, Normal estimate mean, sd and lapse:\n');
 rng('default'); rng(2008,'twister');
 simulatedPsiParams = [1, 3, .02];

@@ -27,8 +27,8 @@ to printing output and plotting than to the actual interface with QUEST+.
 The paper describes two high level functions to access the core routines, QuestPlus and QpRun.  The latter
 provides an illustration of how to customize the use of the core routines.  Here there is no qpQuestPlus function,
 just a qpRun.  The qpRun function, however, behaves the way the qpQuestPlus function would, so it serves both
-purposes.  Use of the qpRun function is illustrated in demos qpQuestPlusBasicDemo, qpQuestPlusCSFDemo, and
-qpQuestPlusCircularCatDemo.
+purposes.  Use of the qpRun function is illustrated in demos qpQuestPlusPaperSimpleExamplesDemo,
+qpQuestPlusCSFDemo, and qpQuestPlusCircularCatDemo.
 
 Use "help mQUESTPlus" at the Matlab prompt to access the contents of the package, and
 then from you can click through to the routines in each subdirectory.

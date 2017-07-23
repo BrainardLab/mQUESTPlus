@@ -29,7 +29,12 @@ function questData = qpParams(varargin)
 %   nOutcomes                  Number of possible response outcomes for qpPF and
 %                              qpOutcomeF, which should be the same as each other.
 %   stimParamsDomainList       Cell array of row vectors, specifing the domain of each
-%                              stimulus parameter. 
+%                              stimulus parameter. Note that each stimulus
+%                              on this list is assigned equal prior probability in the standard
+%                              QUEST+ algorithm.  Thus the space in which you grid the stimuli
+%                              (e.g. linear versus log) implicitly affects the prior, and it is
+%                              worth a little thought about what space you choose to grid the stimuli
+%                              on.
 %   filterStimParamsDomainFun  Function handle for stimulus domain filtering (default []).
 %   psiParamsDomainList        Cell array of row vectors, specifying the domain of each
 %                              parameter of the psychometric function.
