@@ -2,8 +2,8 @@ function [stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(questData)
 % qpQuery  Use questData structure to get next recommended stimulus index and stimulus
 %
 % Usage:
-%     [stimIndex,stimParams] = qpQuery(questData)
-%     [stimIndex,stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(questData)
+%     [stimParams] = qpQuery(questData)
+%     [stimParams,sortedNextEntropies,sortedStimIndices] = qpQuery(questData)
 %
 % Description:
 %     Use questData structure to get next recommended stimulus.
