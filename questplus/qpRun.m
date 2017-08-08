@@ -48,7 +48,7 @@ for tt = 1:nTrials
             stim = qpQuery(questData);
             
         case 'randomFromBestN'
-            [~,~,sortedNextEntropies,sortedStimIndices] = qpQuery(questData);
+            [~,sortedNextEntropies,sortedStimIndices] = qpQuery(questData);
             if (size(questData.stimParamsDomain,1) < questData.chooseRuleN)
                 error('Chosen chooseRuleN is larger than number of available stimuli');
             end
