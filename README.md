@@ -72,7 +72,7 @@ Matlab implementation of QUEST+", https://github.com/brainardlab/mQUESTPlus.
 
 This implementation is due to David Brainard, (c) 2017 David Brainard.
 
-Sources include the paper above, the Mathematica notebook provide as supplemental material for the paper
+Sources include the paper above and the Mathematica notebook provided as supplemental material for the paper
 (an updated version of which was provided to me by Watson).
 
 There is separate earlier Matlab implementation of QUEST+ written by P. R. Jones (petejonze@gmail.com)
