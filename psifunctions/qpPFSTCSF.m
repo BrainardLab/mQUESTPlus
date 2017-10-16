@@ -2,7 +2,7 @@ function [predictedProportions,predictedContrastThreshold] = qpPFSTCSF(stimParam
 % qpPFSTCSF   Psychometric function for parametric spatial/temporal CSF
 %
 % Usage:
-%     [predictedProportions,predictedContrastThreshold] = qpPFWeibull(stimParams,psiParams);
+%     [predictedProportions,predictedContrastThreshold] = qpPFSTCSF(stimParams,psiParams);
 %
 % Description:
 %     Psychometric function for spatial temporal CSF.  This computes
