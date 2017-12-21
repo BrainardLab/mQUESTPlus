@@ -37,6 +37,7 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 % See also: qpParams, qpInitialize, qpQuery, qpRun.
 
 % 07/01/17  dhb  Started writing.
+% 12/21/17  dhb  Make sure to put in stimIndex on first trial.
 
 %% Get stimulus index from stimulus
 stimIndex = qpStimToStimIndex(stim,questData.stimParamsDomain);
@@ -56,6 +57,7 @@ else
     nTrials = 0;
     questData.trialData.stim = stim;
     questData.trialData.outcome = outcome;
+    questData.stimIndices = stimIndex;
 end
 
 %% Update posterior
