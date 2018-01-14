@@ -38,11 +38,18 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 
 % 07/01/17  dhb  Started writing.
 % 12/21/17  dhb  Make sure to put in stimIndex on first trial.
+% 01/14/18  dhb  Added check on range of outcome, at suggestion of Denis
+%                Pelli.
 
 %% Get stimulus index from stimulus
 stimIndex = qpStimToStimIndex(stim,questData.stimParamsDomain);
 if (stimIndex == 0)
     error('Trying to update with a stimulus outside the domain');
+end
+
+%% Check for legal outcome
+if (round(outcome) ~= outcome | outcome < 1 | outcome > questData.nOutcomes)
+    error('Illegal value provided for outcome, given initialization');
 end
 
 %% Add trial data to list
