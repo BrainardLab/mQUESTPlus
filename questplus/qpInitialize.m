@@ -136,6 +136,12 @@ questData.precomputedOutcomeProportions = ...
 for jj = 1:questData.nPsiParamsDomain
     questData.precomputedOutcomeProportions(:,jj,:) = ....
         questData.qpPF(questData.stimParamsDomain,questData.psiParamsDomain(jj,:));
+    if (any(questData.precomputedOutcomeProportions(:,jj,:) < 0))
+        error('Psychometric function has returned negative probability for an outcome');
+    end
+    if (any(questData.precomputedOutcomeProportions(:,jj,:) > 1))
+        error('Psychometric function has returned probability that exceeds one for an outcome');
+    end
 end
 
 %% Initialize table of expected entropies
