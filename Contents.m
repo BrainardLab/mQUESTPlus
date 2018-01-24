@@ -4,9 +4,12 @@
 % 
 % The method and Mathematica code are described in the paper:
 % Watson, A. B. (2017).  "QUEST+: A general multidimensional Bayesian adaptive psychometric method".
-% Journal of Vision, 17(3):10, 1-27.
-%
-% See README.md for more info.
+% Journal of Vision, 17(3):10, 1-27,
+% http://jov.arvojournals.org/article.aspx?articleid=2611972.
+%  
+% See README.md for more info. A good way to get started with mQUESTPlus
+% is to look over the demos. See "help mQUESTPlus/demos".  You may also
+% want to read the help text of qpRun ("help qpRun") early on.
 %
 % dataproc                      - Functions for data manipulation
 % demos                         - Demonstration/test programs.

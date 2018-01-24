@@ -5,10 +5,26 @@ function questData = qpRun(nTrials,varargin)
 %   questData = qpQuestPlus(nTrials)
 %
 % Description:
-%   Run an experiment using QUEST+.  This demonstrates the use of QUEST+
-%   and may be used to model other code that employs it.
+%   This function may be used to orchestrate an experiment using QUEST+.
+%   The parameters of the experiment are set with key/value pairs.  See
+%   "help qpParams" for more on parameters.
 %
-%   The parameters of the experiment are set with key/value pairs using qpParams.
+%   Mpte that qpRun is a high-level interface to QUEST+.  See the following demos for
+%   exammples of its use:
+%     qpQuestPlusPaperSimpleExamplesDemo
+%     qpQuestPlusCSFDemo
+%     qpQuestPlusCircularCatDemo
+%
+%   These demos follow the corresponding ones presented in the paper:
+%     Watson, A. B. (2017).  "QUEST+: A general multidimensional Bayesian
+%     adaptive psychometric method". Journal of Vision, 17(3):10, 1-27,
+%     http://jov.arvojournals.org/article.aspx?articleid=2611972.
+%
+%   As also discussed in the paper, you may prefer not to use qpRun 
+%   but rather call the pieces of QUEST+ directly.  The demo
+%      qpQuestPlusCoreFunctionDemo
+%   shows how to do this.  The source code of this function (qpRun) is also
+%   illustrative in this regard.
 %
 % Inputs:
 %   nTrials       Number of trials to run.
