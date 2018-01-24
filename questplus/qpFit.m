@@ -7,7 +7,10 @@ function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
 % Description:
 %     Maximum likelihood fit of psychometric functdion parameters to the
 %     data.  This is performed using numerical optimization, with Matlab's
-%     fmincon.
+%     fmincon.  It does a fit over the continuous parameter space, and is
+%     not limited by the bounds or grid spacing of the parameter grid set
+%     up for QUEST+. See description below for ways to put bounds on the
+%     parameters, and otherwise restrict the parameter search space.
 %
 %     It is highly recommended that you pass with key/value pairs sensible
 %     lower and upper and lower bounds on the parameters.  These can be the
@@ -28,6 +31,10 @@ function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
 %
 %     This routine requires that you have the Matlab optimization toolbox
 %     installed.
+%
+%     Examples of usage are provided in the demo programs.  To get started,
+%     see qpQuestPlusPaperSimpleExamplesDemo.  This provides several
+%     examples that illustrate setting bounds on the parameters for qpFIt. 
 %
 % Input:
 %     trialData        A trial data struct array:
