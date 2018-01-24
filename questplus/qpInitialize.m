@@ -145,6 +145,10 @@ for jj = 1:questData.nPsiParamsDomain
 end
 
 %% Initialize table of expected entropies
-questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);
+if (~questData.noentropy)
+    questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);
+else
+	questData.expectedNextEntropiesByStim  = []; 
+end
 
 end

@@ -53,6 +53,11 @@ function questData = qpParams(varargin)
 %   choseRuleN                 Integer given the N to choose from, if chooseRule is 'randomFromBestN'
 %                                (default 1).
 %   verbose                    Boolean, true for more printout (default false).
+%   noentropy                  Boolean (default false).  Skip entropy computation.
+%                              This could be useful if you are just putting your
+%                              actual trials into the QUEST+ structure, so that
+%                              you can (e.g.) call qpFit.  Speeds things up for
+%                              this case.
 %
 % See also: qpInitialize, qpUpdate, qpQuery, qpRun.
 
@@ -73,6 +78,7 @@ p.addParameter('stopRule','nTrials',@ischar);
 p.addParameter('chooseRule','best',@ischar);
 p.addParameter('chooseRuleN',1,@isnumeric);
 p.addParameter('verbose',false,@islogical);
+p.addParameter('noentropy',false,@islogical);
 p.parse(varargin{:});
 
 %% Return structure

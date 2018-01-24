@@ -7,7 +7,11 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 % Description:
 %     Update the questData strucgure given the stimulus and outcome of
 %     a trial.  Computes the new likelihood of the whole data stream given
-%     the stimulus/outcomes so far, updates the posterior, ...
+%     the stimulus/outcomes so far, updates the posterior, entropy, etc.
+%
+%     If qpInitialize was called with 'noentropy' set to true, then entropy
+%     calculations are skipped.  See help on qpParams for a note as to why
+%     you might want to do this.
 %
 % Input:
 %     questData       questData structure before the trial.
@@ -32,7 +36,7 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 %                       expectedNextEntropiesByStim - Updated for trial outcome.
 %
 % Optional key/value pairs
-%   None
+%     None.   
 %
 % See also: qpParams, qpInitialize, qpQuery, qpRun.
 
@@ -75,9 +79,11 @@ end
 % psychometric parameters, multiply by the previous posterior (which we
 % take as our prior here, and then normalize to get new posterior.)
 questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
-questData.entropyAfterTrial(nTrials+1,1) = qpArrayEntropy(questData.posterior);
 
 %% Update table of expected entropies
-questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);
+if (~isempty(questData.expectedNextEntropiesByStim))
+    questData.entropyAfterTrial(nTrials+1,1) = qpArrayEntropy(questData.posterior);
+    questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);
+end
 
 end
