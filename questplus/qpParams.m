@@ -5,23 +5,25 @@ function questData = qpParams(varargin)
 %     questData = qpParams(varargin)
 %
 % Description:
-%     Set the user defined parameters needed for a run of QUEST+. These are specified by
-%     key/value pairs.  The defaults are for a simple Weibull threshold
-%     estimation example.
+%     Set the user defined parameters needed for a run of QUEST+. These are
+%     specified by key/value pairs.  The defaults are for a simple Weibull
+%     threshold estimation example.
 %
-%     This works by allowing the user to pass a set of key value pairs for each possible
-%     user defined parameter.
+%     This works by allowing the user to pass a set of key value pairs for
+%     each possible user defined parameter.
 %
-%     This routine is not intended to be called directly.  Rather, it is invoked by qpInitialize,
-%     which accepts the same set of key/value pairs and passes them through.  In addition, qpRun
-%     takes the same set of parameters and passes them through to qpInitialize.
+%     This routine is not intended to be called directly.  Rather, it is
+%     invoked by qpInitialize, which accepts the same set of key/value
+%     pairs and passes them through.  In addition, qpRun takes the same set
+%     of parameters and passes them through to qpInitialize.
 %
 % Inputs:
 %     None required.     See key/value pairs below for what can be set
 %  
 % Outputs:
-%     questData          Structure with one field each corresponding to the keys below.
-%                        Each filed has the same name as the key.
+%     questData          Structure with one field each corresponding to the
+%                        keys below. Each field has the same name as the
+%                        key.
 %
 % Optional key/value pairs.
 %   qpPF                       Handle to psychometric function.
@@ -53,11 +55,16 @@ function questData = qpParams(varargin)
 %   choseRuleN                 Integer given the N to choose from, if chooseRule is 'randomFromBestN'
 %                                (default 1).
 %   verbose                    Boolean, true for more printout (default false).
-%   noentropy                  Boolean (default false).  Skip entropy computation.
-%                              This could be useful if you are just putting your
-%                              actual trials into the QUEST+ structure, so that
-%                              you can (e.g.) call qpFit.  Speeds things up for
-%                              this case.
+%   noentropy                  Boolean (default false).  Skip entropy
+%                              computation. This could be useful if you are
+%                              just putting your actual trials into the
+%                              QUEST+ structure, so that you can (e.g.)
+%                              call qpFit.  Speeds things up for this case.
+%                              One time you might want to do this is if you
+%                              are running several interleaved quests and
+%                              want to use a single overall quest to keep
+%                              track of all the trials run for later
+%                              analysis.
 %
 % See also: qpInitialize, qpUpdate, qpQuery, qpRun.
 

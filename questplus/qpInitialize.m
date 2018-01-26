@@ -5,19 +5,26 @@ function questData = qpInitialize(varargin)
 %     questData = qpInitialize(questParams);
 %
 % Description:
-%     Initialize the data structure for QUEST+ experiment.  This begins by passing
-%     the passed key value pairs through qpParams to set the user defined parameters
-%     of the experiment.  It then initializes the necessary fields, starting with
-%     those parameters. 
+%     Initialize the data structure for QUEST+ experiment.  This begins by
+%     passing the passed key value pairs through qpParams to set the user
+%     defined parameters of the experiment.  It then initializes the
+%     necessary fields, starting with those parameters.
 %
-%     See qpParams for a description of the user defined parameters.
+%     See "help qpParams" for a description of the user defined parameters.
+%     Routine qpParams is called by this routine, and is not typically
+%     called directly. But all of the key/value pairs you can pass are
+%     handled and documented there.
 %
-%     In some applications, it may be difficult to arrange a stimulus parameterization
-%     where all the values on the grid are valid and/or represent unique states of the
-%     observer.  If the psychometric function returns a vector of NaNs for these cases,
-%     the initialization removes from the psychometric function parameter domain those
-%     parameter sets that lead to a NaN return vector.  This convention differs from
-%     the Mathematica implementation.
+%     In some applications, it may be difficult to arrange a stimulus
+%     parameterization where all the values on the grid are valid and/or
+%     represent unique states of the observer.  If the psychometric
+%     function returns a vector of NaNs for these cases, the initialization
+%     removes from the psychometric function parameter domain those
+%     parameter sets that lead to a NaN return vector.  This convention
+%     differs from the Mathematica implementation.
+%
+%     See qpQuestPlusCoreFunctionDemo for an example of how qpInitialize
+%     can be called.
 %
 % Inputs:
 %     questParams     Optional parameter structure, typically generated with
@@ -51,10 +58,12 @@ function questData = qpInitialize(varargin)
 %                          while.
 %                        expectedNextEntropiesByStim - nStimParamsDomain dimensional column vector with
 %                          the expected entropy after presentation of each possible stimulus.  This is initialized
-%                          with the initial prior.
+%                          with the initial prior, unless noentropy flag is
+%                          set in which case it is empty.
 %
 % Optional key/value pairs
 %     See qpParams for list of key/value pairs that may be specified.
+%     These are also set as fields in the returned structure.
 %
 % See also: qpParams, qpUpdate, qpQuery, qpRun.
 

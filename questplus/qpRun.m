@@ -40,20 +40,13 @@ function questData = qpRun(nTrials,varargin)
 % 06/30/17  dhb  Started on this. Don't quite have design clear yet.
 % 07/07/17  dhb  Tidy up.
 
-%% Parse questData parameters
-questData = qpParams(varargin{:});
-
-%% Say hello if in verbose mode
-if (questData.verbose) fprintf('qpRun:\n'); end
-
 %% Initialize.
 %
 % This can be slow to compute. For a particular project you could save
 % it out in a .mat file and load it back in each time it is needed, rather
 % than recomputing each time.
-if (questData.verbose); fprintf('\tInitializing ...'); end
-questData = qpInitialize(questData);
-if (questData.verbose); fprintf('done\n'); end
+questData = qpInitialize(varargin{:});
+if (questData.verbose), fprintf('qpRun:\n'); end
 
 %% Loop over trials doing smart things each time
 for tt = 1:nTrials

@@ -9,6 +9,9 @@
 %   core functions of mQUESTPlus directly, rather than letting qpRun
 %   orchestrate your experiment.
 %
+% Also see README.md in the mQUESTPlus repository root directory for more info
+% (or read it on github at https://github.com/BrainardLab/mQUESTPlus).
+%
 % qpDataProcDemo                - Demonstrate/test the data processsing routines.
 % qpPsiFunctionDemo             - Demonstrate/test the psychometric function routines.
 % qpQuestPlusCoreFunctionDemo   - Show basic use of QUEST+ core functions,

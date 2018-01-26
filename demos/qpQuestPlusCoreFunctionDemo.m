@@ -22,9 +22,9 @@ function qpQuestPlusCoreFunctionDemo
 close all;
 
 %% Initialize
-
-% Get parameters, using key value pairs to override defaults
-% as needed.  (See qpParams for what is available.)
+%
+% Set parameters, using key value pairs to override defaults
+% as needed.  (See "help qpParams" for what is available.)
 %
 % Here we set the range for the stimulus (contrast in dB) and the
 % psychometric function parameters (see qpPFWeibull).
@@ -33,11 +33,8 @@ close all;
 % prior used by QUEST+.  QUEST+ assigns equal probability to each 
 % listed stimulus, so that the prior implied if you grid contrast in
 % dB is different from that if you grid contrast on a linear scale.
-questData = qpParams('stimParamsDomainList',{[-40:1:0]}, ...
+questData = qpInitialize('stimParamsDomainList',{[-40:1:0]}, ...
     'psiParamsDomainList',{-40:0, 2:5, 0.5, 0:0.01:0.04});
-
-% Then initialize using the parameters that have been set up.
-questData = qpInitialize(questData);
 
 %% Set up simulated observer
 %

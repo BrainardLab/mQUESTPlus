@@ -13,7 +13,10 @@ and illustrated in the Mathematica notebook.  The place to start is probably the
 progams in the demos directory.  These reprise a number of figures in the Watson paper as well as
 calculations illustrated by the Mathematica notebook that accompanies the paper.
 
-The demo program qpQuestPlusSimpleExampleDemos uses high-level function qpRun to reprise a number of
+One nice thing done in the Mathematica implementation that is not done here (sorry, life is short) is
+a set of plotting routines. Adding these would be a nice enhancement.
+
+The demo program qpQuestPlusPaperSimpleExampleDemos uses high-level function qpRun to reprise a number of
 figures in the QUEST+ paper. This would be a good thing to try just to make sure your installation
 is working properly and to convince yourself that this implementation reproduces basic properties
 of QUEST+.
