@@ -1,8 +1,8 @@
-function expectedNextEntropiesByStim = qpUpdateExpectedNextEnropiesByStim(questData)
-% qpUpdateExpectedNextEnropiesByStim  Update the table of expected next entropies for each stimulus
+function expectedNextEntropiesByStim = qpUpdateExpectedNextEntropiesByStim(questData)
+% qpUpdateExpectedNextEntropiesByStim  Update the table of expected next entropies for each stimulus
 %
 % Usage:
-%     expectedNextEntropiesByStim = qpUpdateExpectedNextEnropiesByStim(questData)
+%     expectedNextEntropiesByStim = qpUpdateExpectedNextEntropiesByStim(questData)
 %
 % Description:
 %     Uses posterior and precomputed elements of questData to update the
@@ -24,14 +24,15 @@ function expectedNextEntropiesByStim = qpUpdateExpectedNextEnropiesByStim(questD
 %   None
 
 % 07/04/17  dhb  Try to make this faster using profile.
+% 01/26/18  dhb  Vectorized/profiled to optimize execution time.
 
 %% Compute the expected outcomes for each stimulus by averaging over the posterior.
-expectedOutcomesByStim = zeros(questData.nStimParamsDomain,questData.nOutcomes);
-for ss = 1:questData.nStimParamsDomain
-    for oo = 1:questData.nOutcomes
-        expectedOutcomesByStim(ss,oo) = sum(questData.posterior(:) .* squeeze(questData.precomputedOutcomeProportions(ss,:,oo))');
-    end
-end
+%   
+% This is vectorized and reasonably optimized. The precompued variable is
+% also used below.
+precomputedPosteriorTimesProportions = ...
+    bsxfun(@times,questData.posterior',questData.precomputedOutcomeProportions);
+expectedOutcomesByStim = squeeze(sum(precomputedPosteriorTimesProportions,2));
 
 %% Compute the entropy for each outcome
 %
@@ -39,13 +40,16 @@ end
 % outcome. Given an outcome, we can say what the posterior will be.  From
 % that we can compute the expected entropy given that outcome.  We do this
 % here.
+
+% This takes advantage of the precomputed variable from above.
+%
+% Vectorizing the loop might gain a little time, but qpUnitizeArray and
+% qpArrayEntropy each only know about 2-D matrices.  Usually nOutcomes is
+% small, so the loop doesn't cost too much.
 nextEntropiesByStimOutcome = zeros(questData.nStimParamsDomain,questData.nOutcomes);
-for ss = 1:questData.nStimParamsDomain
-    for oo = 1:questData.nOutcomes
-        nextPosteriorsByStimOutcome = ...
-            qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(ss,:,oo))');
-        nextEntropiesByStimOutcome(ss,oo) = qpArrayEntropy(nextPosteriorsByStimOutcome);
-    end
+for oo = 1:questData.nOutcomes
+    nextPosteriorsByStimOutcome1 = qpUnitizeArray(precomputedPosteriorTimesProportions(:,:,oo)');
+    nextEntropiesByStimOutcome(:,oo) = qpArrayEntropy(nextPosteriorsByStimOutcome1);
 end
 
 %% Compute the expected entropy for each stimulus by averaging entropies over each outcome
@@ -53,9 +57,6 @@ end
 % For each stimulus, we know the probability of each outcome from the first calculation above.
 % And for each outcome, we know the entropy we'd get.  So we can get the expected entropy
 % corresponding to each stimulus, which is what we want.
-expectedNextEntropiesByStim = zeros(questData.nStimParamsDomain,1);
-for ss = 1:questData.nStimParamsDomain
-    expectedNextEntropiesByStim(ss) = sum(expectedOutcomesByStim(ss,:) .* nextEntropiesByStimOutcome(ss,:));
-end
+expectedNextEntropiesByStim = sum(expectedOutcomesByStim .* nextEntropiesByStimOutcome,2);
 
 end
