@@ -146,7 +146,7 @@ end
 
 %% Initialize table of expected entropies
 if (~questData.noentropy)
-    questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEnropiesByStim(questData);
+    questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEntropiesByStim(questData);
 else
 	questData.expectedNextEntropiesByStim  = []; 
 end
