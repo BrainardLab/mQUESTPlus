@@ -81,7 +81,7 @@ end
 questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
 
 %% Update table of expected entropies
-if (~isempty(questData.expectedNextEntropiesByStim))
+if (~questData.noentropy)
     questData.entropyAfterTrial(nTrials+1,1) = qpArrayEntropy(questData.posterior);
     questData.expectedNextEntropiesByStim  = qpUpdateExpectedNextEntropiesByStim(questData);
 end
