@@ -5,7 +5,7 @@ function uniformArray = qpUniformArray(sz,varargin)
 %     uniformArray = qpUniformArray(sz)
 %
 % Description:
-%     Create an array of passed size whose values sum to 1.
+%     Create an array of passed size whose columns sum to 1.
 %
 % Input:
 %     sz             N-dimensional row vector with array size along of its N dimensions.
@@ -17,6 +17,7 @@ function uniformArray = qpUniformArray(sz,varargin)
 %     None
 
 % 6/23/17  dhb  Wrote it.
+% 01/25/18 dhb  Work columnwise.
 
 %% Parse input
 p = inputParser;

@@ -10,6 +10,8 @@ function uniformArray = qpUnitizeArray(inputArray)
 %     If the entries of the passed array sum to 0, then a uniform array of
 %     the same size, whose entries sum to 1, is returned.
 %
+%     This operates independently on the columns of its input.
+%
 % Input:
 %     inputArray     An array of values.
 %
@@ -20,6 +22,7 @@ function uniformArray = qpUnitizeArray(inputArray)
 %     None
 
 % 6/23/17  dhb  Wrote it.
+% 01/25/18 dhb  Make it work columnwise.
 
 %% Parse input
 %
@@ -30,12 +33,18 @@ function uniformArray = qpUnitizeArray(inputArray)
 % p = inputParser;
 % p.parse(varargin{:});
 
-%% Get summed values
-sumOfValues = sum(inputArray(:));
-
-%% Make the appropriate array to return
-if (sumOfValues == 0)
-    uniformArray = qpUniformArray(size(inputArray));
-else
-    uniformArray = inputArray/sumOfValues;
-end
+%% Get summed values for each column
+%
+% I fussed with this code in the profiler, but couldn't get it to run
+% much faster than it does.  The code inside the if doesn't get used very
+% often, in cases I tried.  I suppose one could live dangerously and not do
+% the check for the zero divide.  But I don't think pain if it ever failed
+% to be caught is worth the risk.
+sumOfValues = sum(inputArray,1);
+uniformArray = bsxfun(@rdivide,inputArray,sumOfValues);
+if (any(sumOfValues == 0))
+    index = find(sumOfValues == 0);
+    [m,~] = size(inputArray);
+    uniformColumn = qpUniformArray([m 1]);
+    uniformArray(:,index) = repmat(uniformColumn,1,length(index));
+end    

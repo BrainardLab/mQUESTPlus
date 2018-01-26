@@ -9,21 +9,22 @@ function qpUtilityDemo
 %    Mathematica notebook.
 
 % 6/24/17  dhb  Created.
+% 01/26/18 dhb  Update for columnwise usage of basic functions.
 
 %% qpUnitizeArray
 fprintf('*** qpUnitizeArray:\n');
-testArray = qpUnitizeArray(zeros(2,2))
-assert(sum(testArray(:)) == 1,'qpUnitizeArray: Created array from input of zeros does not sum to 1');
-
+testArray = qpUnitizeArray(zeros(2,2));
+assert(all(sum(testArray,1) == 1),'qpUnitizeArray: Columns of array from input of zeros do not sum to 1');
+ 
 testArray = qpUnitizeArray([1 2 ; 3 4])
-assert(sum(testArray(:)) == 1,'qpUnitizeArray: Created array from array input does not sum to 1');
+assert(all(sum(testArray,1) == 1),'qpUnitizeArray: Columns of array do not sum to 1');
 
 %% qpUniformArray
 fprintf('*** qpUniformArray:\n');
 testArray = qpUniformArray([3 4])
-assert(sum(testArray(:)) == 1,'qpUniformArray: Created uniform array input does not sum to 1');
+assert(all(sum(testArray,1) == 1),'qpUniformArray: Columns of uniform array do not sum to 1');
 
-%% qpArrayEntropy
+% %% qpArrayEntropy
 %
 % This first call is like the Mathematic notebook example.  It gives a similar number.  Round
 % to three places so we can check that the code still does the same thing
@@ -32,7 +33,7 @@ fprintf('*** qpArrayEntropy:\n');
 rng('default'); rng(1,'twister');
 theArray = rand(10,10);
 theEntropy = qpArrayEntropy(theArray);
-theEntropy = round(theEntropy*1000)/1000
+theEntropy = round(sum(theEntropy)*1000)/1000
 assert(theEntropy == 35.513,'qpArrayEntropy: Computed entropy of unnormalized array is no longer what it used to be');
 
 %% qpListMinArg/qpListMaxArg

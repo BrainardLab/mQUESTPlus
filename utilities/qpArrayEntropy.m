@@ -8,12 +8,11 @@ function arrayEntropy = qpArrayEntropy(probArray)
 %     Compute the entropy of the probability values in the passed array,
 %     with repsect to base 2 (i.e. entropy in bits).
 %
+%     Each column is handled separately.
+%
 % Input:
 %     probArray      An array of probabilities for the possible outcomes.
-%                    Although the Mathematica routine does not enforce that
-%                    these are probabilities and sum to 1, that check seems
-%                    like a good idea and is enforced here.  Override by passing
-%                    tolerance key/value pair.
+%                    These should sum to 1.
 %
 % Output:
 %     arrayEntropy   The computed entropy of the array.
@@ -23,6 +22,7 @@ function arrayEntropy = qpArrayEntropy(probArray)
 
 % 6/23/17  dhb  Wrote it.
 % 07/04/17 dhb  Remove key value pairs to speed this up.
+% 01/25/18 dhb  Handle each column separately.
 
 %% Parse input
 %
@@ -39,9 +39,11 @@ function arrayEntropy = qpArrayEntropy(probArray)
 % assert(abs(sum(probArray(:))-1) < tolerance);
 
 %% Compute the log probs
-logProbs = log2(probArray(:));
-index = (probArray == 0);
-logProbs(index) = -1*realmax;
+logProbs = log2(probArray);
 
 %% Compute the entropy
-arrayEntropy = -sum(probArray(:) .* logProbs(:));
+%
+% Using the nansum skips adding in any terms where the
+% probability is zero, where log2(0) returns NaN.  This
+% is the fastest way I've found of doing this.
+arrayEntropy = -nansum(probArray .* logProbs,1);
