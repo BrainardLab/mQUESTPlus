@@ -41,6 +41,10 @@ then you can click within that to explore the toolbox.
 
 For each individual function, using "help qpRoutineName" or "doc qpRoutineName" will provide usage for that routine.
 
+Note that the current implementation only allows specification of a uniform prior over the gridded parameters, and the current
+qpFit only provides a maximum likelihood fit. Extending to a user specified prior would not be difficult.  See issue
+#2.
+
 ## Dependencies
 
 This implementation depends on the following Matlab toolboxes:
