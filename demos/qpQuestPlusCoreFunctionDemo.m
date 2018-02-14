@@ -2,26 +2,7 @@ function qpQuestPlusCoreFunctionDemo
 %qpQuestPlusCoreFunctionDemo  Show basic use of QUEST+ core functions, called directly
 %
 % Description:
-%    This script shows how to call qpInitialize, qpQuery, and qpUpdate directly,
-%    as you might want to if you were using these functions inside of your own
-%    experimental code.  Basically, this exposes what is inside of qpRun, but
-%    without some of the options implemented within qpRun.
-%
-%    You can use qpRun directly to orchestrate an experiment, but if you want to start
-%    customizing or running multiple interleaved seeking instances, this illustrates
-%    the basic structure.
-%
-%    This reprises Figure 3 of the Watson (2017) QUEST+ paper.  That same thing
-%    is done within qpQuestPlusPaperSimpleExamplesDemo, but there it is done
-%    using qpRun.  This example estimates three parameters of a Weibull psychometric
-%    function using a two-alternative forced-choice contrast detection paradigm.
-
-% 07/22/17  dhb  Wrote at suggestion of dgp.
-
-%% Close out stray figures
-close all;
-
-%% Initialize
+%    This script shows how to call qpInitialize, qpQuery, and qpUpdate directlyPL%% Initialize
 %
 % Set parameters, using key value pairs to override defaults
 % as needed.  (See "help qpParams" for what is available.)
