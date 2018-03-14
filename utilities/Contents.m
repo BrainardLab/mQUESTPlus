@@ -4,6 +4,7 @@
 %
 % qpArrayEntropy                - Compute the zero order entropy of an array of probabilities.
 % qpFindNearestStimInDomain     - Find stimulus in the stimulus domain nearest to the passed stimulus.
+% qpFitError                    - Error function for qpFit.
 % qpListMaxArg                  - Return the index of the smallest element in a vector/matrix.
 % qpListMinArg                  - Return the index of the smallest element in a vector/matrix.
 % qpLogLikelihood               - Compute log likelihood of a stimulus count data array.

@@ -62,6 +62,8 @@ function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
 %                          Useful for debugging.
 
 % 07/04/17  dhb  Wrote it.
+% 03/14/18  dhb  Pulled out qpFitError so we can call it directly.
+
 
 %% Parse input
 p = inputParser;
@@ -87,18 +89,4 @@ psiParams = fmincon(@(x)qpFitError(x,stimCounts,qpPF),startingParams,[],[],[],[]
 
 end
 
-%% Error function for fmincon to minimize
-function f = qpFitError(psiParams,stimCounts,qpPF)
 
-logLikelihood = qpLogLikelihood(stimCounts,qpPF,psiParams);
-
-%% Handle case where search has wandered into an invalid portion of the parameter spact
-%
-% qpPF can return NaN to signal this, and that is propagated back through the logLikelihood.
-if (isnan(logLikelihood))
-    f = realmax;
-else
-    f = -logLikelihood;
-end
-
-end
