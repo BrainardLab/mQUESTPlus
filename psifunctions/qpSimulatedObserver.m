@@ -16,12 +16,16 @@ function outcome = qpSimulatedObserver(stimParams,qpPF,psiParams,varargin)
 %                    function.
 %
 % Output:
-%     logLikelihood  Log likelihood of the data.
+%     outcome        Integer specifying outcome, integer in range 1 to N
+%                    where N is the number of possible outcomes.  The
+%                    number and meaning of the outcomes is determined by
+%                    the passed psychometric funtion.
 %
 % Optional key/value pairs
 %     None.
 
 % 6/27/17  dhb  Wrote it.
+% 6/22/18  dhb  Improve help comments.
 
 %% Parse input
 p = inputParser;
