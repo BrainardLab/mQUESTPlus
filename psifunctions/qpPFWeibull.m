@@ -6,7 +6,12 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams)
 %
 % Description:
 %     Compute the proportions of each outcome for the Weibull psychometric
-%     function
+%     function.
+%
+%     See docuent qpPF_GuessLapseParameterization.pdf for a discussion of
+%     various ways to parameterize the lapse rate and how to convert
+%     between them.  In particular, that document describes the
+%     parameterization used in this function.
 %
 % Input:
 %     stimParams     Matrix, with each row being a vector of stimulus parameters.
@@ -36,6 +41,8 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams)
 %     None
 
 % 6/27/17  dhb  Wrote it.
+% 07/21/18 dhb  Added note about qpPF_GuessLapseParameterization document
+%               that I added to this directory.
 
 %% Parse input
 %
