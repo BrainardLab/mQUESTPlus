@@ -69,6 +69,7 @@ function questData = qpInitialize(varargin)
 
 % 07/04/17  dhb  Sped up using profiler.
 % 07/22/17  dhb  More flexible stimulus and parameter filtering.
+% 08/02/18  dhb  Initialize fields used by qpUpdate as th empty matrix.
 
 %% Start with the parameters
 %
@@ -159,5 +160,13 @@ if (~questData.noentropy)
 else
 	questData.expectedNextEntropiesByStim  = []; 
 end
+
+%% Set up fields that will be filled in later
+%
+% This prevends errors if you try to update the structure in place 
+% and add those fields.
+questData.trialData = [];
+questData.stimIndices = [];
+questData.entropyAfterTrial = [];
 
 end
