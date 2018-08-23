@@ -91,5 +91,6 @@ ylim([0 1]);
 xlabel('stim value');
 ylabel('Proportion');
 title({'Rating',''});
+set(gca,'fontsize',14)
 drawnow;
 
