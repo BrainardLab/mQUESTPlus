@@ -19,7 +19,7 @@ function paramsOK = qpPFRatingParamsCheck2(psiParams)
 paramsOK = true;
 
 %% Check that sd is non-negative
-if any(psiParams(1:2) < 0)
+if any(psiParams(1:3) < 0)
     paramsOK = false;
 end
 
@@ -27,7 +27,7 @@ end
 %
 % This is signaled by returning NaN when the boundaries are
 % not in increasing order.
-[boundaries,sortIndex] = sort(psiParams(3:end),'ascend');
+[boundaries,sortIndex] = sort(psiParams(4:end),'ascend');
 nOutcomes = length(boundaries);
 if (any(sortIndex ~= 1:nOutcomes))
     paramsOK = false;
