@@ -19,7 +19,7 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams)
 %                    the stimulus contrast level in dB.  dB defined as
 %                    20*log10(x).
 %
-%     psiParams      Row vector pr matrix of parameters
+%     psiParams      Row vector or matrix of parameters
 %                      threshold  Threshold in dB
 %                      slope      Slope
 %                      guess      Guess rate
