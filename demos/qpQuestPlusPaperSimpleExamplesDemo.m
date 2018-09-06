@@ -17,6 +17,8 @@ function qpQuestPaperSimpleExamplesDemo
 % 07/02/17  dhb  Added additional examples.
 % 07/04/17  dhb  Add qpFit.
 % 07/23/17  dhb  Name change, note about effect of stimulus grid on impliicit prior.
+% 09/06/18  dhb  Show how to use qpPFWeibullInv to get threshold values for
+%                arbitrary criterion correct.
 
 %% Close out stray figures
 close all;
@@ -81,6 +83,14 @@ ylabel('Proportion Correct');
 xlim([-40 00]); ylim([0 1]);
 title({'Estimate Weibull threshold', ''});
 drawnow;
+
+% Print out thresholds for various criteria
+thresholdProportions = [0.6 0.75 0.80 0.92]';
+stimContrasts = qpPFWeibullInv(thresholdProportions,psiParamsFit);
+checkThresholdProportions = qpPFWeibull(stimContrasts,psiParamsFit);
+if (max(abs(checkThresholdProportions - thresholdProportions)) > 1e-6)
+    error('Weibull PF does not invert properly');
+end
 
 %% qpRun estimating three parameters of a Weibull
 %
