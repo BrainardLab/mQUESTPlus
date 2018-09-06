@@ -39,6 +39,8 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams)
 %
 % Optional key/value pairs
 %     None
+%
+% See also: qpWeibullInv
 
 % 6/27/17  dhb  Wrote it.
 % 07/21/18 dhb  Added note about qpPF_GuessLapseParameterization document
