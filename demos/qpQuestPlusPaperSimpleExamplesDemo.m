@@ -1,4 +1,4 @@
-function qpQuestPaperSimpleExamplesDemo
+function qpQuestPlusPaperSimpleExamplesDemo
 %qpQuestPlusPaperSimpleExamplesDemo  Demonstrate/test QUEST+ on some simple example problems
 %
 % Description:
@@ -84,11 +84,12 @@ xlim([-40 00]); ylim([0 1]);
 title({'Estimate Weibull threshold', ''});
 drawnow;
 
-% Print out thresholds for various criteria
+% Print out thresholds for various criteria.
+% Illustrates use of qpPFWeibullInv.
 thresholdProportions = [0.6 0.75 0.80 0.92]';
 stimContrasts = qpPFWeibullInv(thresholdProportions,psiParamsFit);
 checkThresholdProportions = qpPFWeibull(stimContrasts,psiParamsFit);
-if (max(abs(checkThresholdProportions - thresholdProportions)) > 1e-6)
+if (max(abs(checkThresholdProportions(:,2) - thresholdProportions)) > 1e-6)
     error('Weibull PF does not invert properly');
 end
 
