@@ -54,7 +54,7 @@ fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.1f\n', ...
 % as the Mathematica plot showin in Figure 17 of the paper, but conveys the same
 % general idea of what happened.
 figure; clf; hold on
-set(gca,'Color',[1 1 1]*.9);
+set(gca,'Color',[1 1 1]*.6);
 stimCounts = qpCounts(qpData(questData.trialData),questData.nOutcomes);
 stimProportions = qpProportions(stimCounts,questData.nOutcomes);
 stim = zeros(length(stimCounts),questData.nStimParams);
@@ -62,15 +62,16 @@ for cc = 1:length(stimCounts)
     stim(cc,:) = stimCounts(cc).stim;
     nTrials(cc) = sum(stimCounts(cc).outcomeCounts);
 end
+cols = [240 133 125; 255 251 139; 149 246 136]/255;
 for cc = 1:length(stimCounts)
     for jj = 1:questData.nOutcomes
     switch (jj)
         case 1
-            theColor = 'r';
+            theColor = cols(1,:);
         case 2
-            theColor = 'g';
+            theColor = cols(2,:);
         case 3
-            theColor = 'b';
+            theColor = cols(3,:);
         otherwise
             error('Oops');
     end
@@ -83,7 +84,7 @@ outcomeProportions = qpPFRating(plotStimParams,psiParamsFit);
 for jj = 2:length(psiParamsFit)
     plot([psiParamsFit(jj) psiParamsFit(jj)],[0 1],'k:','linewidth',2);
 end
-cols = [240 133 125; 255 251 139; 149 246 136]/255;
+
 for i=1:size(outcomeProportions,2)
     plot(plotStimParams,outcomeProportions(:,i),'-','Color',cols(i,:),'LineWidth',3);
 end
