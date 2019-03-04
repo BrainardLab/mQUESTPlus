@@ -1,19 +1,27 @@
+%qpPairwiseComparisonDemo  Demonstrate/test QUEST+ at work on pairwise comparison
+%
+% Description:
+%     Demonstrates the use of QUEST+ in a pairwise comparison experiment. Uses Thurstone Scaling,
+%     explained in Watson 2017.
+%
+
+% xx/xx/18  mna  wrote it.
+
+%% Initialize
 clearvars;
 close all
 clc;
 
+% Simulated parameters
+simulatedPsiParams = [-3.9 2.7 .01];
+stimParams = linspace(1,5,15)';
 numberOfTrials = 128;
-
 
 theta = @(x,threshold, slope) max(1,slope*(-x-threshold));
 myFun = @(stimPair,psiParams) ...
         qpPFNormal(abs(theta(stimPair(:,1),psiParams(1), psiParams(2)) - ...
                 theta(stimPair(:,2),psiParams(1), psiParams(2)))/sqrt(2),...
         [0,1,psiParams(3)]);
-
-% simulated parameters
-simulatedPsiParams = [-3.9 2.7 .01];
-stimParams = linspace(1,5,15)';
 
 N = 1;
 psiParamsFit = nan(N,length(simulatedPsiParams));

@@ -5,6 +5,8 @@ function qpQuestPlusRatingDemo2
 %    This script shows QUEST+ employed to estimate categorization
 %    boundaries and precision on a categorical variable.
 %
+%    This version has two independent stimulus variables.
+%
 
 % 08/18/18  mna  wrote it.
 
