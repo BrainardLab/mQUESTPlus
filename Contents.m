@@ -21,6 +21,7 @@
 %   core functions of mQUESTPlus directly, rather than letting qpRun
 %   orchestrate your experiment.
 %
+% contributed                   - Software (mostly demos) contributed by users
 % dataproc                      - Functions for data manipulation
 % demos                         - Demonstration/test programs.
 % mathworkscentral              - Dependencies obtained from mathworks
