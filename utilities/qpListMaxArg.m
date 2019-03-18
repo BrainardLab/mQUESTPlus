@@ -1,8 +1,8 @@
-function maxIndex = qpListMinArg(theArray,varargin)
-%qpListMinArg  Return the index of the smallest element in a vector/matrix
+function maxIndex = qpListMaxArg(theArray,varargin)
+%qpListMaxArg  Return the index of the largest element in a vector/matrix
 %
 % Usage:
-%     maxIndex = qpListMinArg(theArray)
+%     maxIndex = qpListMaxArg(theArray)
 %
 % Description:
 %     Find the maxIndex to the maximum value in an array.
