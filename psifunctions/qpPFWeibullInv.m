@@ -2,7 +2,7 @@ function stimContrast = qpPFWeibullInv(proportionCorrect,psiParams)
 %qpPFWeibullInv  Inverse Weibull cdf psychometric function 
 %
 % Usage:
-%     stimContrast  = qpPFWeibull(proportionCorrect,psiParams)
+%     stimContrast  = qpPFWeibullInv(proportionCorrect,psiParams)
 %
 % Description:
 %     Compute the stimulus proportions that lead to the desired proportion
@@ -39,7 +39,7 @@ function stimContrast = qpPFWeibullInv(proportionCorrect,psiParams)
 
 %% Here is the Matlab version
 if (size(psiParams,2) ~= 4)
-    error('Parameters vector has wrong length for qpPFWeibull');
+    error('Parameters vector has wrong length for qpPFWeibullInv');
 end
 if (size(proportionCorrect,2) ~= 1)
     error('Each row of stimParams should have only one entry');
