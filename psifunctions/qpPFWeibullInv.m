@@ -9,9 +9,7 @@ function stimContrast = qpPFWeibullInv(proportionCorrect,psiParams)
 %     correct.
 %
 % Input:
-%     proportionCorrect Column vector, with each row being a proportion correct..
-%                    Here the row vector is just a single number giving
-%                    the stimulus contrast level in dB.  
+%     proportionCorrect Column vector, with each row being a proportion correct. 
 %
 %     psiParams      Row vector or matrix of parameters
 %                      threshold  Threshold in dB

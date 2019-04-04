@@ -13,9 +13,7 @@ function stimVal = qpPFStandardWeibullInv(proportionCorrect,psiParams)
 %     threshold.
 %
 % Input:
-%     proportionCorrect Column vector, with each row being a proportion correct..
-%                    Here the row vector is just a single number giving
-%                    the stimulus level.  
+%     proportionCorrect Column vector, with each row being a proportion correct. 
 %
 %     psiParams      Row vector or matrix of parameters
 %                      threshold  Threshold 
@@ -30,12 +28,12 @@ function stimVal = qpPFStandardWeibullInv(proportionCorrect,psiParams)
 %                    parameters for each stimulus row.
 %
 % Output:
-%     stimVal   Vector of stimulus values
+%     stimVal   Vector of stimulus values in linear units rather than dB.
 %                           
 % Optional key/value pairs
 %     None
 %
-% See also: qpPFStandardWeibull
+% See also: qpPFStandardWeibull, qpPFWeibull, qpPFWeibullInv
 
 % 4/1/19   aer  Wrote it.
 

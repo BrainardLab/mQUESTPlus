@@ -19,10 +19,11 @@ function predictedProportions = qpPFStandardWeibull(stimParams,psiParams)
 % Input:
 %     stimParams     Matrix, with each row being a vector of stimulus parameters.
 %                    Here the row vector is just a single number giving
-%                    the stimulus contrast level 
+%                    the linear stimulus contrast level, or other stimulus parameter
+%                    in linear units rather than dB.
 %
 %     psiParams      Row vector or matrix of parameters
-%                      threshold  Threshold in units of stimulus
+%                      threshold  Threshold in linear units of stimulus
 %                      slope      Slope
 %                      guess      Guess rate
 %                      lapse      Lapse rate
@@ -42,7 +43,7 @@ function predictedProportions = qpPFStandardWeibull(stimParams,psiParams)
 % Optional key/value pairs
 %     None
 %
-% See also: qpStandardWeibullInv
+% See also: qpStandardWeibullInv, qpPFWeibull, qpPFWeibullInv
 
 % 4/1/19  aer  Wrote it.
 
