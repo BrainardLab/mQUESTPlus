@@ -41,14 +41,16 @@ function [predictedProportions,predictedContrastThreshold] = qpPFSTCSF(stimParam
 %     'lapse'      Lapse rate of underlying Weibull (default 0.01);
 
 % 07/03/17  dhb  Wrote it
+% 08/12/19  dhb  Noticed should use addParameter not addOptional in
+%                inputParser setup, and fixed.
 
 %% Parse input
 p = inputParser;
 p.addRequired('stimParams',@isnumeric);
 p.addRequired('psiParams',@isnumeric);
-p.addOptional('slope',3,@isscalar);
-p.addOptional('guess',0.5,@isscalar);
-p.addOptional('lapse',0.01,@isscalar);
+p.addParameter('slope',3,@isscalar);
+p.addParameter('guess',0.5,@isscalar);
+p.addParameter('lapse',0.01,@isscalar);
 p.parse(stimParams,psiParams,varargin{:});
 
 %% Pull out parameters in readable form

@@ -63,7 +63,8 @@ function psiParams = qpFit(trialData,qpPF,startingParams,nOutcomes,varargin)
 
 % 07/04/17  dhb  Wrote it.
 % 03/14/18  dhb  Pulled out qpFitError so we can call it directly.
-
+% 08/12/19  dhb  Noticed should use addParameter not addOptional in
+%                inputParser setup, and fixed.
 
 %% Parse input
 p = inputParser;
@@ -71,10 +72,10 @@ p.addRequired('trialData',@isstruct);
 p.addRequired('qpPF',@(x) isa(x,'function_handle'));
 p.addRequired('startingParams',@isnumeric);
 p.addRequired('nOutcomes',@isscalar)
-p.addOptional('upperBounds',[],@isnumeric);
-p.addOptional('lowerBounds',[],@isnumeric);
-p.addOptional('diagnostics','off',@ischar);
-p.addOptional('display','off',@ischar);
+p.addParameter('upperBounds',[],@isnumeric);
+p.addParameter('lowerBounds',[],@isnumeric);
+p.addParameter('diagnostics','off',@ischar);
+p.addParameter('display','off',@ischar);
 p.parse(trialData,qpPF,startingParams,nOutcomes,varargin{:});
 
 %% Get stimulus counts
