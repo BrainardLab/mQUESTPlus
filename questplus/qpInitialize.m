@@ -70,6 +70,8 @@ function questData = qpInitialize(varargin)
 % 07/04/17  dhb  Sped up using profiler.
 % 07/22/17  dhb  More flexible stimulus and parameter filtering.
 % 08/02/18  dhb  Initialize fields used by qpUpdate as th empty matrix.
+% 08/16/19  dhb  In likelihood compute loop, print out a message every
+%                minute if questData.verbose is true.
 
 %% Start with the parameters
 %
@@ -143,6 +145,8 @@ end
 %% Precompute table with expected proportions for each outcome given each stimulus
 questData.precomputedOutcomeProportions = ...
     zeros(questData.nStimParamsDomain,questData.nPsiParamsDomain,questData.nOutcomes);
+startTime = GetSecs;
+lastPrintTime = startTime;
 for jj = 1:questData.nPsiParamsDomain
     questData.precomputedOutcomeProportions(:,jj,:) = ....
         questData.qpPF(questData.stimParamsDomain,questData.psiParamsDomain(jj,:));
@@ -151,6 +155,15 @@ for jj = 1:questData.nPsiParamsDomain
     end
     if (any(questData.precomputedOutcomeProportions(:,jj,:) > 1))
         error('Psychometric function has returned probability that exceeds one for an outcome');
+    end
+    nowTime = GetSecs;
+    if (questData.verbose)
+        if ((nowTime-lastPrintTime) > 60)
+            fprintf('Computed %d of %d likelihoods, %0.3f percent in %0.3f minutes\n',...
+                jj,questData.nPsiParamsDomain,100*jj/questData.nPsiParamsDomain,round((nowTime-startTime)/60));
+            fprintf('\tProjected total time: %0.2f days\n',((nowTime-startTime)/(24*3600))/(jj/questData.nPsiParamsDomain));
+            lastPrintTime = nowTime;
+        end
     end
 end
 
