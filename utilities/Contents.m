@@ -3,8 +3,10 @@
 % Support utilities.
 %
 % qpArrayEntropy                - Compute the zero order entropy of an array of probabilities.
+% qpDrawFromDomainList          - Draw a paremter vector from the range specified by the domain list. 
 % qpFindNearestStimInDomain     - Find stimulus in the stimulus domain nearest to the passed stimulus.
 % qpFitError                    - Error function for qpFit.
+% qpGetBoundsFromDomainList     - Get lower and upper bounds vectors from domain list.
 % qpListMaxArg                  - Return the index of the smallest element in a vector/matrix.
 % qpListMinArg                  - Return the index of the smallest element in a vector/matrix.
 % qpLogLikelihood               - Compute log likelihood of a stimulus count data array.
