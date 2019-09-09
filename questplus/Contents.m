@@ -27,6 +27,8 @@
 %                                 QUEST+ experiment.
 % qpParams                      - Set user defined parameters for a QUEST+
 %                                 run.  Called by qpInitialize.
+% qpMarginalizePosterior        - Marginalize a posterior over specified
+%                                 parameters.
 % qpQuery                       - Use questData structure to get next
 %                                 recommended stimulus index and stimulus
 % qpRun                         - High level function that runs a QUEST+
