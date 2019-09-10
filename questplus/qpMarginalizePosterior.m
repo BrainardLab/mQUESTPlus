@@ -1,9 +1,8 @@
-
-function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginalizePosterio(posterior,psiParamsDomain,whichParamsToMarginalize,labels)
+function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginalizePosterio(posterior,psiParamsDomain,whichParamsToMarginalize,paramLabels)
 % Marginalize a QUEST+ posterior
 %
 % Syntax:
-%    [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginalizePosterio(posterior,psiParamsDomain,whichParamsToMarginalize,labels)
+%    [marginalPosterior,marginalPsiParamsDomain,marginalParamLabels] = qpMarginalizePosterio(posterior,psiParamsDomain,whichParamsToMarginalize,[paramLabels])
 %
 % Description:
 %     Sum discretely sampled posterior over parameters indexed by whichParamsToMarginalize, to produce a
@@ -19,7 +18,7 @@ function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginal
 %     whichParamsToMarginalize - Row vector giving K distinct indices in range
 %                             [1,Nparams]. These specify the parameters to
 %                             marginalize over.
-%     labels                - Cell array of string names for each parameter.
+%     paramLabels           - Cell array of string names for each parameter.
 %
 % Outputs:
 %     marginalPosterior     - Column vector giving probability of each
@@ -27,7 +26,7 @@ function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginal
 %     marginalPsiParamsDomain - M by NParams-K matrix. Each row gives the
 %                             parameter values for the corresponding entry
 %                             of the marginal posterior.
-%     marginalLabels        - If labels passed, this is a cell array of the
+%     marginalParamLabels   - If labels passed, this is a cell array of the
 %                             labels for the remaining parameters. If
 %                             labels not passed, returned as the empty cell
 %                             array.
@@ -44,8 +43,8 @@ function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginal
 
 %%  Get remaining index and handle labels if passed
 remainingParamsIndex = setdiff(1:size(psiParamsDomain,2),whichParamsToMarginalize);
-if (nargin > 3 && ~isempty(labels))
-    marginalLabels = labels{remainingParamsIndex};
+if (nargin > 3 && ~isempty(paramLabels))
+    marginalLabels = paramLabels{remainingParamsIndex};
 else
     marginalLabels = {};
 end
@@ -53,7 +52,6 @@ end
 %% Get full psi params domain but without variables we're going to marginalize
 % over
 remainingPsiParamsDomain = psiParamsDomain(:,remainingParamsIndex);
-
 
 %% Find unique rows in remainingPsiParamsDomain.
 %
