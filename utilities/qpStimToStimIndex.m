@@ -11,6 +11,10 @@ function stimIndex = qpStimToStimIndex(stim,stimDomain,varargin)
 %     Does not check if more than one row of stimDomain has the same value,
 %     just returns the row of the first instance in this case.
 %
+%     Comparison is done to precision decimal places to avoid numerical
+%     precision weirdness.  Precision is set to 10 currently.  If your
+%     stimuli are specified using very small numbers, this could go south.
+%
 %     Return 0 if stimulus is not found.
 %
 % Input:
@@ -27,15 +31,18 @@ function stimIndex = qpStimToStimIndex(stim,stimDomain,varargin)
 %
 % See also: qpStimIndexToStim, qpFindNearestStimInDomain
 
-% 7/22/17  dhb  Wrote it.
+% 07/22/17      dhb  Wrote it.
+% 09/19/2019    dhb  Added Josh Solomon's fix for handling small numerical
+%                    error in specification of stimDomain.
 
 %% Initialize
 nStim = size(stimDomain,1);
 stimIndex = 0;
+precision = 10;
 
 %% Search
 for ii = 1:nStim
-    if (all(stim == stimDomain(ii,:)))
+    if (all(round(10^precision*stim) == round(10^precision*stimDomain(ii,:))))
         stimIndex = ii;
         return;
     end

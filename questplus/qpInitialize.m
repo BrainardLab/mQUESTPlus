@@ -145,8 +145,9 @@ end
 %% Precompute table with expected proportions for each outcome given each stimulus
 questData.precomputedOutcomeProportions = ...
     zeros(questData.nStimParamsDomain,questData.nPsiParamsDomain,questData.nOutcomes);
-startTime = GetSecs;
-lastPrintTime = startTime;
+
+startTime = tic;
+lastPrintTime = toc(startTime);
 for jj = 1:questData.nPsiParamsDomain
     questData.precomputedOutcomeProportions(:,jj,:) = ....
         questData.qpPF(questData.stimParamsDomain,questData.psiParamsDomain(jj,:));
@@ -156,7 +157,7 @@ for jj = 1:questData.nPsiParamsDomain
     if (any(questData.precomputedOutcomeProportions(:,jj,:) > 1))
         error('Psychometric function has returned probability that exceeds one for an outcome');
     end
-    nowTime = GetSecs;
+    nowTime = toc(startTime);
     if (questData.verbose)
         if ((nowTime-lastPrintTime) > 60)
             fprintf('Computed %d of %d likelihoods, %0.3f percent in %0.3f minutes\n',...
