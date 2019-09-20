@@ -42,7 +42,7 @@ precision = 10;
 
 %% Search
 for ii = 1:nStim
-    if (all(round(10^precision*stim) == round(10^precision*stimDomain(ii,:))))
+    if (all(round(stim,precision,'significant') == round(stimDomain(ii,:),precision,'significant')))
         stimIndex = ii;
         return;
     end
