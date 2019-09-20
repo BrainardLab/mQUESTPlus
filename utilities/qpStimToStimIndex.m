@@ -11,9 +11,8 @@ function stimIndex = qpStimToStimIndex(stim,stimDomain,varargin)
 %     Does not check if more than one row of stimDomain has the same value,
 %     just returns the row of the first instance in this case.
 %
-%     Comparison is done to precision decimal places to avoid numerical
-%     precision weirdness.  Precision is set to 10 currently.  If your
-%     stimuli are specified using very small numbers, this could go south.
+%     Comparison is done to precision significant digits to avoid numerical
+%     precision weirdness.  Precision is set to 10 currently.
 %
 %     Return 0 if stimulus is not found.
 %
