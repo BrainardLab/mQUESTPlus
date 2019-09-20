@@ -6,7 +6,9 @@ function stimIndex = qpStimToStimIndex(stim,stimDomain,varargin)
 %
 % Description:
 %     Take the passed stimulus parameters (row vector) and find out which
-%     row they are found in, in the passed stimDomain matrix.
+%     row they are found in, in the passed stimDomain matrix.  If there
+%     is just one parameter, stimDomain must be a column vector and stim
+%     stim is a scalar.
 %
 %     Does not check if more than one row of stimDomain has the same value,
 %     just returns the row of the first instance in this case.
@@ -31,8 +33,17 @@ function stimIndex = qpStimToStimIndex(stim,stimDomain,varargin)
 % See also: qpStimIndexToStim, qpFindNearestStimInDomain
 
 % 07/22/17      dhb  Wrote it.
-% 09/19/2019    dhb  Added Josh Solomon's fix for handling small numerical
+% 09/19/19      dhb  Added Josh Solomon's fix for handling small numerical
 %                    error in specification of stimDomain.
+% 09/20/19      dhb  Move to 'significant' type in round, more robust I
+%                    think.
+
+% Examples:
+%{
+    stimDomain = (-5:0.2:0)';
+    stim = -3.6;
+    qpStimToStimIndex(stim,stimDomain)
+%}
 
 %% Initialize
 nStim = size(stimDomain,1);
