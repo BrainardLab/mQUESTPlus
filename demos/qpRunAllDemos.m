@@ -15,5 +15,10 @@ qpQuestPlusPaperSimpleExamplesDemo
 qpQuestPlusCSFDemo;
 qpQuestPlusCircularCatDemo;
 
+%% Contributed demos
+qpQuestPlusRatingDemo;
+qpQuestPlusRatingDemo2;
+qpPairwiseComparisonDemo;
+
 %% Close up
 close all;
