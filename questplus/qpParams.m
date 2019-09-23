@@ -65,6 +65,10 @@ function questData = qpParams(varargin)
 %                              want to use a single overall quest to keep
 %                              track of all the trials run for later
 %                              analysis.
+%  marginalize                 Default empty. If not empty, this is a row
+%                              vector that contains the indices of the
+%                              parameter vector to marginalize over before
+%                              computing entropy.
 %
 % See also: qpInitialize, qpUpdate, qpQuery, qpRun.
 
@@ -86,6 +90,7 @@ p.addParameter('chooseRule','best',@ischar);
 p.addParameter('chooseRuleN',1,@isnumeric);
 p.addParameter('verbose',false,@islogical);
 p.addParameter('noentropy',false,@islogical);
+p.addParameter('marginalize',[],@(x) (isempty(x) | isnumeric(x)));
 p.parse(varargin{:});
 
 %% Return structure

@@ -142,6 +142,11 @@ switch(questData.priorType)
         error('Unknown prior type specified');
 end
 
+%% If marginalizing, computer marginal posterior
+if (~isempty(questData.marginalize))
+    questData.marginalPosterior = qpMarginalizePosterior(questData.posterior,questData.psiParamsDomain,questData.marginalize);
+end
+
 %% Precompute table with expected proportions for each outcome given each stimulus
 questData.precomputedOutcomeProportions = ...
     zeros(questData.nStimParamsDomain,questData.nPsiParamsDomain,questData.nOutcomes);

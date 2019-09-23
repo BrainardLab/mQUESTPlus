@@ -25,6 +25,8 @@ function expectedNextEntropiesByStim = qpUpdateExpectedNextEntropiesByStim(quest
 
 % 07/04/17  dhb  Try to make this faster using profile.
 % 01/26/18  dhb  Vectorized/profiled to optimize execution time.
+% 09/22/19  dhb  Add code to marginalize next posteriors before entropy
+%                calculation, if maginalization is specified.
 
 %% Compute the expected outcomes for each stimulus by averaging over the posterior.
 %   
@@ -49,7 +51,15 @@ expectedOutcomesByStim = squeeze(sum(precomputedPosteriorTimesProportions,2));
 nextEntropiesByStimOutcome = zeros(questData.nStimParamsDomain,questData.nOutcomes);
 for oo = 1:questData.nOutcomes
     nextPosteriorsByStimOutcome1 = qpUnitizeArray(precomputedPosteriorTimesProportions(:,:,oo)');
-    nextEntropiesByStimOutcome(:,oo) = qpArrayEntropy(nextPosteriorsByStimOutcome1);
+    
+    % If we want to compute the entropy of the marginalized posterior, then
+    % we need to marginalize each posterior here.
+     if (~isempty(questData.marginalize))
+        nextMarginalPosteriorsByStimOutcome1 = qpMarginalizePosterior(nextPosteriorsByStimOutcome1,questData.psiParamsDomain,questData.marginalize);
+        nextEntropiesByStimOutcome(:,oo) = qpArrayEntropy(nextMarginalPosteriorsByStimOutcome1)';
+     else
+        nextEntropiesByStimOutcome(:,oo) = qpArrayEntropy(nextPosteriorsByStimOutcome1)';
+     end
 end
 
 %% Compute the expected entropy for each stimulus by averaging entropies over each outcome

@@ -9,9 +9,10 @@ function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginal
 %     discretely sampled marginal posterior distribution. 
 %
 % Inputs:
-%     posterior             - Column vector giving probability of each
-%                             of N possible outcomes. This should sum to
-%                             unity.
+%     posterior             - Matrix where each column give probability of each
+%                             of N possible outcomes. Each column should sum to
+%                             unity. If just one posterior is passed, it
+%                             should be a column vector.
 %     psiParamsDomain       - N by Nparams matrix. Each row gives the
 %                             parameter values for the corresponding entry
 %                             of the posterior.
@@ -39,7 +40,8 @@ function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginal
 
 % History
 %   09/09/19  dhb  Pulled out of tutorial where I developed the basic code
-
+%   09/22/19  dhb  Allow matrix input so we can marginalize multiple
+%                  posteriors.
 
 %%  Get remaining index and handle labels if passed
 remainingParamsIndex = setdiff(1:size(psiParamsDomain,2),whichParamsToMarginalize);
@@ -64,7 +66,7 @@ remainingPsiParamsDomain = psiParamsDomain(:,remainingParamsIndex);
 %
 % Initialize posterior with zeros, and also a counter for 
 % a check.
-marginalPosterior = zeros(size(marginalPsiParamsDomain,1),1);
+marginalPosterior = zeros(size(marginalPsiParamsDomain,1),size(posterior,2));
 ICEntriesAccountedFor = 0;
 
 % For each entry in the marginal posterior domain,
@@ -81,17 +83,18 @@ for ii = 1:size(marginalPsiParamsDomain,1)
     % Now do the summing. Add to the entry of the posterior we're working
     % on, and bump counter.
     for kk = 1:length(index)
-        marginalPosterior(ii) = marginalPosterior(ii) + posterior(index(kk));
+        marginalPosterior(ii,:) = marginalPosterior(ii,:) + posterior(index(kk),:);
         ICEntriesAccountedFor = ICEntriesAccountedFor + 1;
     end
 end
 
 % Every entry of the full posterior should have been added once.
-if (ICEntriesAccountedFor ~= length(posterior))
+if (ICEntriesAccountedFor ~= size(posterior,1))
     error('Did not marginalize properly');
 end
 
 % The marginal posterior should sum to unity.
-if (abs(sum(marginalPosterior(:))-1) > 1e-8)
-    error('Marginal posterior does not sum to 1');
+posteriorSums = sum(marginalPosterior,1);
+if (any(abs(posteriorSums-1) > 1e-8))
+    error('At least one computed marginal posterior does not sum to 1');
 end
