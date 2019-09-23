@@ -2,7 +2,8 @@ function qpQuestPlusCoreFunctionDemo
 %qpQuestPlusCoreFunctionDemo  Show basic use of QUEST+ core functions, called directly
 %
 % Description:
-%    This script shows how to call qpInitialize, qpQuery, and qpUpdate directlyPL%% Initialize
+%    This script shows how to call qpInitialize, qpQuery, and qpUpdate
+%    directly.
 %
 % Set parameters, using key value pairs to override defaults
 % as needed.  (See "help qpParams" for what is available.)
