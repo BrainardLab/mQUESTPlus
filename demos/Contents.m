@@ -22,6 +22,8 @@
 %                                 CSF estimation.
 % qpQuestPlusCircularCatDemo    - Demonstrate/test QUEST+ at work on
 %                                 categorization of a circular variable.
+% qpQuestPlusMarginalizeDemo    - Show how to run version that marginalizes
+%                                 over nuisance variables.
 % qpQuestPlusPaperSimpleExamplesDemo - Demonstrate/test QUEST+ on some
 %                                 simple example problems.  Illustrates
 %                                 basic usage of function qpRun.
