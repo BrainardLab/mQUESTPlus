@@ -1,5 +1,5 @@
 function qpQuestPlusMarginalizeDemo
-%qpQuestPlusMarginalizeDemo  Show how to margnialize over nuisance parameters 
+%qpQuestPlusMarginalizeDemo  Show how to margnialize over nuisance parameters
 %
 % Description:
 %    This script shows how to initialize quest so that it optimizes
@@ -8,9 +8,22 @@ function qpQuestPlusMarginalizeDemo
 %    next trial.  The idea is to marginalize over nuisance parameters (e.g.
 %    lapse rate) that are not of interest.
 %
-%    This demo is meant mainly to illustrate the idea and test the code,
-%    not because it is necessarily a good idea to use this approach.
+%    The simulation is looped over, with parameters drawn from the prior
+%    provided to quest on each loop, and the results of running both a
+%    marginalized and not marginalized (normal) version of quest are
+%    compared.
 %
+%    For the example here, the marginalized quest does a little einsy bit
+%    better in a squared error sense.
+%
+%    The script also compares various ways of making a post estimate at
+%    the end of a run.  Using the posterior mean works best in a squared
+%    error sense, although as with marginalized versus not marginalized
+%    quest, the difference is small in an absolute sense.
+%
+
+%% Close old figures
+close all;
 
 %% Initialize
 %
@@ -21,80 +34,220 @@ function qpQuestPlusMarginalizeDemo
 % psychometric function parameters (see qpPFWeibull).
 %
 % Note that the space on which the stimulus is gridded affects the
-% prior used by QUEST+.  QUEST+ assigns equal probability to each 
+% prior used by QUEST+.  QUEST+ assigns equal probability to each
 % listed stimulus, so that the prior implied if you grid contrast in
 % dB is different from that if you grid contrast on a linear scale.
 %
 % Key thing in this call is the 'marginalize' key/value pair.  The passed
 % vector of indices gives which parameters in the psiParamsDomainList to
-% marginalize over.
-questData = qpInitialize('stimParamsDomainList',{[-40:1:0]}, ...
-    'psiParamsDomainList',{-40:0, 2:5, 0.5, 0:0.01:0.04},'marginalize',[2 4]);
+% marginalize over.  The slope and lapse reat
+psiParamsDomainList = {-40:0, 1:5, 0.5, 0:0.01:0.1};
+questDataMarginalizedRaw = qpInitialize('stimParamsDomainList',{[-40:1:0]}, ...
+    'psiParamsDomainList',psiParamsDomainList,'marginalize',[2 4]);
 
-%% Set up simulated observer
-%
-% Parameters of the simulated Weibull
-simulatedPsiParams = [-20, 3, .5, .02];
-
-% Function handle that will take stimulus parameters x and simulate
-% a trial according to the parameters above.
-simulatedObserverFun = @(x) qpSimulatedObserver(x,@qpPFWeibull,simulatedPsiParams);
+% Also do it in the standard quest manner
+questDataNotMarginalizedRaw = qpInitialize('stimParamsDomainList',{[-40:1:0]}, ...
+    'psiParamsDomainList',psiParamsDomainList);
 
 % Freeze random number generator so output is repeatable
 rng('default'); rng(2004,'twister');
-
-%% Run simulated trials, using QUEST+ to tell us what contrast to
+nParamSets = 50;
+nRunsPerParamSet = 1;
 nTrials = 64;
-for tt = 1:nTrials
-    % Get stimulus for this trial
-    stim = qpQuery(questData);
+
+%% Simulate over and over and over
+[domainVlb,domainVub] = qpGetBoundsFromDomainList(psiParamsDomainList);
+for ss = 1:nParamSets
+    % Set up parameters for this run by random draw.  But keep noise
+    % fixed, as we can probably establish that separately. We define
+    % the simulated observer fun here so it has the right parameters each
+    % time through the loop.
+    simulatedPsiParamsVecCell{ss} = qpDrawFromDomainList(psiParamsDomainList);
+    simulatedPsiParamsVec = simulatedPsiParamsVecCell{ss};
+    simulatedObserverFun = @(stimParamsVec) qpSimulatedObserver(stimParamsVec,@qpPFWeibull,simulatedPsiParamsVec);
     
-    % Simulate outcome
-    outcome = simulatedObserverFun(stim);
-    
-    % Update quest data structure
-    questData = qpUpdate(questData,stim,outcome); 
+    % Do the runs
+    for rr = 1:nRunsPerParamSet
+        % Simulate run
+        fprintf('*** Simluated run %d of %d for parameters set %d of %d:\n',rr,nRunsPerParamSet,ss,nParamSets);
+        
+        % Get a fresh quest structure
+        questDataMarginalized{ss,rr} = questDataMarginalizedRaw;
+        questDataNotMarginalized{ss,rr} = questDataNotMarginalizedRaw;
+        
+        % Run simulated trials, using QUEST+ to tell us what contrast to
+        % use
+        for tt = 1:nTrials
+            % Simulate marginalized trial
+            stim = qpQuery(questDataMarginalized{ss,rr});
+            outcome = simulatedObserverFun(stim);
+            questDataMarginalized{ss,rr} = qpUpdate(questDataMarginalized{ss,rr},stim,outcome);
+            
+            % Simulate non marginalized trial
+            stim = qpQuery(questDataNotMarginalized{ss,rr});
+            outcome = simulatedObserverFun(stim);
+            questDataNotMarginalized{ss,rr} = qpUpdate(questDataNotMarginalized{ss,rr},stim,outcome);
+        end
+        
+        % Find out QUEST+'s estimate of the stimulus parameters,
+        % marginalized version.  There are various ways to make the
+        % estimate.  
+        %
+        % Note that the mean of the posterior and the mean of the
+        % marginalized posterior are the same for parameters they have
+        % in common.
+        %
+        % Max of posterior
+        tempIndex = qpListMaxArg(questDataMarginalized{ss,rr}.posterior);
+        posteriorMaxMarginalized{ss,rr} = questDataMarginalized{ss,rr}.psiParamsDomain(tempIndex,:);
+        
+        % Mean of posterior
+        posteriorMeanMarginalized{ss,rr} = ...
+            qpPosteriorMean(questDataMarginalized{ss,rr}.posterior,questDataMarginalized{ss,rr}.psiParamsDomain);
+        
+        % Max/mean of marginal posterior
+        [marginalPosterior,marginalPsiParamsDomain] = ...
+            qpMarginalizePosterior(questDataMarginalized{ss,rr}.posterior,questDataMarginalized{ss,rr}.psiParamsDomain, ...
+            questDataMarginalized{ss,rr}.marginalize);
+        tempIndex = qpListMaxArg(marginalPosterior);                 
+        marginalPosteriorMaxMarginalized{ss,rr} = marginalPsiParamsDomain(tempIndex,:);
+        marginalPosteriorMeanMarginalized{ss,rr} = qpPosteriorMean(marginalPosterior,marginalPsiParamsDomain);
+        
+        % Maximum likelihood fit
+        maxLikeliFitMarginalized{ss,rr} = qpFit(questDataMarginalized{ss,rr}.trialData,questDataMarginalized{ss,rr}.qpPF, ...
+            posteriorMaxMarginalized{ss,rr},questDataMarginalized{ss,rr}.nOutcomes,...
+            'lowerBounds',domainVlb,'upperBounds',domainVub);
+        % fprintf('\tSimulated parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
+        %     simulatedPsiParamsVec(1),simulatedPsiParamsVec(2),simulatedPsiParamsVec(3),simulatedPsiParamsVec(4));
+        % fprintf('\tMax posterior QUEST+ parameters, marginalized: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
+        %     psiParamsQuestMarginalized{ss,rr}(1),psiParamsQuestMarginalized{ss,rr}(2),psiParamsQuestMarginalized{ss,rr}(3),psiParamsQuestMarginalized{ss,rr}(4));
+        % fprintf('\tMaximum likelihood fit parameters, marginalized: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
+        %     psiParamsFitMarginalized{ss,rr}(1),psiParamsFitMarginalized{ss,rr}(2),psiParamsFitMarginalized{ss,rr}(3),psiParamsFitMarginalized{ss,rr}(4));
+        % fprintf('\tMarginal posterior mean, marginalized: %0.1f\n',posteriorMeanMarginalized{ss,rr}(1));
+        
+        % And then same estimates for the not marginalized version
+        tempIndex = qpListMaxArg(questDataNotMarginalized{ss,rr}.posterior);
+        posteriorMaxNotMarginalized{ss,rr} = questDataNotMarginalized{ss,rr}.psiParamsDomain(tempIndex,:);
+        posteriorMeanNotMarginalized{ss,rr} = ...
+            qpPosteriorMean(questDataNotMarginalized{ss,rr}.posterior,questDataNotMarginalized{ss,rr}.psiParamsDomain);
+        [marginalPosterior,marginalPsiParamsDomain] = ...
+            qpMarginalizePosterior(questDataNotMarginalized{ss,rr}.posterior,questDataNotMarginalized{ss,rr}.psiParamsDomain, ...
+            questDataMarginalized{ss,rr}.marginalize);
+        tempIndex = qpListMaxArg(marginalPosterior);                 
+        marginalPosteriorMaxNotMarginalized{ss,rr} = marginalPsiParamsDomain(tempIndex,:);
+        marginalPosteriorMeanNotMarginalized{ss,rr} = qpPosteriorMean(marginalPosterior,marginalPsiParamsDomain);
+        maxLikeliFitNotMarginalized{ss,rr} = qpFit(questDataNotMarginalized{ss,rr}.trialData,questDataNotMarginalized{ss,rr}.qpPF, ...
+            posteriorMaxNotMarginalized{ss,rr},questDataNotMarginalized{ss,rr}.nOutcomes,...
+            'lowerBounds',domainVlb,'upperBounds',domainVub);
+        % fprintf('\tMax posterior QUEST+ parameters, not marginalized: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
+        %     psiParamsQuestNotMarginalized{ss,rr}(1),psiParamsQuestNotMarginalized{ss,rr}(2),psiParamsQuestNotMarginalized{ss,rr}(3),psiParamsQuestNotMarginalized{ss,rr}(4)); 
+        % fprintf('\tMaximum likelihood fit parameters, not marginalized: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
+        %     psiParamsFitNotMarginalized{ss,rr}(1),psiParamsFitNotMarginalized{ss,rr}(2),psiParamsFitNotMarginalized{ss,rr}(3),psiParamsFitNotMarginalized{ss,rr}(4));
+        % fprintf('\tMarginal posterior mean,not marginalized %0.1f\n',posteriorMeanNotMarginalized{ss,rr}(1));
+    end
 end
 
-%% Find out QUEST+'s estimate of the stimulus parameters, obtained
-% on the gridded parameter domain.
-psiParamsIndex = qpListMaxArg(questData.posterior);
-psiParamsQuest = questData.psiParamsDomain(psiParamsIndex,:);
-fprintf('Simulated parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
-    simulatedPsiParams(1),simulatedPsiParams(2),simulatedPsiParams(3),simulatedPsiParams(4));
-fprintf('Max posterior QUEST+ parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
-    psiParamsQuest(1),psiParamsQuest(2),psiParamsQuest(3),psiParamsQuest(4));
+%% Put key values in vector form for error computation
+inIndex = 1;
+for ss = 1:nParamSets
+    for rr = 1:nRunsPerParamSet
+        simulatedThresh(inIndex) = simulatedPsiParamsVecCell{ss}(1);
+        posteriorMaxMarginalizedThresh(inIndex) = posteriorMaxMarginalized{ss,rr}(1);
+        posteriorMeanMarginalizedThresh(inIndex) = posteriorMeanMarginalized{ss,rr}(1);
+        marginalPosteriorMaxMarginalizedThresh(inIndex) = marginalPosteriorMaxMarginalized{ss,rr}(1);
+        marginalPosteriorMeanMarginalizedThresh(inIndex) = marginalPosteriorMeanMarginalized{ss,rr}(1);
+        maxLikeliFitMarginalizedThresh(inIndex) = maxLikeliFitMarginalized{ss,rr}(1);
+        
+        posteriorMeanNotMarginalizedThresh(inIndex) = posteriorMeanNotMarginalized{ss,rr}(1);
+        posteriorMaxNotMarginalizedThresh(inIndex) = posteriorMaxNotMarginalized{ss,rr}(1);
+        marginalPosteriorMaxNotMarginalizedThresh(inIndex) = marginalPosteriorMaxNotMarginalized{ss,rr}(1);
+        marginalPosteriorMeanNotMarginalizedThresh(inIndex) = marginalPosteriorMeanNotMarginalized{ss,rr}(1);
+        maxLikeliFitNotMarginalizedThresh(inIndex) = maxLikeliFitNotMarginalized{ss,rr}(1);
+        inIndex = inIndex+1;
+    end
+end
 
-%% Find aximum likelihood fit.  Use psiParams from QUEST+ as the starting
-% parameter for the search, and impose as parameter bounds the range
-% provided to QUEST+.
-psiParamsFit = qpFit(questData.trialData,questData.qpPF,psiParamsQuest,questData.nOutcomes,...
-    'lowerBounds', [-40 2 0.5 0],'upperBounds',[0 5 0.5 0.04]);
-fprintf('Maximum likelihood fit parameters: %0.1f, %0.1f, %0.1f, %0.2f\n', ...
-    psiParamsFit(1),psiParamsFit(2),psiParamsFit(3),psiParamsFit(4));
+%% Check some theory
+if (any(abs(posteriorMeanMarginalizedThresh-marginalPosteriorMeanMarginalizedThresh) > 1e-7))
+    error('Do not understand mean estimates, marginalized and not');
+end
+if (any(abs(posteriorMeanNotMarginalizedThresh-marginalPosteriorMeanNotMarginalizedThresh) > 1e-7))
+    error('Do not understand mean estimates, marginalized and not');
+end
+
+%% Compute rmse estimation error and print out
+posteriorMaxMarginalizedErr = sqrt(sum((simulatedThresh(:) - posteriorMaxMarginalizedThresh(:)).^2)/length(simulatedThresh));
+posteriorMeanMarginalizedErr = sqrt(sum((simulatedThresh(:) - posteriorMeanMarginalizedThresh(:)).^2)/length(simulatedThresh));
+marginalPosteriorMaxMarginalizedErr = sqrt(sum((simulatedThresh(:) - marginalPosteriorMaxMarginalizedThresh(:)).^2)/length(simulatedThresh));
+marginalPosteriorMeanMarginalizedErr = sqrt(sum((simulatedThresh(:) - marginalPosteriorMeanMarginalizedThresh(:)).^2)/length(simulatedThresh));
+maxLikeliFitMarginalizedErr = sqrt(sum((simulatedThresh(:) - maxLikeliFitMarginalizedThresh(:)).^2)/length(simulatedThresh));
+
+posteriorMaxNotMarginalizedErr = sqrt(sum((simulatedThresh(:) - posteriorMaxNotMarginalizedThresh(:)).^2)/length(simulatedThresh));
+posteriorMeanNotMarginalizedErr = sqrt(sum((simulatedThresh(:) - posteriorMeanNotMarginalizedThresh(:)).^2)/length(simulatedThresh));
+marginalPosteriorMaxNotMarginalizedErr = sqrt(sum((simulatedThresh(:) - marginalPosteriorMaxNotMarginalizedThresh(:)).^2)/length(simulatedThresh));
+marginalPosteriorMeanNotMarginalizedErr = sqrt(sum((simulatedThresh(:) - marginalPosteriorMeanNotMarginalizedThresh(:)).^2)/length(simulatedThresh));
+maxLikeliFitNotMarginalizedErr = sqrt(sum((simulatedThresh(:) - maxLikeliFitNotMarginalizedThresh(:)).^2)/length(simulatedThresh));
+
+fprintf('Errors:\n');
+fprintf('\tPosterior max, marginalized: %0.5f\n',posteriorMaxMarginalizedErr);
+fprintf('\tPosterior mean, marginalized: %0.5f\n',posteriorMeanMarginalizedErr);
+fprintf('\tMarginal posterior max, marginalized: %0.5f\n',marginalPosteriorMaxMarginalizedErr);
+fprintf('\tMarginal posterior mean, marginalized: %0.5f\n',marginalPosteriorMeanMarginalizedErr);
+fprintf('\tMax likelihood fit, marginalized: %0.5f\n',maxLikeliFitMarginalizedErr);
+
+fprintf('\tPosterior max, not marginalized: %0.5f\n',posteriorMaxNotMarginalizedErr);
+fprintf('\tPosterior mean, not marginalized: %0.5f\n',posteriorMeanNotMarginalizedErr);
+fprintf('\tMarginal posterior max, marginalized: %0.5f\n',marginalPosteriorMaxMarginalizedErr);
+fprintf('\tMarginal posterior mean, not marginalized: %0.5f\n',marginalPosteriorMeanNotMarginalizedErr);
+fprintf('\tMax likelihood fit, not marginalized: %0.5f\n',maxLikeliFitNotMarginalizedErr);
+
+% Threshold estimates versus simulated values, marginalized quest
+theParamIndex = 1;
+theParamName = 'Threshold, marginalized';
+figure; clf; hold on
+plot(simulatedThresh(:),marginalPosteriorMeanMarginalizedThresh(:),'ro','MarkerFaceColor','r','MarkerSize',8);
+plot(simulatedThresh(:),posteriorMeanMarginalizedThresh(:),'ko','MarkerFaceColor','k','MarkerSize',4);
+%plot(simulatedThresh(:),maxLikeliFitMarginalizedThresh(:),'bo','MarkerFaceColor','b','MarkerSize',8);
+xlim([domainVlb(theParamIndex) domainVub(theParamIndex)]);
+ylim([domainVlb(theParamIndex) domainVub(theParamIndex)]);
+plot([domainVlb(theParamIndex) domainVub(theParamIndex)],[domainVlb(theParamIndex) domainVub(theParamIndex)],'k','LineWidth',1);
+axis('square');
+xlabel('Simulated');
+ylabel('Estimated');
+title(theParamName);
+
+% Threshold estimates versus simulated values, not marginalized quest
+theParamIndex = 1;
+theParamName = 'Threshold, not marginalized';
+figure; clf; hold on
+plot(simulatedThresh(:),marginalPosteriorMeanNotMarginalizedThresh(:),'ro','MarkerFaceColor','r','MarkerSize',8);
+plot(simulatedThresh(:),posteriorMeanNotMarginalizedThresh(:),'ko','MarkerFaceColor','k','MarkerSize',4);
+%plot(simulatedThresh(:),maxLikeliFitNotMarginalizedThresh(:),'bo','MarkerFaceColor','b','MarkerSize',8);
+xlim([domainVlb(theParamIndex) domainVub(theParamIndex)]);
+ylim([domainVlb(theParamIndex) domainVub(theParamIndex)]);
+plot([domainVlb(theParamIndex) domainVub(theParamIndex)],[domainVlb(theParamIndex) domainVub(theParamIndex)],'k','LineWidth',1);
+axis('square');
+xlabel('Simulated');
+ylabel('Estimated');
+title(theParamName);
+
+% Plot abs estimation error from marginalized quest versus non-margialized.
+% Mean abs error is the black circle.
+theParamName = 'Effect of Marginalization';
+figure; clf; hold on
+plot(abs(marginalPosteriorMeanNotMarginalizedThresh(:)-simulatedThresh(:)), ...
+    abs(marginalPosteriorMeanMarginalizedThresh(:)-simulatedThresh(:)),'ro','MarkerFaceColor','r','MarkerSize',8);
+plot(mean(abs(marginalPosteriorMeanNotMarginalizedThresh(:)-simulatedThresh(:))), ...
+    mean(abs(marginalPosteriorMeanMarginalizedThresh(:)-simulatedThresh(:))),'ko','MarkerFaceColor','k','MarkerSize',12);
+xlim([0 5]);
+ylim([0 5]);
+plot([0 5],[0 5],'k','LineWidth',1);
+axis('square');
+xlabel('Not Marginalized Quest Abs Err');
+ylabel('Marginalized Quest Abs Err');
+title(theParamName);
 
 % Little unit test that this routine still does what it used to.
-%psiParamsCheck = [-197856 20000 5000 0];
-%assert(all(psiParamsCheck == round(10000*psiParamsFit)),'No longer get same ML estimate for this case');
-
-%% Plot of trial locations with maximum likelihood fit
-figure; clf; hold on
-stimCounts = qpCounts(qpData(questData.trialData),questData.nOutcomes);
-stim = [stimCounts.stim];
-stimFine = linspace(-40,0,100)';
-plotProportionsFit = qpPFWeibull(stimFine,psiParamsFit);
-for cc = 1:length(stimCounts)
-    nTrials(cc) = sum(stimCounts(cc).outcomeCounts);
-    pCorrect(cc) = stimCounts(cc).outcomeCounts(2)/nTrials(cc);
-end
-for cc = 1:length(stimCounts)
-    h = scatter(stim(cc),pCorrect(cc),100,'o','MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[0 0 1],...
-        'MarkerFaceAlpha',nTrials(cc)/max(nTrials),'MarkerEdgeAlpha',nTrials(cc)/max(nTrials));
-end
-plot(stimFine,plotProportionsFit(:,2),'-','Color',[1.0 0.2 0.0],'LineWidth',3);
-xlabel('Stimulus Value');
-ylabel('Proportion Correct');
-xlim([-40 00]); ylim([0 1]);
-title({'Estimate Weibull threshold, slope, and lapse', ''});
-drawnow;
+assert(-924.0016 == round(sum(marginalPosteriorMeanMarginalizedThresh(:)),4),'No longer get same threshold estimate sum for marginalized case');
+assert( -925.1793 == round(sum(marginalPosteriorMeanNotMarginalizedThresh(:)),4),'No longer get same threshold estimate sum for not marginalized case');
 
