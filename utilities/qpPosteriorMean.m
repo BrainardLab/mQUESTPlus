@@ -2,20 +2,20 @@ function posteriorMean = qpPosteriorMean(posterior,psiParamsDomainList,varargin)
 %qpPosteriorMean  Compute the posterior mean of the PF parameters
 %
 % Usage:
-%     posteriorMean = qpPosteriorMean(posterior,psiParamsDomainList)
+%     posteriorMean = qpPosteriorMean(posterior,psiParamsDomain)
 %
 % Description:
 %     Compute the posterior mean
 %
 % Input:
-%     posterior      Column vector giving posterior over parameters
-%                    This should sum to 1.
-%     psiParamsDomainList  Matrix. Each row gives a vector of PF
-%                    parameters.  The number of rows should match
-%                    the number of entries in posterior.
+%     posterior        Column vector giving posterior over parameters
+%                      This should sum to 1.
+%     psiParamsDomain  Matrix. Each row gives a vector of PF
+%                      parameters.  The number of rows should match
+%                      the number of entries in posterior.
 %
 % Output:
-%     posteriorMean  The mean of the posterior
+%     posteriorMean    The mean of the posterior
 %
 % Optional key/value pairs
 %     None
