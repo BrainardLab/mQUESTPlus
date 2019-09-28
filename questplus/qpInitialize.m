@@ -166,8 +166,8 @@ for jj = 1:questData.nPsiParamsDomain
     if (questData.verbose)
         if ((nowTime-lastPrintTime) > 60)
             fprintf('Computed %d of %d likelihoods, %0.3f percent in %0.3f minutes\n',...
-                jj,questData.nPsiParamsDomain,100*jj/questData.nPsiParamsDomain,round((nowTime-startTime)/60));
-            fprintf('\tProjected total time: %0.2f days\n',((nowTime-startTime)/(24*3600))/(jj/questData.nPsiParamsDomain));
+                jj,questData.nPsiParamsDomain,100*jj/questData.nPsiParamsDomain,round(nowTime/60));
+            fprintf('\tProjected total time: %0.2f days\n',(nowTime/(24*3600))/(jj/questData.nPsiParamsDomain));
             lastPrintTime = nowTime;
         end
     end
