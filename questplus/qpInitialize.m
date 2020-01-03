@@ -93,14 +93,19 @@ stimParamsDomainRaw = allcomb(questData.stimParamsDomainList{:});
 
 % Filter stim params domain list, if desired. This may be used, for example, to 
 % eliminate stimuli that are out of display gamut.
+someStimOK = false;
 if (~isempty(questData.filterStimParamsDomainFun))
     stimParamsDomainIndex = 1;
     for jj = 1:size(stimParamsDomainRaw,1)
         stimOK = questData.filterStimParamsDomainFun(stimParamsDomainRaw(jj,:));
         if (stimOK)
+            someStimOK = true;
             questData.stimParamsDomain(stimParamsDomainIndex,:) = stimParamsDomainRaw(jj,:);
             stimParamsDomainIndex = stimParamsDomainIndex + 1;
         end
+    end
+    if (~someStimOK)
+        error('No stimuli OK');
     end
 else
     questData.stimParamsDomain = stimParamsDomainRaw;
