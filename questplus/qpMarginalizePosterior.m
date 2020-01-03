@@ -1,4 +1,4 @@
-function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginalizePosterio(posterior,psiParamsDomain,whichParamsToMarginalize,paramLabels)
+function [marginalPosterior,marginalPsiParamsDomain,marginalLabels] = qpMarginalizePosterior(posterior,psiParamsDomain,whichParamsToMarginalize,paramLabels)
 % Marginalize a QUEST+ posterior
 %
 % Syntax:
@@ -60,14 +60,14 @@ remainingPsiParamsDomain = psiParamsDomain(:,remainingParamsIndex);
 % Note that:
 %   uniqueRemainingPsiParamsDomain = remainingPsiParamsDomain(IA,:)
 %   remainingPsiParamsDomain = uniqueRemainingPsiParamsDomain(IC,:)
-[marginalPsiParamsDomain,IA,IC] = unique(remainingPsiParamsDomain,'rows','stable');
+[marginalPsiParamsDomain,~,IC] = unique(remainingPsiParamsDomain,'rows','stable');
 
 %% Marginalize
 %
-% Initialize posterior with zeros, and also a counter for 
-% a check.
+% Initialize posterior with zeros, and also a counter for a check.
 marginalPosterior = zeros(size(marginalPsiParamsDomain,1),size(posterior,2));
 ICEntriesAccountedFor = 0;
+%marginalPosterior1 = zeros(size(marginalPsiParamsDomain,1),size(posterior,2));
 
 % For each entry in the marginal posterior domain,
 % we sum up probabilities over the entries in the full
@@ -75,6 +75,7 @@ ICEntriesAccountedFor = 0;
 for ii = 1:size(marginalPsiParamsDomain,1)
     % Get the index of the entries we need to sum.
     % There should always be at least one entry.
+    startTime = tic;
     index = find(IC == ii);
     if (isempty(index))
         error('Oops.')
@@ -86,7 +87,19 @@ for ii = 1:size(marginalPsiParamsDomain,1)
         marginalPosterior(ii,:) = marginalPosterior(ii,:) + posterior(index(kk),:);
         ICEntriesAccountedFor = ICEntriesAccountedFor + 1;
     end
+    
+    % This vectorized way seems like it would be faster, but
+    % it is about twice as slow.  There is variation depending
+    % on the input, though.
+    % marginalPosterior1(ii,:) = sum(posterior(IC == ii,:),1);
 end
+
+% Check two ways of computing marginal
+% 
+% This check passsed whenI had it in
+% if (any(marginalPosterior ~= marginalPosterior1))
+%     error('Faster way not working right');
+% end
 
 % Every entry of the full posterior should have been added once.
 if (ICEntriesAccountedFor ~= size(posterior,1))
