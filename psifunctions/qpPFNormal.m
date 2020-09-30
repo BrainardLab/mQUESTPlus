@@ -5,7 +5,7 @@ function predictedProportions = qpPFNormal(stimParams,psiParams)
 %     predictedProportions = qpPFNormal(stimParams,psiParams)
 %
 % Description:
-%     Compute the proportions of each outcome for the Weibull psychometric
+%     Compute the proportions of each outcome for the Normal psychometric
 %     function
 %
 % Inputs:
