@@ -3,7 +3,16 @@ function qpQuestNormCdfDemo
 %
 % Description:
 %    This script shows how to call qpInitialize, qpQuery, and qpUpdate
-%    directly for a normal cdf psychometric function
+%    directly for a normal cdf psychometric function.
+%
+%    You can compare this function to questNormalCdfDemo, which implements
+%    the same calculations from scratch and thus exposes each step more
+%    explicitly.
+%
+% See also: questNormalCdfDemo.
+
+% History:
+%   09/26/20  dhb, dce   Wrote this from a different qp demo program.
 
 %% Initialize
 %
