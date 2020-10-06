@@ -17,13 +17,18 @@
 % qpQuestPlusCoreFunctionDemo   - Show basic use of QUEST+ core functions,
 %                                 called directly. This is the one to look
 %                                 at if you don't want to hand off control
-%                                 of your experiment to qpRun.
+%                                 of your experiment to qpRun.  This
+%                                 illustrates usage for estimating a
+%                                 Weibull psychometric function.
 % qpQuestPlusCSFDemo            - Demonstrate/test QUEST+ at work on parametric
 %                                 CSF estimation.
 % qpQuestPlusCircularCatDemo    - Demonstrate/test QUEST+ at work on
 %                                 categorization of a circular variable.
 % qpQuestPlusMarginalizeDemo    - Show how to run version that marginalizes
 %                                 over nuisance variables.
+% qpQuestPlusNormCdfDemo        - Show how to use QUEST+ for a cumulative
+%                                 normal psychometric function.  Based pm
+%                                 qpQuestPlustCoreFunctionDemo.
 % qpQuestPlusPaperSimpleExamplesDemo - Demonstrate/test QUEST+ on some
 %                                 simple example problems.  Illustrates
 %                                 basic usage of function qpRun.
