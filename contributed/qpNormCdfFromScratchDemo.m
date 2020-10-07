@@ -27,17 +27,16 @@ clear; close all;
 cVec = linspace(0,1,100);  % Possible values for stimulus intensity, ranging from 0 to 1 
 muVec = linspace(0,1,100); % Possible parameter values for the mean
 sigma = 0.1;               % Known standard deviation
-guessRate = 0;             % Defines chance performance at low stimulus levels
 
 % Define the actual mean and the resulting cumulative Normal distribution 
 true_mu = 0.2; 
-true_pdf = guessRate + (1-guessRate)*normcdf(cVec,true_mu,sigma); 
+true_pdf = normcdf(cVec,true_mu,sigma); 
 
 % Define the prior. The first trial uses the uniform prior p_mu, but
 % this is updated for later trials.
 prior = unifpdf(muVec,muVec(1),muVec(end))*1/100; % Uniform prior for mu
 if (abs(sum(prior)-1) > 1e-8)
-    error('Posterior does not sum to 1');
+    error('Initial prior does not sum to 1');
 end
 
 % % Compute the probabilities by outcome for each c-mu combination:  
@@ -46,7 +45,7 @@ end
 outcomeProbs = zeros(length(cVec),length(muVec),2); 
 for i = 1:length(cVec)
     % Calculate probabilities for a given value of c at each value of mu
-    pCorrect = guessRate + (1-guessRate)*normcdf(cVec(i),muVec,sigma);
+    pCorrect = normcdf(cVec(i),muVec,sigma);
     outcomeProbs(i,:,1) = 1-pCorrect;    % P(incorrect)
     outcomeProbs(i,:,2) = pCorrect;      % P(correct)
 end
@@ -56,11 +55,6 @@ nTrials = 64;              % Number of trials
 trials = zeros(nTrials,2); % Trial data with format [c, outcome]
 posteriorsByOutcome = zeros(length(cVec),length(muVec),2); 
 expected_entropies = zeros(length(cVec),1); 
- 
-% % Set up Quest+ functions for testing
-% questData = qpInitialize('stimParamsDomainList',{0:0.0101:1}, ...
-%     'psiParamsDomainList',{0:0.0101:1, 0.1, 0},'qpPF',@qpPFNormal);
-% simulatedObserverFun = @(x) qpSimulatedObserver(x,@qpPFNormal,[true_mu, 0.1 0]);
 
 % Loop through trials 
 outcomeProbsByC = zeros(length(muVec),2);  
@@ -102,8 +96,6 @@ for kk = 1:nTrials
     for i = 1:length(cVec)
         e_incorrect = -nansum(posteriorsByOutcome(i,:,1).*log2(posteriorsByOutcome(i,:,1)));
         e_correct = -nansum(posteriorsByOutcome(i,:,2).*log2(posteriorsByOutcome(i,:,2)));
-        
-        
         expected_entropies(i) = e_incorrect*outcomeProbsByC(i,1)+e_correct*outcomeProbsByC(i,2); 
     end
     
@@ -113,7 +105,7 @@ for kk = 1:nTrials
     
     % Using the chosen value of c, simulate a trial by sampling from a 
     % multinomial distribution with outcome proportions [P(false), P(true)] 
-    pCorrect = guessRate + (1-guessRate)*normcdf(cVec(minCInd),true_mu,sigma);
+    pCorrect = normcdf(cVec(minCInd),true_mu,sigma);
     trialOutcomeProportions = [1 - pCorrect, pCorrect];
     outcomeVector = mnrnd(1,trialOutcomeProportions); 
     outcome = find(outcomeVector);               
@@ -129,12 +121,6 @@ for kk = 1:nTrials
     if (abs(sum(posterior)-1) > 1e-8)
         error('Posterior does not sum to 1');
     end
-    
-%     % For testing
-%     qStim = qpQuery(questData);
-%     qOutcome = simulatedObserverFun(qStim);
-%     questData = qpUpdate(questData,qStim,qOutcome);
-%     qPrior = questData.posterior; 
 end
 
 % Once all trials are completed, estimate the threshold as the maximum of
