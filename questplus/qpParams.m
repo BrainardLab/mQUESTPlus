@@ -78,7 +78,7 @@ function questData = qpParams(varargin)
 %% Parse inputs and set defaults
 p = inputParser;
 p.addParameter('qpPF',@qpPFWeibull,@(x) isa(x,'function_handle'));
-p.addParameter('qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFWeibull,[-20, 3.5, .5, .02]),@(x) isa(x,'function_handle'));
+p.addParameter('qpOutcomeF',@(x) qpSimulatedObserver(x,@qpPFWeibull,[-20, 3.5, .5, .02]),@(x) (isempty(x) | isa(x,'function_handle')));
 p.addParameter('nOutcomes',2,@isscalar);
 p.addParameter('stimParamsDomainList',{[-40:1:0]},@iscell);
 p.addParameter('filterStimParamsDomainFun',[],@(x) (isempty(x) | isa(x,'function_handle')));
