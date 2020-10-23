@@ -27,7 +27,10 @@ function questData = qpParams(varargin)
 %
 % Optional key/value pairs.
 %   qpPF                       Handle to psychometric function.
-%   qpOutcomeF                 Handle to function for performaing a trial and reporting outcome.
+%   qpOutcomeF                 Handle to function for performaing a trial
+%                              and reporting outcome. We think this is only
+%                              used by qpRun and can be passed as empty if
+%                              you are not using qpRun.
 %   nOutcomes                  Number of possible response outcomes for qpPF and
 %                              qpOutcomeF, which should be the same as each other.
 %   stimParamsDomainList       Cell array of row vectors, specifing the domain of each
