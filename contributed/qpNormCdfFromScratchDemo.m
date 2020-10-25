@@ -1,4 +1,4 @@
-% questNormCdfDemo  Demonstrates basic use of the QUEST procedure
+% qpNormCdfFromScratchDemo  Demonstrates basic use of the QUEST procedure
 %
 % Description:
 %    This script illustrates the Quest procedure using a simple example -
@@ -29,8 +29,13 @@ muVec = linspace(0,1,100); % Possible parameter values for the mean
 sigma = 0.1;               % Known standard deviation
 
 % Define the actual mean and the resulting cumulative Normal distribution 
+<<<<<<< Updated upstream
 true_mu = 0.2; 
 true_pdf = normcdf(cVec,true_mu,sigma); 
+=======
+true_mu = 0.4; 
+true_pdf = guessRate + (1-guessRate)*normcdf(cVec,true_mu,sigma); 
+>>>>>>> Stashed changes
 
 % Define the prior. The first trial uses the uniform prior p_mu, but
 % this is updated for later trials.
@@ -96,6 +101,10 @@ for kk = 1:nTrials
     for i = 1:length(cVec)
         e_incorrect = -nansum(posteriorsByOutcome(i,:,1).*log2(posteriorsByOutcome(i,:,1)));
         e_correct = -nansum(posteriorsByOutcome(i,:,2).*log2(posteriorsByOutcome(i,:,2)));
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
         expected_entropies(i) = e_incorrect*outcomeProbsByC(i,1)+e_correct*outcomeProbsByC(i,2); 
     end
     

@@ -87,3 +87,8 @@ xlim([-40 00]); ylim([0 1]);
 title({'Estimate Weibull threshold, slope, and lapse', ''});
 drawnow;
 
+% Plot results
+figure();
+xlabel('Proportion Red');
+ylabel('Test Intensity');
+
