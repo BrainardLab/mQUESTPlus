@@ -12,11 +12,15 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams)
 %     various ways to parameterize the lapse rate and how to convert
 %     between them.  In particular, that document describes the
 %     parameterization used in this function.
+% 
+%     Note that this version works in stimulus units of dB (20*log10(x))
+%     where x is the stimulus value.  Use qpPFWeibullLog for log units, and
+%     qpPFStandardWeibull for linear units.
 %
 % Input:
 %     stimParams     Matrix, with each row being a vector of stimulus parameters.
 %                    Here the row vector is just a single number giving
-%                    the stimulus contrast level in dB.  dB defined as
+%                    the stimulus level in dB.  dB defined as
 %                    20*log10(x).
 %
 %     psiParams      Row vector or matrix of parameters
@@ -40,7 +44,8 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams)
 % Optional key/value pairs
 %     None
 %
-% See also: qpWeibullInv
+% See also: qpPFWeibullInv, qpPFWeibullLog, qpPFWeibullLogInv, qpPFStandardWeibull.
+%           qpPFStandardWeibullInv.
 
 % 6/27/17  dhb  Wrote it.
 % 07/21/18 dhb  Added note about qpPF_GuessLapseParameterization document

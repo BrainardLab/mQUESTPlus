@@ -8,6 +8,10 @@ function stimContrast = qpPFWeibullInv(proportionCorrect,psiParams)
 %     Compute the stimulus proportions that lead to the desired proportion
 %     correct.
 %
+%     Note that this version works in stimulus units of dB (20*log10(x))
+%     where x is the stimulus value.  Use qpPFWeibullLogInv for log units, and
+%     qpPFStandardWeibullInv for linear units.
+%
 % Input:
 %     proportionCorrect Column vector, with each row being a proportion correct. 
 %
@@ -25,13 +29,14 @@ function stimContrast = qpPFWeibullInv(proportionCorrect,psiParams)
 %
 % Output:
 %     stimContrast   Vector of stimulus contrasts in dB. dB defined as
-%                    20*log10(x), with x contrast or whatever your stimulus
-%                    variable is.
+%                    20*log10(x), with x being the stimulus
+%                    variable (often contrast).
 %                           
 % Optional key/value pairs
 %     None
 %
-% See also: qpPFWeibull
+% See also: qpPFWeibull, qpPFWeibullLog, qpPFWeibullLogInv, qpPFStandardWeibull.
+%           qpPFStandardWeibullInv.
 
 % 9/6/18   dhb  Wrote it.
 
