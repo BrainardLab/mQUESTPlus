@@ -51,6 +51,17 @@ function predictedProportions = qpPFWeibull(stimParams,psiParams)
 % 07/21/18 dhb  Added note about qpPF_GuessLapseParameterization document
 %               that I added to this directory.
 
+% Examples:
+%{
+    stim = 20*0.5;
+    params = [stim 2.2 0.5 0];
+    predProportions = qpPFWeibull(stim,params);
+    check = qpPFWeibullInv(predProportions(2),params);
+    if (abs(check-stim) > 1e-10)
+        error('PF does not invert properly');
+    end
+%}
+
 %% Parse input
 %
 % This routine gets called many many times and should be as fast as

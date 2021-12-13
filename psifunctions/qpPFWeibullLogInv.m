@@ -37,7 +37,7 @@ function stimContrast = qpPFWeibullLogInv(proportionCorrect,psiParams)
 % See also: qpPFWeibull, qpPFWeibullInv, qpPFWeibullLog,  qpPFStandardWeibull.
 %           qpPFStandardWeibullInv.
 
-% 9/6/18   dhb  Wrote it.
+% 12/13/21  dhb  Wrote it.
 
 %% Here is the Matlab version
 if (size(psiParams,2) ~= 4)
