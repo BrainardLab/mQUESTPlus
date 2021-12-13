@@ -9,7 +9,7 @@ function stimVal = qpPFStandardWeibullInv(proportionCorrect,psiParams)
 %     correct. 
 %
 % Note:
-%     This function doesn't use dB units for stimulus nor for
+%     This function doesn't use dB or log10 units for stimulus nor for
 %     threshold.
 %
 % Input:
@@ -28,12 +28,13 @@ function stimVal = qpPFStandardWeibullInv(proportionCorrect,psiParams)
 %                    parameters for each stimulus row.
 %
 % Output:
-%     stimVal   Vector of stimulus values in linear units rather than dB.
+%     stimVal   Vector of stimulus values in linear units rather than dB or log10.
 %                           
 % Optional key/value pairs
 %     None
 %
 % See also: qpPFStandardWeibull, qpPFWeibull, qpPFWeibullInv
+%           qpPFWeibullLog, qpPFWeibullLogInv.
 
 % 4/1/19   aer  Wrote it.
 

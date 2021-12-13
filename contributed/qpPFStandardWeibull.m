@@ -13,14 +13,14 @@ function predictedProportions = qpPFStandardWeibull(stimParams,psiParams)
 %     between them.  In particular, that document describes the
 %     parameterization used in this function.
 %
-% Note: This function doesn't require the stimulus, nor the threshold, to
-%     be expressed in dB units.
+%     Note: This version of the PF function doesn't require the stimulus,
+%     nor the threshold, to be expressed in dB or log10 units.
 %
 % Input:
 %     stimParams     Matrix, with each row being a vector of stimulus parameters.
 %                    Here the row vector is just a single number giving
 %                    the linear stimulus contrast level, or other stimulus parameter
-%                    in linear units rather than dB.
+%                    in linear units rather than dB or log10 units.
 %
 %     psiParams      Row vector or matrix of parameters
 %                      threshold  Threshold in linear units of stimulus
@@ -43,7 +43,8 @@ function predictedProportions = qpPFStandardWeibull(stimParams,psiParams)
 % Optional key/value pairs
 %     None
 %
-% See also: qpStandardWeibullInv, qpPFWeibull, qpPFWeibullInv
+% See also: qpStandardWeibullInv, qpPFWeibull, qpPFWeibullInv,
+%           qpPFWeibullLog, qpPFWeibullLogInv.
 
 % 4/1/19  aer  Wrote it.
 
