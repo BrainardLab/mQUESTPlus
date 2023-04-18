@@ -19,6 +19,16 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 %     stim            Stimulus parameters on trial (row vector).  Must be contained in
 %                     questData.stimParamsDomain, otherwise an error is thrown.
 %
+%                     If this is passed as [], the updating by trials is
+%                     skipped, but the final entropy calculation is done,
+%                     even when the noentropy field is true. By controlling
+%                     this carefully along with noentropy, you can update a
+%                     bunch of stimuli in a batch faster than doing all the
+%                     calculations for each stimulus update.  Useful
+%                     particularly for simulations where it may be
+%                     efficient to compute responses for many trials of the
+%                     same stimulus in a batch.
+%
 %     outcome         What happened on the trial.
 %
 % Output:
@@ -44,44 +54,49 @@ function questData = qpUpdate(questData,stim,outcome,varargin)
 % 12/21/17  dhb  Make sure to put in stimIndex on first trial.
 % 01/14/18  dhb  Added check on range of outcome, at suggestion of Denis
 %                Pelli.
+% 04/18/23  dhb  Added option to pass stim as empty, to avoid updating but
+%                still do entropy calculation.
 
-%% Get stimulus index from stimulus
-stimIndex = qpStimToStimIndex(stim,questData.stimParamsDomain);
-if (stimIndex == 0)
-    error('Trying to update with a stimulus outside the domain');
+%% Update for stimulus if not passed as empty
+if (~isempty(stim))
+    % Get stimulus index from stimulus
+    stimIndex = qpStimToStimIndex(stim,questData.stimParamsDomain);
+    if (stimIndex == 0)
+        error('Trying to update with a stimulus outside the domain');
+    end
+
+    % Check for legal outcome
+    if (round(outcome) ~= outcome | outcome < 1 | outcome > questData.nOutcomes)
+        error('Illegal value provided for outcome, given initialization');
+    end
+
+    % Add trial data to list
+    %
+    % Create first element of the array if necessary.
+    if (isfield(questData,'trialData'))
+        nTrials = length(questData.trialData);
+        questData.trialData(nTrials+1,1).stim = stim;
+        questData.trialData(nTrials+1,1).outcome = outcome;
+        questData.stimIndices(nTrials+1,1) = stimIndex;
+    else
+        nTrials = 0;
+        questData.trialData.stim = stim;
+        questData.trialData.outcome = outcome;
+        questData.stimIndices = stimIndex;
+    end
+
+    % Update posterior
+    %
+    % We have the predicted proportions precomputed for every combintation of
+    % stimulus parmameters, psi parameters and outcome. So given stimulus index
+    % and outcome, we just look up the likelihood of the outcome for every set of
+    % psychometric parameters, multiply by the previous posterior (which we
+    % take as our prior here, and then normalize to get new posterior.)
+    questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
 end
-
-%% Check for legal outcome
-if (round(outcome) ~= outcome | outcome < 1 | outcome > questData.nOutcomes)
-    error('Illegal value provided for outcome, given initialization');
-end
-
-%% Add trial data to list
-%
-% Create first element of the array if necessary.
-if (isfield(questData,'trialData'))
-    nTrials = length(questData.trialData);
-    questData.trialData(nTrials+1,1).stim = stim;
-    questData.trialData(nTrials+1,1).outcome = outcome;
-    questData.stimIndices(nTrials+1,1) = stimIndex;
-else
-    nTrials = 0;
-    questData.trialData.stim = stim;
-    questData.trialData.outcome = outcome;
-    questData.stimIndices = stimIndex;
-end
-
-%% Update posterior
-%
-% We have the predicted proportions precomputed for every combintation of
-% stimulus parmameters, psi parameters and outcome. So given stimulus index
-% and outcome, we just look up the likelihood of the outcome for every set of
-% psychometric parameters, multiply by the previous posterior (which we
-% take as our prior here, and then normalize to get new posterior.)
-questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
 
 %% Update table of expected entropies
-if (~questData.noentropy)
+if (~questData.noentropy || isempty(stim))
     if (~isempty(questData.marginalize))
         questData.marginalPosterior = qpMarginalizePosterior(questData.posterior,questData.psiParamsDomain,questData.marginalize);
         questData.entropyAfterTrial(nTrials+1,1) = qpArrayEntropy(questData.marginalPosterior);
