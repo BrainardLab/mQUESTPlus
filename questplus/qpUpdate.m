@@ -94,7 +94,7 @@ if (~isempty(stim))
     % take as our prior here, and then normalize to get new posterior.)
     questData.posterior = qpUnitizeArray(questData.posterior .* squeeze(questData.precomputedOutcomeProportions(stimIndex,:,outcome))');
 else
-    % Set nTrials in case of no update.  We subtract 1 so that when
+    % Set nTrials in case of no stim update.  We subtract 1 so that when
     % 1 gets added back in below it matches current nTrials.
     nTrials = length(questData.trialData) - 1;
 end
