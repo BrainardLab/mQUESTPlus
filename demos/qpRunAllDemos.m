@@ -14,7 +14,7 @@ qpQuestPlusCoreFunctionDemo;
 qpQuestPlusPaperSimpleExamplesDemo
 qpQuestPlusCSFDemo;
 qpQuestPlusCircularCatDemo;
-qpQuestPlusMarginalizePosteriorDemo;
+qpQuestPlusMarginalizeDemo;
 
 %% Contributed demos
 qpQuestPlusRatingDemo;
